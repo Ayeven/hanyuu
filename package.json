@@ -1,0 +1,42 @@
+{
+    "name": "generic-bot",
+    "version": "0.3.0",
+    "description": "genericbot",
+    "main": "index.js",
+    "scripts": {
+      "start": "node index.js"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Ayeven/genericbot.git"
+    },
+    "author": "ayeven#9725",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/Ayeven/genericbot/issues"
+    },
+    "homepage": "https://github.com/Ayeven/genericbot#readme",
+    "devDependencies": {
+      "eslint": "^7.30.0"
+    },
+    "dependencies": {
+      "@discordjs/opus": "^0.5.3",
+      "@discordjs/voice": "^0.5.3",
+      "@yimura/scraper": "^1.2.2",
+      "axios": "^0.21.1",
+      "bufferutil": "^4.0.3",
+      "discord.js": "^13.0.0-dev.d6c43a5.1625832172",
+      "fast-glob": "^3.2.6",
+      "ffmpeg-static": "^4.4.0",
+      "html-entities": "^2.3.2",
+      "libsodium-wrappers": "^0.7.9",
+      "moment": "^2.29.1",
+      "moment-duration-format": "^2.3.2",
+      "shiro.gg": "^0.1.8",
+      "soundcloud-downloader": "^1.0.0",
+      "utf-8-validate": "^5.0.5",
+      "youtube-dl-exec": "^1.2.4",
+      "zlib-sync": "^0.1.7"
+    }
+  }
+  
