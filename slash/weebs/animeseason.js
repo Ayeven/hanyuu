@@ -105,7 +105,7 @@ module.exports = {
 				description: descArray.join('\n'),
 			});
 
-			await interaction.followUp({ embeds:[embed], components: [[selectMenu]] });
+			await interaction.followUp({ embeds:[embed], components: [{ type:'ACTION_ROW', components: [selectMenu] }] });
 		}
 		catch (err) {
 			console.error(err);

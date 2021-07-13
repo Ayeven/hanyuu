@@ -111,7 +111,7 @@ module.exports = {
 						color:'RANDOM',
 						description: descArray.join('\n'),
 					});
-					await interaction.followUp({ embeds:[embed], components:[[selectMenu]] });
+					await interaction.followUp({ embeds:[embed], components: [{ type:'ACTION_ROW', components: [selectMenu] }] });
 					void resultCollection.clear();
 				}
 			}

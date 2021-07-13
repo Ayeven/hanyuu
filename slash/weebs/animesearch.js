@@ -50,7 +50,7 @@ module.exports = {
 					description: descArray.join('\n'),
 				});
 
-				return interaction.followUp({ embeds:[embed], components: [[selectMenu]] });
+				return interaction.followUp({ embeds:[embed], components: [{ type:'ACTION_ROW', components: [selectMenu] }] });
 			}
 
 		}

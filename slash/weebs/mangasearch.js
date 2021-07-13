@@ -1,5 +1,5 @@
 const { Manga } = require('../../dependancies/manga');
-const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require('discord.js');
+const { MessageEmbed, MessageSelectMenu } = require('discord.js');
 module.exports = {
 	name: 'mangasearch',
 	description: 'Search for some anime(s)',
@@ -20,7 +20,6 @@ module.exports = {
 			await interaction.defer();
 			const q = interaction.options.get('query').value;
 			const fetch = await Manga.getMangaSearch({ keyword: q });
-			const selectRow = new MessageActionRow();
 			const descArray = [];
 
 			const selectMenu = new MessageSelectMenu({
@@ -51,9 +50,7 @@ module.exports = {
 					description: descArray.join('\n'),
 				});
 
-				selectRow.addComponents(selectMenu);
-
-				return interaction.followUp({ embeds:[embed], components: [selectRow] });
+				return interaction.followUp({ embeds:[embed], components: [{ type:'ACTION_ROW', components: [selectMenu] }] });
 			}
 
 		}

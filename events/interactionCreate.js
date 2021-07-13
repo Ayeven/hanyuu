@@ -51,16 +51,16 @@ module.exports = {
 				SlashCommand.run(interaction, playlist);
 			}
 			catch (err) {
-				console.error(`${time}[CommandInteraction] ${err}`);
+				console.error(`${time} [CommandInteraction] ${err}`);
 			}
 		}
-		/**  Button interaction as I not fond with collector methods which always "Interaction Failed" */
+
 		if (interaction.isButton()) {
 			try {
 				SlashCommand.button(interaction, playlist);
 			}
 			catch (err) {
-				console.error(`${time}[Button] ${err}`);
+				console.error(`${time} [Button] ${err}`);
 			}
 		}
 		if (interaction.isSelectMenu()) {
@@ -68,7 +68,7 @@ module.exports = {
 				SlashCommand.selectmenu(interaction, playlist);
 			}
 			catch (err) {
-				console.error(`${time}[SelectMenu] ${err}`);
+				console.error(`${time} [SelectMenu] ${err}`);
 			}
 		}
 	},
