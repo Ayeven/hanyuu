@@ -7,7 +7,6 @@ yarn-error.log*
 config.json
 config.js
 *.sqlite
-test.js
 
 # Runtime data
 pids
@@ -40,6 +39,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+/dependancies
 
 # Typescript v1 declaration files
 typings/
@@ -62,6 +62,5 @@ typings/
 # dotenv environment variables file
 .env
 
-# base directory 
-/dependancies
-/slash/music
+# test directory/ hidden directory
+/test

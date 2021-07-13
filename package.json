@@ -4,7 +4,8 @@
     "description": "genericbot",
     "main": "index.js",
     "scripts": {
-        "start": "node index.js"
+        "start": "node index.js",
+        "test": "mocha ./test"
     },
     "repository": {
         "type": "git",
@@ -17,7 +18,8 @@
     },
     "homepage": "https://github.com/Ayeven/genericbot#readme",
     "devDependencies": {
-        "eslint": "^7.30.0"
+        "eslint": "^7.30.0",
+        "mocha": "^9.0.2"
     },
     "dependencies": {
         "@discordjs/opus": "^0.5.3",
