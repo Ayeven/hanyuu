@@ -140,7 +140,13 @@ module.exports = {
 			const queue = new MessageButton({
 				style: 'SECONDARY',
 				customId: `${this.name}_queue`,
-				emoji: '🎹',
+				emoji: '📼',
+			});
+
+			const leave = new MessageButton({
+				style: 'SECONDARY',
+				customId: `${this.name}_leave`,
+				emoji: '🛑',
 			});
 
 			const songSelectMenu = new MessageSelectMenu({
@@ -229,16 +235,15 @@ module.exports = {
 				const track = await Track.from(url, title, {
 					async onStart() {
 						return interaction
-							.editReply({ content:`Playing ${track.title}`, components: [{ type: 'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [pause, skip, queue] }] })
+							.message.edit({ content:`Playing ${track.title}`, components: [{ type: 'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [pause, skip, queue, leave] }] })
 							.catch(console.warn);
 					},
 					async onFinish() {
-						await delay(2 * 60 * 1000);
+						await delay(1 * 60 * 1000);
 						if (list.audioPlayer.state.status == 'idle'
 						&& list.voiceConnection.state.status !== VoiceConnectionStatus.Destroyed) {
 							list.voiceConnection.destroy();
 							playlist.clear();
-							return interaction.channel.send('Left channel!');
 						}
 					},
 					async onError(error) {
@@ -252,7 +257,7 @@ module.exports = {
 				list.enqueue(track);
 				await delay(2 * 1000);
 				return interaction
-					.editReply({ content:`Queued: **${track.title}, wait for me to play it!**`, components: [{ type: 'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [pause, skip, queue] }] });
+					.editReply({ content:`Queued: **${track.title}, wait for me to play it!**`, components: [{ type: 'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [pause, skip, queue, leave] }] });
 
 			}
 			catch (error) {
@@ -272,6 +277,10 @@ module.exports = {
 	async button(interaction, playlist) {
 		try {
 			await interaction.deferUpdate();
+
+			const delay = function delay(time) {
+				return new Promise((resolve) => setTimeout(resolve, time).unref());
+			};
 
 			const resume = new MessageButton({
 				style: 'SECONDARY',
@@ -294,7 +303,13 @@ module.exports = {
 			const queue = new MessageButton({
 				style: 'SECONDARY',
 				customId: `${this.name}_queue`,
-				emoji: '🎹',
+				emoji: '📼',
+			});
+
+			const leave = new MessageButton({
+				style: 'SECONDARY',
+				customId: `${this.name}_leave`,
+				emoji: '🛑',
 			});
 
 			const songSelectMenu = new MessageSelectMenu({
@@ -306,24 +321,25 @@ module.exports = {
 			for (let i = 0; i < 10;i++) {
 				songSelectMenu.addOptions([{
 					label: `${i + 1}`.padStart(2, '0'),
+					description: 'Yeet',
 					value: `${i + 1}`,
 				}]);
 			}
 			const list = playlist.get(interaction.guildId);
 			if ((interaction.customId == `${this.name}_pause`) && (interaction.user.id === interaction.member.id)) {
 				list ? (list.audioPlayer.pause(),
-				void interaction.editReply({ components: [{ type: 'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [resume, skip, queue] }] }))
+				void interaction.editReply({ components: [{ type: 'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [resume, skip, queue, leave] }] }))
 					:	void interaction.editReply({ content:'Not playing in this server!' });
 			}
 			else if ((interaction.customId == `${this.name}_resume`) && (interaction.user.id === interaction.member.id)) {
 				list ? (list.audioPlayer.unpause(),
-				void interaction.editReply({ components: [{ type: 'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [pause, skip, queue] }] }))
+				void interaction.editReply({ components: [{ type: 'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [pause, skip, queue, leave] }] }))
 					:	void interaction.editReply({ content:'Not playing in this server!' });
 			}
 
 			else if ((interaction.customId == `${this.name}_skip`) && (interaction.user.id === interaction.member.id)) {
 				list ? (list.audioPlayer.stop(),
-				void interaction.editReply({ content: 'Skipped Song!', components: [{ type: 'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [pause, skip, queue] }] }))
+				void interaction.editReply({ content: 'Skipped Song!', components: [{ type: 'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [pause, skip, queue, leave] }] }))
 					: void interaction.editReply({ content:'Not playing in this server!' });
 			}
 
@@ -331,7 +347,7 @@ module.exports = {
 				if (list) {
 					const current = list.audioPlayer.state.status == 'idle'
 						? 'Nothing is currently playing!'
-						: `Playing **${list.audioPlayer.state.resource.metadata.title}**`;
+						: `Currently playing **${list.audioPlayer.state.resource.metadata.title}**`;
 					const q = list.queue
 						.slice(0, 5)
 						.map((track, index) => `${index + 1}) ${track.title}`)
@@ -342,6 +358,16 @@ module.exports = {
 				else {
 					interaction.editReply('Not playing in this server!');
 				}
+			}
+
+			if ((interaction.customId == `${this.name}_leave`) && (interaction.user.id === interaction.member.id)) {
+				list ? (
+					await interaction.editReply({ content: 'Leaving channel and deleting message in 2 sec' }),
+					await delay(2 * 1000),
+					interaction.deleteReply(),
+					list.voiceConnection.destroy(),
+					playlist.clear())
+					: interaction.deleteReply();
 			}
 		}
 		catch (error) {

@@ -1,5 +1,5 @@
 const { Giveaway, Type, Platform, Sort } = require('../../dependancies/giveaway');
-const { MessageEmbed, MessageSelectMenu } = require('discord.js');
+const { MessageEmbed, MessageSelectMenu, MessageButton } = require('discord.js');
 const platforms = [
 	{ name:Platform.android, value:Platform.android },
 	{ name:Platform.battlenet, value:Platform.battlenet },
@@ -94,7 +94,7 @@ module.exports = {
 				else {
 					let n = 0;
 					const descArray = [];
-					const resultCollection = giveaway.result;
+					const resultCollection = giveaway;
 					resultCollection.each((value, key)=> {
 						n++;
 						descArray.push(` [${n.toString().padStart(2, '0')}) ${value.title}](${value.open_giveaway})`);
@@ -133,6 +133,11 @@ module.exports = {
 			await interaction.defer();
 			const id = interaction.values[0];
 			const getDetail = await Giveaway.getbyId(id);
+			const button = new MessageButton({
+				style : 'LINK',
+				label : `${id}`,
+				url : getDetail.open_giveaway,
+			});
 			if (
 				getDetail == 'Bad input or something unexpected happened'
 				|| getDetail == 'No active giveaways available at the moment, please try again later.'
@@ -173,7 +178,7 @@ module.exports = {
 						},
 					],
 				});
-				void interaction.followUp({ embeds:[embed], components: [] });
+				void interaction.followUp({ embeds:[embed], components: [{ type:'ACTION_ROW', components: [button] }] });
 			}
 		}
 		catch (error) {
