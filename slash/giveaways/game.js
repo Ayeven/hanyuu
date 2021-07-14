@@ -135,8 +135,8 @@ module.exports = {
 			const getDetail = await Giveaway.getbyId(id);
 			const button = new MessageButton({
 				style : 'LINK',
-				label : `${id}`,
-				url : getDetail.open_giveaway,
+				label : `Go to Deals : ${id}`,
+				url : `${getDetail.open_giveaway}`,
 			});
 			if (
 				getDetail == 'Bad input or something unexpected happened'
