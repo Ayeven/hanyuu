@@ -2,12 +2,12 @@ const { Scraper } = require('@yimura/scraper');
 const { Playlist } = require('../../dependancies/playlist');
 const { joinVoiceChannel, entersState, VoiceConnectionStatus } = require('@discordjs/voice');
 const { Track } = require('../../dependancies/track');
-const { MessageSelectMenu, MessageEmbed } = require('discord.js');
+const { MessageSelectMenu, MessageEmbed, MessageButton } = require('discord.js');
 const moment = require('moment');
 require('moment-duration-format');
 const scdl = require('soundcloud-downloader').default;
 module.exports = {
-	name: 'musicsearch',
+	name: 'music',
 	description: 'Search Youtube video',
 	options:[
 		{
@@ -60,7 +60,7 @@ module.exports = {
 				for (const video of videos) {
 					i++;
 					const duration = moment.duration(video.duration, 'second').format('HH:mm:ss');
-					EmbedDescriptionArray.push(`${(i).toString().padStart(2, '0')}) \`${duration}\` | [${video.title}](${video.shareLink})`);
+					EmbedDescriptionArray.push(`[${(i).toString().padStart(2, '0')}) \`${duration}\` | ${video.title}](${video.shareLink})`);
 					songSelectMenu.addOptions([
 						{
 							label: `${(i).toString().padStart(2, '0')}`,
@@ -95,7 +95,7 @@ module.exports = {
 				for (const audio of audios) {
 					n++;
 					const duration = moment.duration(audio.full_duration).format('HH:mm:ss');
-					EmbedDescriptionArray.push(`${(n).toString().padStart(2, '0')}) \`${duration}\` | [${audio.title}](${audio.permalink_url})`);
+					EmbedDescriptionArray.push(`[${(n).toString().padStart(2, '0')}) \`${duration}\` | ${audio.title}](${audio.permalink_url})`);
 					songSelectMenu.addOptions([
 						{
 							label: `${(n).toString().padStart(2, '0')}`,
@@ -124,26 +124,85 @@ module.exports = {
 
 		try {
 			await interaction.deferUpdate();
+
+			const pause = new MessageButton({
+				style: 'SECONDARY',
+				customId: `${this.name}_pause`,
+				emoji: '⏸️',
+			});
+
+			const skip = new MessageButton({
+				style: 'SECONDARY',
+				customId: `${this.name}_skip`,
+				emoji: '⏭️',
+			});
+
+			const queue = new MessageButton({
+				style: 'SECONDARY',
+				customId: `${this.name}_queue`,
+				emoji: '📼',
+			});
+
+			const leave = new MessageButton({
+				style: 'SECONDARY',
+				customId: `${this.name}_leave`,
+				emoji: '🛑',
+			});
+
+			const songSelectMenu = new MessageSelectMenu({
+				customId: `${this.name}`,
+				minValues:1,
+				maxValues:1,
+				placeholder:'Select a song to play',
+			});
+
 			const delay = function delay(time) {
 				return new Promise((resolve) => setTimeout(resolve, time).unref());
 			};
+
 			let list = playlist.get(interaction.guildId);
 			const platform = interaction.message.embeds[0].footer.text.split('_')[0];
 			let url = '';
 			let title = '';
+
 			if (platform == 'yt') {
 				const query = interaction.message.embeds[0].title;
 				const yt = await new Scraper().search(query, { language: 'en', searchType: 'VIDEO' });
 				const video = yt.videos.slice(0, 10);
+				let n = 0;
+				for (const v of video) {
+					n++;
+					const duration = moment.duration(v.duration, 'second').format('HH:mm:ss');
+					songSelectMenu.addOptions([
+						{
+							label: `${(n).toString().padStart(2, '0')}`,
+							description: `${duration} | ${v.title}`.slice(0, 48),
+							value: `${n}`,
+						},
+					]);
+				}
 				url = video[interaction.values[0] - 1].shareLink;
 				title = video[interaction.values[0] - 1].title;
 			}
+
 			else if (platform == 'sc') {
 				const query = interaction.message.embeds[0].title;
 				const arrayResult = await scdl.search({ limit: 10, resourceType: 'tracks', query });
-				const audio = arrayResult.collection;
-				url = audio[interaction.values[0] - 1 ] .permalink_url;
-				title = audio[interaction.values[0] - 1].title;
+				const audios = arrayResult.collection;
+				let n = 0;
+				for (const audio of audios) {
+					n++;
+					const duration = moment.duration(audio.full_duration).format('HH:mm:ss');
+					songSelectMenu.addOptions([
+						{
+							label: `${(n).toString().padStart(2, '0')}`,
+							description: `${duration} | ${audio.title}`.slice(0, 48),
+							value: `${n}`,
+						},
+					]);
+				}
+				url = audios[interaction.values[0] - 1 ] .permalink_url;
+				title = audios[interaction.values[0] - 1].title;
 			}
 
 			if (!list) {
@@ -175,20 +234,16 @@ module.exports = {
 				// Attempt to create a Track from the user's video URL
 				const track = await Track.from(url, title, {
 					async onStart() {
-						return interaction.channel
-							.send({ content:`Playing ${track.title}` })
+						return interaction
+							.message.edit({ content:`Playing ${track.title}`, components: [{ type: 'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [pause, skip, queue, leave] }] })
 							.catch(console.warn);
 					},
 					async onFinish() {
-						await interaction.channel
-							.send({ content:`Finished playing ${track.title}!` })
-							.catch(console.warn);
-						await delay(30 * 1000);
+						await delay(1 * 60 * 1000);
 						if (list.audioPlayer.state.status == 'idle'
 						&& list.voiceConnection.state.status !== VoiceConnectionStatus.Destroyed) {
 							list.voiceConnection.destroy();
 							playlist.clear();
-							return interaction.channel.send('Left channel!');
 						}
 					},
 					async onError(error) {
@@ -200,7 +255,9 @@ module.exports = {
 				});
 				// Enqueue the track and reply a success message to the user
 				list.enqueue(track);
-				return interaction.message.reply({ content:`Queued: **${track.title}, wait for me to play it!**` });
+				await delay(2 * 1000);
+				return interaction
+					.editReply({ content:`Queued: **${track.title}, wait for me to play it!**`, components: [{ type: 'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [pause, skip, queue, leave] }] });
 
 			}
 			catch (error) {
@@ -210,6 +267,111 @@ module.exports = {
 		}
 		catch (err) {
 			console.warn(err);
+			return interaction.followUp('Something wrong with the slash command');
+		}
+	},
+	/**
+ 	* @param {import('discord.js').ButtonInteraction} interaction
+    * @param {import('discord.js').Collection<bigint, Playlist>} playlist - List of song(s) in Discord.js Collection format
+ 	*/
+	async button(interaction, playlist) {
+		try {
+			await interaction.deferUpdate();
+
+			const delay = function delay(time) {
+				return new Promise((resolve) => setTimeout(resolve, time).unref());
+			};
+
+			const resume = new MessageButton({
+				style: 'SECONDARY',
+				customId: `${this.name}_resume`,
+				emoji: '▶️',
+			});
+
+			const pause = new MessageButton({
+				style: 'SECONDARY',
+				customId: `${this.name}_pause`,
+				emoji: '⏸️',
+			});
+
+			const skip = new MessageButton({
+				style: 'SECONDARY',
+				customId: `${this.name}_skip`,
+				emoji: '⏭️',
+			});
+
+			const queue = new MessageButton({
+				style: 'SECONDARY',
+				customId: `${this.name}_queue`,
+				emoji: '📼',
+			});
+
+			const leave = new MessageButton({
+				style: 'SECONDARY',
+				customId: `${this.name}_leave`,
+				emoji: '🛑',
+			});
+
+			const songSelectMenu = new MessageSelectMenu({
+				customId: `${this.name}`,
+				minValues:1,
+				maxValues:1,
+				placeholder:'Select a song to play',
+			});
+			for (let i = 0; i < 10;i++) {
+				songSelectMenu.addOptions([{
+					label: `${i + 1}`.padStart(2, '0'),
+					description: 'Yeet',
+					value: `${i + 1}`,
+				}]);
+			}
+			const list = playlist.get(interaction.guildId);
+			if ((interaction.customId == `${this.name}_pause`) && (interaction.user.id === interaction.member.id)) {
+				list ? (list.audioPlayer.pause(),
+				void interaction.editReply({ components: [{ type: 'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [resume, skip, queue, leave] }] }))
+					:	void interaction.editReply({ content:'Not playing in this server!' });
+			}
+			else if ((interaction.customId == `${this.name}_resume`) && (interaction.user.id === interaction.member.id)) {
+				list ? (list.audioPlayer.unpause(),
+				void interaction.editReply({ components: [{ type: 'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [pause, skip, queue, leave] }] }))
+					:	void interaction.editReply({ content:'Not playing in this server!' });
+			}
+
+			else if ((interaction.customId == `${this.name}_skip`) && (interaction.user.id === interaction.member.id)) {
+				list ? (list.audioPlayer.stop(),
+				void interaction.editReply({ content: 'Skipped Song!', components: [{ type: 'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [pause, skip, queue, leave] }] }))
+					: void interaction.editReply({ content:'Not playing in this server!' });
+			}
+
+			else if ((interaction.customId == `${this.name}_queue`) && (interaction.user.id === interaction.member.id)) {
+				if (list) {
+					const current = list.audioPlayer.state.status == 'idle'
+						? 'Nothing is currently playing!'
+						: `Currently playing **${list.audioPlayer.state.resource.metadata.title}**`;
+					const q = list.queue
+						.slice(0, 5)
+						.map((track, index) => `${index + 1}) ${track.title}`)
+						.join('\n');
+					interaction.editReply(`${current}\n${q}`);
+				}
+
+				else {
+					interaction.editReply('Not playing in this server!');
+				}
+			}
+
+			if ((interaction.customId == `${this.name}_leave`) && (interaction.user.id === interaction.member.id)) {
+				list ? (
+					await interaction.editReply({ content: 'Leaving channel and deleting message in 2 sec' }),
+					await delay(2 * 1000),
+					interaction.deleteReply(),
+					list.voiceConnection.destroy(),
+					playlist.clear())
+					: interaction.deleteReply();
+			}
+		}
+		catch (error) {
+			console.warn(error);
 			return interaction.followUp('Something wrong with the slash command');
 		}
 	},
