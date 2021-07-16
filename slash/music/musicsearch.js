@@ -57,7 +57,7 @@ module.exports = {
 				const EmbedDescriptionArray = [];
 				for (let i = 0;i < videos.length;i++) {
 					const duration = moment.duration(videos[i].duration, 'milliseconds').format('HH:mm:ss');
-					EmbedDescriptionArray.push(`[${(i + 1).toString().padStart(2, '0')}) \`${duration}\` | ${videos[i].title}](${videos[i].url})`);
+					EmbedDescriptionArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${duration} | ${videos[i].title}](${videos[i].url})`);
 					songSelectMenu.addOptions([
 						{
 							label: `${(i + 1).toString().padStart(2, '0')}`,
@@ -90,7 +90,7 @@ module.exports = {
 				});
 				for (let n = 0; n < audios.length; n++) {
 					const duration = moment.duration(audios[n].full_duration).format('HH:mm:ss');
-					EmbedDescriptionArray.push(`[${(n + 1).toString().padStart(2, '0')}) \`${duration}\` | ${audios[n].title}](${audios[n].permalink_url})`);
+					EmbedDescriptionArray.push(`[${(n + 1).toString().padStart(2, '0')}) ${duration} | ${audios[n].title}](${audios[n].permalink_url})`);
 					songSelectMenu.addOptions([
 						{
 							label: `${(n + 1).toString().padStart(2, '0')}`,
@@ -233,8 +233,8 @@ module.exports = {
 						await delay(1 * 60 * 1000);
 						if (list.audioPlayer.state.status == 'idle'
 						&& list.voiceConnection.state.status !== VoiceConnectionStatus.Destroyed) {
-							list.voiceConnection.destroy();
-							playlist.clear();
+							list.voiceConnection.destroy(true);
+							playlist.delete(interaction.guildId);
 						}
 					},
 					async onError(error) {
@@ -262,7 +262,7 @@ module.exports = {
 		}
 	},
 	/**
- 	* @param {import('discord.js').ButtonInteraction} interaction
+ 	* @param {import('discord.js').ButtonInteraction} interaction - Represents a SelectMenu Interaction
     * @param {import('discord.js').Collection<bigint, Playlist>} playlist - List of song(s) in Discord.js Collection format
  	*/
 	async button(interaction, playlist) {
@@ -356,8 +356,8 @@ module.exports = {
 					await interaction.editReply({ content: 'Leaving channel and deleting message in 2 sec' }),
 					await delay(2 * 1000),
 					interaction.deleteReply(),
-					list.voiceConnection.destroy(),
-					playlist.clear())
+					list.voiceConnection.destroy(true),
+					playlist.delete(interaction.guildId))
 					: interaction.deleteReply();
 			}
 		}

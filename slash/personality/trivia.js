@@ -71,7 +71,7 @@ module.exports = {
 		},
 	],
 	/**
-   * @param {import('discord.js').CommandInteraction} interaction
+   * @param {import('discord.js').CommandInteraction} interaction - Represents a Command Interaction
    */
 	async run(interaction) {
 		try {
@@ -147,10 +147,10 @@ module.exports = {
 		const userId = interaction.user.id;
 		const correct = await keyv.get(`${userId}`);
 		if (interaction.values[0] == correct) {
-			interaction.message.edit({ content:'You got correct answer, congratulation' });
+			interaction.message.edit({ content:'You got correct answer, congratulation', components: [], embeds: [] });
 		}
 		else {
-			interaction.message.edit({ content:'You got the wrong answer! Better luck next time' });
+			interaction.message.edit({ content:'You got the wrong answer! Better luck next time', components: [], embeds: [] });
 		}
 	},
 };
