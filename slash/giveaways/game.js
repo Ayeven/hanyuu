@@ -64,11 +64,6 @@ module.exports = {
 				},
 			],
 		},
-		{
-			type: 'SUB_COMMAND',
-			name:'filter',
-			description: 'Filter & group platforms and giveaway types to get personalized up to 25 results',
-		},
 	],
 	/**
    * @param {import('discord.js').CommandInteraction} interaction Represent CommandInteraction
@@ -115,9 +110,6 @@ module.exports = {
 					await interaction.followUp({ embeds:[embed], components: [{ type:'ACTION_ROW', components: [selectMenu] }] });
 				}
 			}
-			else {
-				return interaction.followUp('Yolo');
-			}
 		}
 		catch (err) {
 			interaction.followUp({ content:'Oh No!! Something went wrong' });
@@ -148,8 +140,9 @@ module.exports = {
 			const embed = new MessageEmbed({
 				color : 'RANDOM',
 				thumbnail : { url : userRequst.thumbnail },
+				image: { url: userRequst.thumbnail },
 				title : `Details for ${userRequst.id}: ${userRequst.title}`,
-				description : `Descriptions : \n${userRequst.description}\n\nInstructions:\n ${userRequst.instruction}`,
+				description : `**Descriptions :** \n${userRequst.description}\n\n**Instructions:**\n ${userRequst.instruction}`,
 				fields : [
 					{
 						name :'Worth in USD : ',

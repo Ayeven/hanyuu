@@ -1,9 +1,9 @@
 const { Manga } = require('../../dependancies/manga');
 const { MessageEmbed, MessageSelectMenu } = require('discord.js');
 module.exports = {
-	name: 'mangasearch',
+	name: 'manga',
 	description: 'Search for some anime(s)',
-	cooldown: 10,
+	cooldown: 25,
 	options:[
 		{
 			type: 'STRING',
@@ -19,7 +19,7 @@ module.exports = {
 		try {
 			await interaction.defer();
 			const q = interaction.options.get('query').value;
-			const fetch = await Manga.getMangaSearch({ keyword: q });
+			const fetch = await Manga.getMangaSearch(q);
 			const descArray = [];
 
 			const selectMenu = new MessageSelectMenu({
@@ -27,29 +27,30 @@ module.exports = {
 				placeholder:'Pick an anime to view details',
 			});
 
-			if (fetch == 'No data found' || fetch.size == 0) {
-				return interaction.followUp('No anime(s) with that name found');
+			if (fetch == 'No data found') {
+				return interaction.followUp('No anime(s) with that name found or server is broken, who knows');
 			}
 
 			else {
 				let n = 0;
-				fetch.map((value, key)=>{
+				fetch.map((value, key) => {
 					n++;
-					descArray.push(`${n.toString().padStart(2, '0')}) [${value.status} | ${value.title}](${value.url})`);
+					descArray.push(`[${n.toString().padStart(2, '0')}) ${value.status} | ${value.title}](${value.url})`);
 					selectMenu.addOptions([
 						{
-							label: `${n.toString().padStart(2, '0')}) ID: ${key}`,
+							label:`${n.toString().padStart(2, '0')}) ID : ${key}`,
 							description: `${value.title}`.slice(0, 48),
 							value: `${key}`,
 						},
 					]);
 				});
+
 				const embed = new MessageEmbed({
 					color: 'RANDOM',
 					title: `Search Result(s) : ${q}`,
 					description: descArray.join('\n'),
 				});
-
+				fetch.clear();
 				return interaction.followUp({ embeds:[embed], components: [{ type:'ACTION_ROW', components: [selectMenu] }] });
 			}
 
@@ -73,9 +74,9 @@ module.exports = {
 			}
 			else {
 				const embed = new MessageEmbed({
-					title: `ID: ${result.mal_id.padStart(2, '0')} ${result.title}`,
+					title: `${result.title}`,
 					color:'RANDOM',
-					description:result.synopsis,
+					description:`\n**Scores:** ${result.score}/10\n\n**Synopsis: **\n ${result.synopsis}`,
 					fields:[
 						{
 							name: 'Type:',
@@ -102,9 +103,14 @@ module.exports = {
 							value:`${result?.title_japanese}`,
 							inline:true,
 						},
+						{
+							name:'Genres: ',
+							value:`${result?.genres}`,
+							inline:false,
+						},
 					],
 					url:result?.url,
-					thumbnail: { url:result.images },
+					image: { url: result.images },
 				});
 				return interaction.followUp({ embeds:[embed], components : [] });
 			}
@@ -114,4 +120,5 @@ module.exports = {
 			return interaction.message.reply('Failed to execute Select Menu Interaction');
 		}
 	},
+
 };
