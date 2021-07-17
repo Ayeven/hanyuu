@@ -8,7 +8,7 @@ require('moment-duration-format');
 const scdl = require('soundcloud-downloader').default;
 module.exports = {
 	name: 'music',
-	description: 'Search Youtube video',
+	description: 'Search Tracks',
 	options:[
 		{
 			type: 'SUB_COMMAND',
