@@ -1,14 +1,8 @@
 const { Trivia, Type, Diff, Category } = require('../../dependancies/trivia');
 const { MessageEmbed, MessageSelectMenu } = require('discord.js');
 const { decode } = require('html-entities');
-const Keyv = require('keyv');
-const Keyvhq = require('@keyvhq/sqlite');
-const keyv = new Keyv({
-	store: new Keyvhq({
-		uri : 'sqlite://./data/trivia.sqlite',
-		table : 'trivia',
-	}),
-});
+const Enmap = require('enmap');
+const trivia = new Enmap({ name: 'trvia_1', dataDir: './data/trivia', fetchAll: false, autoFetch: true });
 const catChoices = [
 	{ name: 'arts', value: Category.arts },
 	{ name: 'board_games', value: Category.board_games },
@@ -132,7 +126,7 @@ module.exports = {
 					],
 					description: `**Question:**\n\n${question.question}`,
 				});
-				keyv.set(`${userId}`, question.correct);
+				trivia.set(`${userId}`, question.correct);
 				return interaction.followUp({ embeds: [embed], components: [{ type:'ACTION_ROW', components: [selectAnswer] }] });
 			}
 
@@ -145,7 +139,7 @@ module.exports = {
 	async selectmenu(interaction) {
 		await interaction.deferUpdate();
 		const userId = interaction.user.id;
-		const correct = await keyv.get(`${userId}`);
+		const correct = await trivia.get(`${userId}`);
 		if (interaction.values[0] == correct) {
 			interaction.message.edit({ content:'You got correct answer, congratulation', components: [], embeds: [] });
 		}

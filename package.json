@@ -28,6 +28,7 @@
         "axios": "^0.21.1",
         "bufferutil": "^4.0.3",
         "discord.js": "^13.0.0-dev.98c6078.1626221017",
+        "enmap": "^5.8.5",
         "fast-glob": "^3.2.6",
         "ffmpeg-static": "^4.4.0",
         "html-entities": "^2.3.2",

@@ -33,7 +33,7 @@ module.exports = {
 
 			else {
 				let n = 0;
-				fetch.each((value, key)=>{
+				fetch.map((value, key)=>{
 					n++;
 					descArray.push(`${n.toString().padStart(2, '0')}) [${value.status} | ${value.title}](${value.url})`);
 					selectMenu.addOptions([

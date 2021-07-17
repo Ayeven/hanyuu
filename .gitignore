@@ -61,5 +61,6 @@ typings/
 # dotenv environment variables file
 .env
 
-# test directory/ hidden directory
+# test directory/ hidden/ database directory
 /test
+/data
