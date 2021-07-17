@@ -5,6 +5,10 @@
     "description": "JSON Schema for config.json",
     "type": "object",
     "properties": {
+      "tcg" : {
+        "description": "TCG API, can get from https://dev.pokemontcg.io/ Optional api key",
+        "type": "string"
+      },
       "token": {
         "description": "The bot's token, to generate a token go to https://discord.com/developers/applications",
         "type": "string"

@@ -1,4 +1,4 @@
-const { Scraper } = require('@yimura/scraper');
+const Youtube = require('youtube-sr').default;
 const { Playlist } = require('../../dependancies/playlist');
 const { joinVoiceChannel, entersState, VoiceConnectionStatus } = require('@discordjs/voice');
 const { Track } = require('../../dependancies/track');
@@ -46,25 +46,22 @@ module.exports = {
 			await interaction.defer();
 			if (interaction.options.get('yt')) {
 				const query = interaction.options.get('yt').options.get('song_name').value;
-				const yt = await new Scraper().search(query, { language: 'en', searchType: 'VIDEO' });
-				const videos = yt.videos.slice(0, 10);
-				const EmbedDescriptionArray = [];
+				const result = await Youtube.search(query, { limit: 10, type: 'video' });
+				const videos = result.slice(0, 10);
 				const songSelectMenu = new MessageSelectMenu({
 					customId: `${this.name}`,
 					minValues:1,
 					maxValues:1,
 					placeholder:'Select a song to play',
 				});
-
-				let i = 0;
-				for (const video of videos) {
-					i++;
-					const duration = moment.duration(video.duration, 'second').format('HH:mm:ss');
-					EmbedDescriptionArray.push(`[${(i).toString().padStart(2, '0')}) \`${duration}\` | ${video.title}](${video.shareLink})`);
+				const EmbedDescriptionArray = [];
+				for (let i = 0;i < videos.length;i++) {
+					const duration = moment.duration(videos[i].duration, 'milliseconds').format('HH:mm:ss');
+					EmbedDescriptionArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${duration} | ${videos[i].title}](${videos[i].url})`);
 					songSelectMenu.addOptions([
 						{
-							label: `${(i).toString().padStart(2, '0')}`,
-							description:`${duration} | ${video.title}`.slice(0, 48),
+							label: `${(i + 1).toString().padStart(2, '0')}`,
+							description:`${duration} | ${videos[i].title}`.slice(0, 48),
 							value:`${i}`,
 						},
 					]);
@@ -91,15 +88,13 @@ module.exports = {
 					maxValues: 1,
 					placeholder: 'Select a song to play',
 				});
-				let n = 0;
-				for (const audio of audios) {
-					n++;
-					const duration = moment.duration(audio.full_duration).format('HH:mm:ss');
-					EmbedDescriptionArray.push(`[${(n).toString().padStart(2, '0')}) \`${duration}\` | ${audio.title}](${audio.permalink_url})`);
+				for (let n = 0; n < audios.length; n++) {
+					const duration = moment.duration(audios[n].full_duration).format('HH:mm:ss');
+					EmbedDescriptionArray.push(`[${(n + 1).toString().padStart(2, '0')}) ${duration} | ${audios[n].title}](${audios[n].permalink_url})`);
 					songSelectMenu.addOptions([
 						{
-							label: `${(n).toString().padStart(2, '0')}`,
-							description: `${duration} | ${audio.title}`.slice(0, 48),
+							label: `${(n + 1).toString().padStart(2, '0')}`,
+							description: `${duration} | ${audios[n].title}`.slice(0, 48),
 							value: `${n}`,
 						},
 					]);
@@ -167,42 +162,38 @@ module.exports = {
 
 			if (platform == 'yt') {
 				const query = interaction.message.embeds[0].title;
-				const yt = await new Scraper().search(query, { language: 'en', searchType: 'VIDEO' });
-				const video = yt.videos.slice(0, 10);
-				let n = 0;
-				for (const v of video) {
-					n++;
-					const duration = moment.duration(v.duration, 'second').format('HH:mm:ss');
+				const yt = await Youtube.search(query, { limit: 10, type: 'video' });
+				const videos = yt.slice(0, 10);
+				for (let n = 0; n < videos.length; n++) {
+					const duration = moment.duration(videos[n].duration, 'milliseconds').format('HH:mm:ss');
 					songSelectMenu.addOptions([
 						{
-							label: `${(n).toString().padStart(2, '0')}`,
-							description: `${duration} | ${v.title}`.slice(0, 48),
+							label: `${(n + 1).toString().padStart(2, '0')}`,
+							description: `${duration} | ${videos[n].title}`.slice(0, 48),
 							value: `${n}`,
 						},
 					]);
 				}
-				url = video[interaction.values[0] - 1].shareLink;
-				title = video[interaction.values[0] - 1].title;
+				url = videos[interaction.values[0]].url;
+				title = videos[interaction.values[0]].title;
 			}
 
 			else if (platform == 'sc') {
 				const query = interaction.message.embeds[0].title;
 				const arrayResult = await scdl.search({ limit: 10, resourceType: 'tracks', query });
 				const audios = arrayResult.collection;
-				let n = 0;
-				for (const audio of audios) {
-					n++;
-					const duration = moment.duration(audio.full_duration).format('HH:mm:ss');
+				for (let n = 0;n < audios.length; n++) {
+					const duration = moment.duration(audios[n].full_duration).format('HH:mm:ss');
 					songSelectMenu.addOptions([
 						{
-							label: `${(n).toString().padStart(2, '0')}`,
-							description: `${duration} | ${audio.title}`.slice(0, 48),
+							label: `${(n + 1).toString().padStart(2, '0')}`,
+							description: `${duration} | ${audios[n].title}`.slice(0, 48),
 							value: `${n}`,
 						},
 					]);
 				}
-				url = audios[interaction.values[0] - 1 ] .permalink_url;
-				title = audios[interaction.values[0] - 1].title;
+				url = audios[interaction.values[0]] .permalink_url;
+				title = audios[interaction.values[0]].title;
 			}
 
 			if (!list) {
@@ -242,8 +233,8 @@ module.exports = {
 						await delay(1 * 60 * 1000);
 						if (list.audioPlayer.state.status == 'idle'
 						&& list.voiceConnection.state.status !== VoiceConnectionStatus.Destroyed) {
-							list.voiceConnection.destroy();
-							playlist.clear();
+							list.voiceConnection.destroy(true);
+							playlist.delete(interaction.guildId);
 						}
 					},
 					async onError(error) {
@@ -271,7 +262,7 @@ module.exports = {
 		}
 	},
 	/**
- 	* @param {import('discord.js').ButtonInteraction} interaction
+ 	* @param {import('discord.js').ButtonInteraction} interaction - Represents a SelectMenu Interaction
     * @param {import('discord.js').Collection<bigint, Playlist>} playlist - List of song(s) in Discord.js Collection format
  	*/
 	async button(interaction, playlist) {
@@ -322,7 +313,7 @@ module.exports = {
 				songSelectMenu.addOptions([{
 					label: `${i + 1}`.padStart(2, '0'),
 					description: 'Yeet',
-					value: `${i + 1}`,
+					value: `${i}`,
 				}]);
 			}
 			const list = playlist.get(interaction.guildId);
@@ -365,8 +356,8 @@ module.exports = {
 					await interaction.editReply({ content: 'Leaving channel and deleting message in 2 sec' }),
 					await delay(2 * 1000),
 					interaction.deleteReply(),
-					list.voiceConnection.destroy(),
-					playlist.clear())
+					list.voiceConnection.destroy(true),
+					playlist.delete(interaction.guildId))
 					: interaction.deleteReply();
 			}
 		}

@@ -24,13 +24,15 @@
     "dependencies": {
         "@discordjs/opus": "^0.5.3",
         "@discordjs/voice": "^0.5.3",
-        "@yimura/scraper": "^1.2.2",
+        "@keyvhq/sqlite": "^1.0.2",
         "axios": "^0.21.1",
         "bufferutil": "^4.0.3",
-        "discord.js": "^13.0.0-dev.a8984bc.1626048234",
+        "discord.js": "^13.0.0-dev.98c6078.1626221017",
+        "enmap": "^5.8.5",
         "fast-glob": "^3.2.6",
         "ffmpeg-static": "^4.4.0",
         "html-entities": "^2.3.2",
+        "keyv": "^4.0.3",
         "libsodium-wrappers": "^0.7.9",
         "moment": "^2.29.1",
         "moment-duration-format": "^2.3.2",
@@ -38,6 +40,7 @@
         "soundcloud-downloader": "^1.0.0",
         "utf-8-validate": "^5.0.5",
         "youtube-dl-exec": "^1.2.4",
+        "youtube-sr": "^4.1.7",
         "zlib-sync": "^0.1.7"
     }
 }
