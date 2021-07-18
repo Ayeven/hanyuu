@@ -76,7 +76,7 @@ module.exports = {
 				const embed = new MessageEmbed({
 					title: `${result.title}`,
 					color:'RANDOM',
-					description:`\n**Scores:** ${result.score}/10\n\n**Synopsis: **\n ${result.synopsis}`,
+					description:`\n**Scores:** ${result.score}/10\n\n**Synopsis: **\n${result.synopsis}`,
 					fields:[
 						{
 							name: 'Type:',
