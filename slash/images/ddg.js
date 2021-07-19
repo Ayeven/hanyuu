@@ -6,6 +6,18 @@ const delay = function delay(time) {
 };
 const { MessageButton } = require('discord.js');
 const en = new Enmap({ name: 'count', dataDir: './data/images', fetchAll: false, autoFetch: true });
+const filterChoices = [
+	{
+		name: 'strict', value: 1,
+	},
+	{
+		name: 'moderate', value: -1,
+	},
+	{
+		name: 'off', value: -2,
+	},
+];
+
 module.exports = {
 	name: 'duckduckgo',
 	description: 'Search something online with Duck Duck Go service',
@@ -22,6 +34,12 @@ module.exports = {
 					description: 'The image query to look for',
 					required: true,
 				},
+				{
+					type:'INTEGER',
+					name: 'safesearch',
+					description: 'Safe search filter',
+					choices: filterChoices,
+				},
 			],
 		},
 	],
@@ -32,29 +50,37 @@ module.exports = {
 		try {
 			await interaction.defer();
 			const userId = `${interaction.user.id}`;
+
 			const next = new MessageButton({
 				style: 'SECONDARY',
 				customId: `${this.name}_next`,
 				emoji: '⏭️',
 			});
+
+			const del = new MessageButton({
+				style: 'SECONDARY',
+				customId: `${this.name}_del`,
+				emoji: '🗑️',
+			});
+
 			if (interaction.options.get('images')) {
-				const n = 5;
-				const j = 0 ;
 				const enquiry = interaction.options.get('images')?.options.get('images').value;
-				const getToken = await vqd(enquiry);
+				if (enquiry.match(/[!`~#$%^&*()\\|:;{}[\],><?]+/gm)) { return interaction.followUp('Forbidden character(s) found, please try again');}
+				const safe = interaction.options.get('images').options.get('safeSearch')?.value ?? -1;
+				const getToken = await vqd(enquiry, safe);
 				const getImage = await result(enquiry, getToken[1]);
 				en.set(userId, 5);
 				/**
                 * @type {Enmap<userId, getImage>}
                 */
 				enmap.set(userId, getImage);
-				await delay(500);
+				await delay(100);
 				const array = enmap.get(userId);
 				const files = [];
-				for (let i = j; i < n; i++) {
+				for (let i = 0; i < 5; i++) {
 					files.push(array[i].image);
 				}
-				return interaction.followUp({ content: `${files.join('\n')}`, components: [{ type: 'ACTION_ROW', components:[next] }] });
+				return interaction.followUp({ content: `${files.join('\n')}`, components: [{ type: 'ACTION_ROW', components:[next, del] }] });
 			}
 		}
 		catch (err) {console.error(err);}
@@ -79,6 +105,12 @@ module.exports = {
 				emoji: '⏮️',
 			});
 
+			const del = new MessageButton({
+				style: 'SECONDARY',
+				customId: `${this.name}_del`,
+				emoji: '🗑️',
+			});
+
 			const array = enmap.get(userId);
 			const files = [];
 			if (interaction.customId == `${this.name}_next` && interaction.user.id === interaction.member.id) {
@@ -88,11 +120,11 @@ module.exports = {
 					for (let i = m - 5; i < m; i++) {
 						files.push(array[i]?.image);
 					}
-					interaction.editReply({ content: `${files.join('\n')}`, components: [{ type: 'ACTION_ROW', components:[next, prev] }] });
+					interaction.editReply({ content: `${files.join('\n')}`, components: [{ type: 'ACTION_ROW', components:[next, prev, del] }] });
 				}
 
 				else {
-					interaction.editReply({ content: 'End of line', components: [{ type:'ACTION_ROW', components: [prev] }] });
+					interaction.editReply({ content: 'End of line', components: [{ type:'ACTION_ROW', components: [prev, del] }] });
 				}
 			}
 
@@ -100,15 +132,19 @@ module.exports = {
 				en.math(userId, 'subtract', 5);
 				const m = en.get(userId);
 				if (m <= 4) {
-					interaction.editReply({ content: 'End of line', components: [{ type: 'ACTION_ROW', components:[next] }] });
+					interaction.editReply({ content: 'End of line', components: [{ type: 'ACTION_ROW', components:[next, del] }] });
 				}
 
 				else {
 					for (let i = m - 5; i < m; i++) {
 						files.push(array[i]?.image);
 					}
-					interaction.editReply({ content: `${files.join('\n')}`, components: [{ type:'ACTION_ROW', components: [next, prev] }] });
+					interaction.editReply({ content: `${files.join('\n')}`, components: [{ type:'ACTION_ROW', components: [next, prev, del] }] });
 				}
+			}
+
+			else if (interaction.customId == `${this.name}_del` && interaction.user.id === interaction.member.id) {
+				interaction.deleteReply();
 			}
 		}
 		catch (error) {
