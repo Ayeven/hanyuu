@@ -1,5 +1,6 @@
 const { Giveaway, Type, Platform, Sort } = require('../../dependancies/giveaway');
 const { MessageEmbed, MessageSelectMenu, MessageButton } = require('discord.js');
+const Enmap = require('enmap');
 const platforms = [
 	{ name:Platform.android, value:Platform.android },
 	{ name:Platform.battlenet, value:Platform.battlenet },
@@ -33,6 +34,7 @@ const sort = [
 module.exports = {
 	name: 'game',
 	description: 'Give you game giveaway(s)',
+	cooldown: 10,
 	options: [
 		{
 			type: 'SUB_COMMAND',
@@ -62,11 +64,6 @@ module.exports = {
 				},
 			],
 		},
-		{
-			type: 'SUB_COMMAND',
-			name:'filter',
-			description: 'Filter & group platforms and giveaway types to get personalized up to 25 results',
-		},
 	],
 	/**
    * @param {import('discord.js').CommandInteraction} interaction Represent CommandInteraction
@@ -78,7 +75,8 @@ module.exports = {
 				const platform = interaction.options.get('giveaway').options.get('platform').value;
 				const t = interaction.options.get('giveaway').options.get('type').value;
 				const s = interaction.options.get('giveaway').options.get('sort').value;
-				const giveaway = await Giveaway.giveaway({ platform, type : t, sort: s });
+				const userId = interaction.user.id;
+				const giveaway = await Giveaway.giveaway(userId, { platform, type : t, sort: s });
 				const selectMenu = new MessageSelectMenu({
 					customId:`${this.name}`,
 					placeholder: 'Pick a giveaway to view it details',
@@ -89,34 +87,28 @@ module.exports = {
                     || giveaway == 'Object not found: Giveaway or endpoint not found.'
                     || giveaway == 'Something wrong on gamepower.com end (unexpected server errors)'
 					|| giveaway == 'Bad input or something unexpected happened'
-				) { void interaction.followUp(giveaway); }
+				) { interaction.followUp(giveaway); }
 
 				else {
-					let n = 0;
 					const descArray = [];
-					const resultCollection = giveaway;
-					resultCollection.each((value, key)=> {
-						n++;
-						descArray.push(` [${n.toString().padStart(2, '0')}) ${value.title}](${value.open_giveaway})`);
+					const resultCollection = giveaway.get(userId);
+					for (let n = 0; n < resultCollection.length; n++) {
+						descArray.push(` [${(n + 1).toString().padStart(2, '0')}) ${resultCollection[n].title}](${resultCollection[n].open_giveaway})`);
 						selectMenu.addOptions([
 							{
-								label: `ID: ${key}`,
-								description: `${value.title}`.slice(0, 48),
-								value: `${key}`,
+								label: `ID: ${resultCollection[n].id}`,
+								description: `${resultCollection[n].title}`.slice(0, 48),
+								value: `${resultCollection[n].id}`,
 							},
 						]);
-					});
+					}
 					const embed = new MessageEmbed({
 						title: `${platform} ${t}`.toUpperCase(),
 						color:'RANDOM',
 						description: descArray.join('\n'),
 					});
 					await interaction.followUp({ embeds:[embed], components: [{ type:'ACTION_ROW', components: [selectMenu] }] });
-					void resultCollection.clear();
 				}
-			}
-			else {
-				return interaction.followUp('Yolo');
 			}
 		}
 		catch (err) {
@@ -131,55 +123,55 @@ module.exports = {
 	async selectmenu(interaction) {
 		try {
 			await interaction.defer();
-			const id = interaction.values[0];
-			const getDetail = await Giveaway.getbyId(id);
+			const giveawayId = interaction.values[0];
+			const userId = `${interaction.user.id}`;
+			const collection = new Enmap({ name: 'giveaway', dataDir: './data/giveaway', fetchAll: false, autoFetch: true });
+			/**
+			 * @type {Array}
+			 */
+			const arrays = collection.get(userId);
+			const userRequst = arrays.find(({ id }) => id == giveawayId);
 			const button = new MessageButton({
 				style : 'LINK',
-				label : `Go to Deals : ${id}`,
-				url : `${getDetail.open_giveaway}`,
+				label : `Go to Deals : ${giveawayId}`,
+				url : `${userRequst.open_giveaway}`,
 			});
-			if (
-				getDetail == 'Bad input or something unexpected happened'
-				|| getDetail == 'No active giveaways available at the moment, please try again later.'
-				|| getDetail == 'Object not found: Giveaway or endpoint not found.'
-				|| getDetail == 'Something wrong on gamepower.com end (unexpected server errors)'
-			) {void interaction.followUp(getDetail);}
-			else {
-				const embed = new MessageEmbed({
-					color : 'RANDOM',
-					thumbnail : { url : getDetail.thumbnail },
-					title : `Details for ${getDetail.id}: ${getDetail.title}`,
-					description : `Descriptions : \n${getDetail.description}\n\nInstructions:\n ${getDetail.instruction}`,
-					fields : [
-						{
-							name :'Worth in USD : ',
-							value : getDetail.worth,
-							inline : true,
-						},
-						{
-							name :'Type : ',
-							value : getDetail.type,
-							inline : true,
-						},
-						{
-							name :'End Date : ',
-							value : getDetail.end_date,
-							inline : true,
-						},
-						{
-							name :'Platforms : ',
-							value : getDetail.platform,
-							inline : true,
-						},
-						{
-							name :'Giveaway Status : ',
-							value : getDetail.status,
-							inline : true,
-						},
-					],
-				});
-				void interaction.followUp({ embeds:[embed], components: [{ type:'ACTION_ROW', components: [button] }] });
-			}
+
+			const embed = new MessageEmbed({
+				color : 'RANDOM',
+				thumbnail : { url : userRequst.thumbnail },
+				image: { url: userRequst.thumbnail },
+				title : `Details for ${userRequst.id}: ${userRequst.title}`,
+				description : `**Descriptions :** \n${userRequst.description}\n\n**Instructions:**\n ${userRequst.instruction}`,
+				fields : [
+					{
+						name :'Worth in USD : ',
+						value : userRequst.worth,
+						inline : true,
+					},
+					{
+						name :'Type : ',
+						value : userRequst.type,
+						inline : true,
+					},
+					{
+						name :'End Date : ',
+						value : userRequst.end_date,
+						inline : true,
+					},
+					{
+						name :'Platforms : ',
+						value : userRequst.platform,
+						inline : true,
+					},
+					{
+						name :'Giveaway Status : ',
+						value : userRequst.status,
+						inline : true,
+					},
+				],
+			});
+			void interaction.followUp({ embeds:[embed], components: [{ type:'ACTION_ROW', components: [button] }] });
 		}
 		catch (error) {
 			interaction.followUp({ content:'Oh No!! Something went wrong' });

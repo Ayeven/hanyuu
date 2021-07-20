@@ -35,11 +35,11 @@ module.exports = {
 
 				if (now < expirationTime) {
 					const timeLeft = (expirationTime - now) / 1000;
-					return interaction.reply(
-						`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${
+					return interaction.reply({
+						content:`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${
 							SlashCommand.name
 						}\` command.`,
-						{ ephemeral: true },
+						ephemeral: true },
 					);
 				}
 			}
@@ -56,6 +56,31 @@ module.exports = {
 		}
 
 		if (interaction.isButton()) {
+
+			if (!cooldown.has(SlashCommand.name)) {
+				cooldown.set(SlashCommand.name, new Collection());
+			}
+
+			const now = Date.now();
+			const timestamps = cooldown.get(SlashCommand.name);
+			const cooldownAmount = (SlashCommand?.cooldown || 5) * 1000;
+
+			if (timestamps.has(interaction.user.id)) {
+				const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
+
+				if (now < expirationTime) {
+					const timeLeft = (expirationTime - now) / 1000;
+					return interaction.reply({
+						content:`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${
+							SlashCommand.name
+						}\` command.`,
+						ephemeral: true },
+					);
+				}
+			}
+
+			timestamps.set(interaction.user.id, now);
+			setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
 			try {
 				SlashCommand.button(interaction, playlist);
 			}
@@ -64,6 +89,31 @@ module.exports = {
 			}
 		}
 		if (interaction.isSelectMenu()) {
+
+			if (!cooldown.has(SlashCommand.name)) {
+				cooldown.set(SlashCommand.name, new Collection());
+			}
+
+			const now = Date.now();
+			const timestamps = cooldown.get(SlashCommand.name);
+			const cooldownAmount = (SlashCommand?.cooldown || 5) * 1000;
+
+			if (timestamps.has(interaction.user.id)) {
+				const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
+
+				if (now < expirationTime) {
+					const timeLeft = (expirationTime - now) / 1000;
+					return interaction.reply({
+						content:`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${
+							SlashCommand.name
+						}\` command.`,
+						ephemeral: true },
+					);
+				}
+			}
+
+			timestamps.set(interaction.user.id, now);
+			setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
 			try {
 				SlashCommand.selectmenu(interaction, playlist);
 			}

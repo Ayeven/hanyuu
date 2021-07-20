@@ -38,7 +38,7 @@ module.exports = {
 					descArray.push(`[${n.toString().padStart(2, '0')}) ${value?.year} | ${value.status} | ${value.title}](${value.url})`);
 					selectMenu.addOptions([
 						{
-							label: `${n.toString().padStart(2, '0')}) ID: ${key}`,
+							label: `${n.toString().padStart(2, '0')}) Year: ${value.year}`,
 							description: `${value.title}`.slice(0, 48),
 							value: `${key}`,
 						},
@@ -49,7 +49,7 @@ module.exports = {
 					title: `Search Result(s) : ${q}`,
 					description: descArray.join('\n'),
 				});
-
+				fetch.clear();
 				return interaction.followUp({ embeds:[embed], components: [{ type:'ACTION_ROW', components: [selectMenu] }] });
 			}
 
@@ -70,33 +70,13 @@ module.exports = {
 			if (result == 'No data found' || !result) { return interaction.followUp('No anime(s) found');}
 			else {
 				const embed = new MessageEmbed({
-					title: `ID: ${result.mal_id} ${result.title}`,
+					title: `${result.title}`,
 					color:'RANDOM',
-					description:result.synopsis,
+					description:`**Scores:**\n ${result.score}/10\n\n**Synopsis:**\n${result.synopsis}`.slice(0, 2040),
 					fields:[
-						{
-							name:'Type: ',
-							value:`${result.type}`,
-							inline:true,
-						},
 						{
 							name:'Rating: ',
 							value:`${result.rating}`,
-							inline:true,
-						},
-						{
-							name:'Source:',
-							value:`${(result.source)}`,
-							inline:true,
-						},
-						{
-							name:'English Title: ',
-							value:`${result?.title_english}`,
-							inline:true,
-						},
-						{
-							name:'Japanese Title: ',
-							value:`${result?.title_japanese}`,
 							inline:true,
 						},
 						{
@@ -109,10 +89,17 @@ module.exports = {
 							value:`Total Episode(s): ${result?.episodes}\n${result?.duration}`,
 							inline:true,
 						},
+						{
+							name: 'Genres :',
+							value: `${result.genres}`,
+							inline: false,
+						},
 					],
 					url:result?.url,
 					thumbnail: { url:result.images },
+					image: { url: result.images },
 				});
+
 				return interaction.followUp({ embeds:[embed], components : [] });
 			}
 		}

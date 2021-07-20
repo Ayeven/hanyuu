@@ -92,8 +92,8 @@ module.exports = {
 				/**
 				 *@type {Array<string>}
 				 */
-				const answers = question.incorrect;
-				answers.push(question.correct);
+				const answers = question.result.incorrect;
+				answers.push(question.result.correct);
 				answers.sort(() => Math.random() - 0.5);
 				for (let n = 0; n < answers.length; n++) {
 					selectAnswer.addOptions([
@@ -110,23 +110,23 @@ module.exports = {
 					fields: [
 						{
 							name: 'Type: ',
-							value: question.type,
+							value: question.result.type,
 							inline: true,
 						},
 						{
 							name: 'Difficulty: ',
-							value: question.difficulty,
+							value: question.result.difficulty,
 							inline: true,
 						},
 						{
 							name: 'Category: ',
-							value: question.category,
+							value: question.result.category,
 							inline: true,
 						},
 					],
-					description: `**Question:**\n\n${question.question}`,
+					description: `**Question:**\n\n${question.result.question}`,
 				});
-				trivia.set(`${userId}`, question.correct);
+				trivia.set(`${userId}`, question.result.correct);
 				return interaction.followUp({ embeds: [embed], components: [{ type:'ACTION_ROW', components: [selectAnswer] }] });
 			}
 
@@ -141,9 +141,11 @@ module.exports = {
 		const userId = interaction.user.id;
 		const correct = await trivia.get(`${userId}`);
 		if (interaction.values[0] == correct) {
+			trivia.delete(`${userId}`);
 			interaction.message.edit({ content:'You got correct answer, congratulation', components: [], embeds: [] });
 		}
 		else {
+			trivia.delete(`${userId}`);
 			interaction.message.edit({ content:'You got the wrong answer! Better luck next time', components: [], embeds: [] });
 		}
 	},
