@@ -4,13 +4,11 @@ const fastGlob = require('fast-glob');
 const client = new Discord.Client({
 	partials: config.partials,
 	intents: config.intents,
-	messageCacheMaxSize: 5,
-	messageCacheLifetime: 5,
-	messageSweepInterval: 5,
 	http: {
 		version: 9,
 	},
 });
+client.sweepMessages(10 * 60 * 1000);
 client.commands = new Discord.Collection();
 client.SlashCommands = new Discord.Collection();
 

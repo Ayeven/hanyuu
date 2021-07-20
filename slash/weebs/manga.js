@@ -2,7 +2,7 @@ const { Manga } = require('../../dependancies/manga');
 const { MessageEmbed, MessageSelectMenu } = require('discord.js');
 module.exports = {
 	name: 'manga',
-	description: 'Search for some anime(s)',
+	description: 'Search for some manga(s)',
 	cooldown: 25,
 	options:[
 		{
