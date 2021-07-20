@@ -43,7 +43,7 @@ const diffChoices = [
 module.exports = {
 	name: 'trivia',
 	description: 'Let have some trivia question',
-	cooldown : 20,
+	cooldown : 10,
 	options: [
 		{
 			type: 'INTEGER',
@@ -70,9 +70,9 @@ module.exports = {
 	async run(interaction) {
 		try {
 			await interaction.defer();
-			const category = interaction.options.get('category')?.value ?? null;
-			const difficulty = interaction.options.get('difficulty')?.value ?? null;
-			const type = interaction.options.get('type')?.value ?? null;
+			const category = interaction.options.getInteger('category') ?? null;
+			const difficulty = interaction.options.getString('difficulty') ?? null;
+			const type = interaction.options.getString('type') ?? null;
 			const userId = interaction.user.id;
 			const question = await Trivia.getOne({ category, difficulty, type });
 			const selectAnswer = new MessageSelectMenu({

@@ -9,6 +9,7 @@ const scdl = require('soundcloud-downloader').default;
 module.exports = {
 	name: 'music',
 	description: 'Search Tracks',
+	cooldown: 10,
 	options:[
 		{
 			type: 'SUB_COMMAND',
@@ -44,8 +45,8 @@ module.exports = {
 
 		try {
 			await interaction.defer();
-			if (interaction.options.get('yt')) {
-				const query = interaction.options.get('yt').options.get('song_name').value;
+			if (interaction.options.getSubCommand('yt') == 'yt') {
+				const query = interaction.options.getString('song_name');
 				const result = await Youtube.search(query, { limit: 10, type: 'video' });
 				const videos = result.slice(0, 10);
 				const songSelectMenu = new MessageSelectMenu({
@@ -77,8 +78,9 @@ module.exports = {
 				);
 				return interaction.followUp({ embeds: [embed], components: [{ type:'ACTION_ROW', components: [songSelectMenu] }] });
 			}
+
 			else {
-				const query = interaction.options.get('sc').options.get('song_name').value;
+				const query = interaction.options.getString('song_name');
 				const arrayResult = await scdl.search({ limit: 10, resourceType: 'tracks', query });
 				const audios = arrayResult.collection;
 				const EmbedDescriptionArray = [];
@@ -231,9 +233,6 @@ module.exports = {
 							.catch(console.warn);
 					},
 					async onFinish() {
-						await interaction
-							.message.edit({ content:`Playing ${track.title}`,
-								components: [{ type: 'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [pause, skip, queue, leave] }] });
 						await delay(1 * 60 * 1000);
 						if (list.audioPlayer.state.status == 'idle'
 						&& list.voiceConnection.state.status !== VoiceConnectionStatus.Destroyed) {
@@ -322,14 +321,14 @@ module.exports = {
 				}]);
 			}
 			const list = playlist.get(interaction.guildId);
-			if ((interaction.customId == `${this.name}_pause`) && (interaction.user.id === interaction.message.author.id)) {
+			if ((interaction.customId == `${this.name}_pause`) && (interaction.user.id === interaction.message.interaction.user.id)) {
 				list ? (list.audioPlayer.pause(),
 				void interaction
 					.editReply({ components: [{ type: 'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [resume, skip, queue, leave] }] }))
 					:	void interaction
 						.editReply({ content:'Not playing in this server!' });
 			}
-			else if ((interaction.customId == `${this.name}_resume`) && (interaction.user.id === interaction.message.author.id)) {
+			else if ((interaction.customId == `${this.name}_resume`) && (interaction.user.id === interaction.message.interaction.user.id)) {
 				list ? (list.audioPlayer.unpause(),
 				void interaction
 					.editReply({ components: [{ type: 'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [pause, skip, queue, leave] }] }))
@@ -337,7 +336,7 @@ module.exports = {
 						.editReply({ content:'Not playing in this server!' });
 			}
 
-			else if ((interaction.customId == `${this.name}_skip`) && (interaction.user.id === interaction.message.author.id)) {
+			else if ((interaction.customId == `${this.name}_skip`) && (interaction.user.id === interaction.message.interaction.user.id)) {
 				list ? (list.audioPlayer.stop(),
 				void interaction
 					.editReply({ content: 'Skipped Song!', components: [{ type: 'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [pause, skip, queue, leave] }] }))
@@ -345,7 +344,7 @@ module.exports = {
 						.editReply({ content:'Not playing in this server!' });
 			}
 
-			else if ((interaction.customId == `${this.name}_queue`) && (interaction.user.id === interaction.message.author.id)) {
+			else if ((interaction.customId == `${this.name}_queue`) && (interaction.user.id === interaction.message.interaction.user.id)) {
 				if (list) {
 					const current = list.audioPlayer.state.status == 'idle'
 						? 'Nothing is currently playing!'
@@ -362,7 +361,7 @@ module.exports = {
 				}
 			}
 
-			if ((interaction.customId == `${this.name}_leave`) && (interaction.user.id === interaction.message.author.id)) {
+			if ((interaction.customId == `${this.name}_leave`) && (interaction.user.id === interaction.message.interaction.user.id)) {
 				list ? (
 					await interaction.editReply({ content: 'Leaving channel and deleting message in 2 sec' }),
 					await delay(2 * 1000),

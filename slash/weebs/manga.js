@@ -18,7 +18,7 @@ module.exports = {
 	async run(interaction) {
 		try {
 			await interaction.defer();
-			const q = interaction.options.get('query').value;
+			const q = interaction.options.getString('query');
 			const fetch = await Manga.getMangaSearch(q);
 			const descArray = [];
 

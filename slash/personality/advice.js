@@ -31,7 +31,7 @@ module.exports = {
 	async run(interaction) {
 		try {
 			await interaction.defer();
-			if (interaction.options.get('random')) {
+			if (interaction.options.getSubCommand('random') == 'random') {
 				const response = await advice.get('advice')
 					.catch(error => {
 						if (error.response) {

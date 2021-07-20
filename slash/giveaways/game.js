@@ -71,10 +71,10 @@ module.exports = {
 	async run(interaction) {
 		try {
 			await interaction.defer();
-			if (interaction.options.get('giveaway')) {
-				const platform = interaction.options.get('giveaway').options.get('platform').value;
-				const t = interaction.options.get('giveaway').options.get('type').value;
-				const s = interaction.options.get('giveaway').options.get('sort').value;
+			if (interaction.options.getSubCommand('giveaway') == 'giveaway') {
+				const platform = interaction.options.getString('platform');
+				const t = interaction.options.getString('type');
+				const s = interaction.options.getString('sort');
 				const userId = interaction.user.id;
 				const giveaway = await Giveaway.giveaway(userId, { platform, type : t, sort: s });
 				const selectMenu = new MessageSelectMenu({

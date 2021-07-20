@@ -233,7 +233,7 @@ module.exports = {
 			const opt = interaction?.options;
 			let text;
 			let fetch;
-			if (interaction.options.get('waifu')) {
+			if (interaction.options.getSubCommand('waifu') == 'waifu') {
 				fetch = await waifu.get('sfw/waifu')
 					.catch(error => {
 						if (error.response) {
@@ -243,12 +243,12 @@ module.exports = {
 				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
 				else {
 					image = fetch.data;
-					text = opt.get('waifu').options?.get('text').value;
+					text = opt.getString('text');
 					opt ? void interaction.editReply({ content: text, files: [image.url] })
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.get('neko')) {
+			else if (interaction.options.getSubCommand('neko') == 'neko') {
 				fetch = await waifu.get('sfw/neko')
 					.catch(error => {
 						if (error.response) {
@@ -258,12 +258,12 @@ module.exports = {
 				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
 				else {
 					image = fetch.data;
-					text = opt.get('neko').options?.get('text').value;
+					text = opt.getString('text');
 					opt ? void interaction.editReply({ content: text, files: [image.url] })
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.get('shinobu')) {
+			else if (interaction.options.getSubCommand('shinobu') == 'shinobu') {
 				fetch = await waifu.get('sfw/shinobu')
 					.catch(error => {
 						if (error.response) {
@@ -273,12 +273,12 @@ module.exports = {
 				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
 				else {
 					image = fetch.data;
-					text = opt.get('shinobu').options?.get('text').value;
+					text = opt.getString('text');
 					opt ? void interaction.editReply({ content: text, files: [image.url] })
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.get('megumin')) {
+			else if (interaction.options.getSubCommand('megumin') == 'megumin') {
 				fetch = await waifu.get('sfw/megumin')
 					.catch(error => {
 						if (error.response) {
@@ -288,12 +288,12 @@ module.exports = {
 				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
 				else {
 					image = fetch.data;
-					text = opt.get('megumin').options?.get('text').value;
+					text = opt.getString('text');
 					opt ? void interaction.editReply({ content: text, files: [image.url] })
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.get('bully')) {
+			else if (interaction.options.getSubCommand('bully') == 'bully') {
 				fetch = await waifu.get('sfw/bully')
 					.catch(error => {
 						if (error.response) {
@@ -303,12 +303,12 @@ module.exports = {
 				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
 				else {
 					image = fetch.data;
-					text = opt.get('bully').options?.get('text').value;
+					text = opt.getString('text');
 					opt ? void interaction.editReply({ content: text, files: [image.url] })
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.get('cuddle')) {
+			else if (interaction.options.getSubCommand('cuddle') == 'cuddle') {
 				fetch = await waifu.get('sfw/cuddle')
 					.catch(error => {
 						if (error.response) {
@@ -318,12 +318,12 @@ module.exports = {
 				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
 				else {
 					image = fetch.data;
-					text = opt.get('cuddle').options?.get('text').value;
+					text = opt.getString('text');
 					opt ? void interaction.editReply({ content: text, files: [image.url] })
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.get('awoo')) {
+			else if (interaction.options.getSubCommand('awoo') == 'awoo') {
 				fetch = await waifu.get('sfw/awoo')
 					.catch(error => {
 						if (error.response) {
@@ -333,12 +333,12 @@ module.exports = {
 				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
 				else {
 					image = fetch.data;
-					text = opt.get('awoo').options?.get('text').value;
+					text = opt.getString('text');
 					opt ? void interaction.editReply({ content: text, files: [image.url] })
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.get('bonk')) {
+			else if (interaction.options.getSubCommand('bonk') == 'bonk') {
 				fetch = await waifu.get('sfw/shinobu')
 					.catch(error => {
 						if (error.response) {
@@ -348,12 +348,12 @@ module.exports = {
 				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
 				else {
 					image = fetch.data;
-					text = opt.get('bonk').options?.get('text').value;
+					text = opt.getString('text');
 					opt ? void interaction.editReply({ content: text, files: [image.url] })
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.get('yeet')) {
+			else if (interaction.options.getSubCommand('yeet') == 'yeet') {
 				fetch = await waifu.get('sfw/yeet')
 					.catch(error => {
 						if (error.response) {
@@ -363,12 +363,12 @@ module.exports = {
 				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
 				else {
 					image = fetch.data;
-					text = opt.get('yeet').options?.get('text').value;
+					text = opt.getString('text');
 					opt ? void interaction.editReply({ content: text, files: [image.url] })
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.get('smile')) {
+			else if (interaction.options.getSubCommand('smile') == 'smile') {
 				fetch = await waifu.get('sfw/smile')
 					.catch(error => {
 						if (error.response) {
@@ -378,12 +378,12 @@ module.exports = {
 				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
 				else {
 					image = fetch.data;
-					text = opt.get('smile').options?.get('text').value;
+					text = opt.getString('text');
 					opt ? void interaction.editReply({ content: text, files: [image.url] })
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.get('wave')) {
+			else if (interaction.options.getSubCommand('wave') == 'wave') {
 				fetch = await waifu.get('sfw/wave')
 					.catch(error => {
 						if (error.response) {
@@ -393,12 +393,12 @@ module.exports = {
 				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
 				else {
 					image = fetch.data;
-					text = opt.get('wave').options?.get('text').value;
+					text = opt.getString('text');
 					opt ? void interaction.editReply({ content: text, files: [image.url] })
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.get('highfive')) {
+			else if (interaction.options.getSubCommand('highfive') == 'highfive') {
 				fetch = await waifu.get('sfw/highfive')
 					.catch(error => {
 						if (error.response) {
@@ -408,12 +408,12 @@ module.exports = {
 				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
 				else {
 					image = fetch.data;
-					text = opt.get('highfive').options?.get('text').value;
+					text = opt.getString('text');
 					opt ? void interaction.editReply({ content: text, files: [image.url] })
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.get('handhold')) {
+			else if (interaction.options.getSubCommand('handhold') == 'handhold') {
 				fetch = await waifu.get('sfw/handhold')
 					.catch(error => {
 						if (error.response) {
@@ -423,12 +423,12 @@ module.exports = {
 				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
 				else {
 					image = fetch.data;
-					text = opt.get('handhold').options?.get('text').value;
+					text = opt.getString('text');
 					opt ? void interaction.editReply({ content: text, files: [image.url] })
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.get('glomp')) {
+			else if (interaction.options.getSubCommand('glomp') == 'glomp') {
 				fetch = await waifu.get('sfw/glomp')
 					.catch(error => {
 						if (error.response) {
@@ -438,12 +438,12 @@ module.exports = {
 				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
 				else {
 					image = fetch.data;
-					text = opt.get('glomp').options?.get('text').value;
+					text = opt.getString('text');
 					opt ? void interaction.editReply({ content: text, files: [image.url] })
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.get('happy')) {
+			else if (interaction.options.getSubCommand('happy') == 'happy') {
 				fetch = await waifu.get('sfw/happy')
 					.catch(error => {
 						if (error.response) {
@@ -453,12 +453,12 @@ module.exports = {
 				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
 				else {
 					image = fetch.data;
-					text = opt.get('happy').options?.get('text').value;
+					text = opt.getString('text');
 					opt ? void interaction.editReply({ content: text, files: [image.url] })
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.get('wink')) {
+			else if (interaction.options.getSubCommand('wink') == 'wink') {
 				fetch = await waifu.get('sfw/wink')
 					.catch(error => {
 						if (error.response) {
@@ -468,12 +468,12 @@ module.exports = {
 				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
 				else {
 					image = fetch.data;
-					text = opt.get('wink').options?.get('text').value;
+					text = opt.getString('text');
 					opt ? void interaction.editReply({ content: text, files: [image.url] })
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.get('dance')) {
+			else if (interaction.options.getSubCommand('dance') == 'dance') {
 				fetch = await waifu.get('sfw/dance')
 					.catch(error => {
 						if (error.response) {
@@ -483,12 +483,12 @@ module.exports = {
 				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
 				else {
 					image = fetch.data;
-					text = opt.get('dance').options?.get('text').value;
+					text = opt.getString('text');
 					opt ? void interaction.editReply({ content: text, files: [image.url] })
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.get('cringe')) {
+			else if (interaction.options.getSubCommand('cringe') == 'cringe') {
 				fetch = await waifu.get('sfw/cringe')
 					.catch(error => {
 						if (error.response) {
@@ -498,7 +498,7 @@ module.exports = {
 				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
 				else {
 					image = fetch.data;
-					text = opt.get('cringe').options?.get('text').value;
+					text = opt.getString('text');
 					opt ? void interaction.editReply({ content: text, files: [image.url] })
 						: void interaction.editReply({ content:image.url });
 				}
