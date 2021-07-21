@@ -95,7 +95,7 @@ module.exports = {
 				customId: `${this.name}`,
 				placeholder:'Pick an anime to view details',
 			});
-			if (fetch.size == 0 || fetch == 'No data found') {
+			if (fetch == 'No data found' || fetch.size == 0) {
 				return interaction.followUp('No anime(s) with that query found/ No query for that page');
 			}
 			else {

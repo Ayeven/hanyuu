@@ -233,7 +233,7 @@ module.exports = {
 			const opt = interaction?.options;
 			let text;
 			let fetch;
-			if (interaction.options.getSubCommand('waifu') == 'waifu') {
+			if (interaction.options.getSubCommand() == 'waifu') {
 				fetch = await waifu.get('sfw/waifu')
 					.catch(error => {
 						if (error.response) {
@@ -248,7 +248,7 @@ module.exports = {
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.getSubCommand('neko') == 'neko') {
+			else if (interaction.options.getSubCommand() == 'neko') {
 				fetch = await waifu.get('sfw/neko')
 					.catch(error => {
 						if (error.response) {
@@ -263,7 +263,7 @@ module.exports = {
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.getSubCommand('shinobu') == 'shinobu') {
+			else if (interaction.options.getSubCommand() == 'shinobu') {
 				fetch = await waifu.get('sfw/shinobu')
 					.catch(error => {
 						if (error.response) {
@@ -278,7 +278,7 @@ module.exports = {
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.getSubCommand('megumin') == 'megumin') {
+			else if (interaction.options.getSubCommand() == 'megumin') {
 				fetch = await waifu.get('sfw/megumin')
 					.catch(error => {
 						if (error.response) {
@@ -293,7 +293,7 @@ module.exports = {
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.getSubCommand('bully') == 'bully') {
+			else if (interaction.options.getSubCommand() == 'bully') {
 				fetch = await waifu.get('sfw/bully')
 					.catch(error => {
 						if (error.response) {
@@ -308,7 +308,7 @@ module.exports = {
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.getSubCommand('cuddle') == 'cuddle') {
+			else if (interaction.options.getSubCommand() == 'cuddle') {
 				fetch = await waifu.get('sfw/cuddle')
 					.catch(error => {
 						if (error.response) {
@@ -323,7 +323,7 @@ module.exports = {
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.getSubCommand('awoo') == 'awoo') {
+			else if (interaction.options.getSubCommand() == 'awoo') {
 				fetch = await waifu.get('sfw/awoo')
 					.catch(error => {
 						if (error.response) {
@@ -338,7 +338,7 @@ module.exports = {
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.getSubCommand('bonk') == 'bonk') {
+			else if (interaction.options.getSubCommand() == 'bonk') {
 				fetch = await waifu.get('sfw/shinobu')
 					.catch(error => {
 						if (error.response) {
@@ -353,7 +353,7 @@ module.exports = {
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.getSubCommand('yeet') == 'yeet') {
+			else if (interaction.options.getSubCommand() == 'yeet') {
 				fetch = await waifu.get('sfw/yeet')
 					.catch(error => {
 						if (error.response) {
@@ -368,7 +368,7 @@ module.exports = {
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.getSubCommand('smile') == 'smile') {
+			else if (interaction.options.getSubCommand() == 'smile') {
 				fetch = await waifu.get('sfw/smile')
 					.catch(error => {
 						if (error.response) {
@@ -383,7 +383,7 @@ module.exports = {
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.getSubCommand('wave') == 'wave') {
+			else if (interaction.options.getSubCommand() == 'wave') {
 				fetch = await waifu.get('sfw/wave')
 					.catch(error => {
 						if (error.response) {
@@ -398,7 +398,7 @@ module.exports = {
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.getSubCommand('highfive') == 'highfive') {
+			else if (interaction.options.getSubCommand() == 'highfive') {
 				fetch = await waifu.get('sfw/highfive')
 					.catch(error => {
 						if (error.response) {
@@ -413,7 +413,7 @@ module.exports = {
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.getSubCommand('handhold') == 'handhold') {
+			else if (interaction.options.getSubCommand() == 'handhold') {
 				fetch = await waifu.get('sfw/handhold')
 					.catch(error => {
 						if (error.response) {
@@ -428,7 +428,7 @@ module.exports = {
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.getSubCommand('glomp') == 'glomp') {
+			else if (interaction.options.getSubCommand() == 'glomp') {
 				fetch = await waifu.get('sfw/glomp')
 					.catch(error => {
 						if (error.response) {
@@ -443,7 +443,7 @@ module.exports = {
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.getSubCommand('happy') == 'happy') {
+			else if (interaction.options.getSubCommand() == 'happy') {
 				fetch = await waifu.get('sfw/happy')
 					.catch(error => {
 						if (error.response) {
@@ -458,7 +458,7 @@ module.exports = {
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.getSubCommand('wink') == 'wink') {
+			else if (interaction.options.getSubCommand() == 'wink') {
 				fetch = await waifu.get('sfw/wink')
 					.catch(error => {
 						if (error.response) {
@@ -473,7 +473,7 @@ module.exports = {
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.getSubCommand('dance') == 'dance') {
+			else if (interaction.options.getSubCommand() == 'dance') {
 				fetch = await waifu.get('sfw/dance')
 					.catch(error => {
 						if (error.response) {
@@ -488,7 +488,7 @@ module.exports = {
 						: void interaction.editReply({ content:image.url });
 				}
 			}
-			else if (interaction.options.getSubCommand('cringe') == 'cringe') {
+			else if (interaction.options.getSubCommand() == 'cringe') {
 				fetch = await waifu.get('sfw/cringe')
 					.catch(error => {
 						if (error.response) {

@@ -1,5 +1,5 @@
 const { Trivia, Type, Diff, Category } = require('../../dependancies/trivia');
-const { MessageEmbed, MessageSelectMenu } = require('discord.js');
+const { MessageEmbed, MessageSelectMenu, Message } = require('discord.js');
 const { decode } = require('html-entities');
 const Enmap = require('enmap');
 const trivia = new Enmap({ name: 'trvia_1', dataDir: './data/trivia', fetchAll: false, autoFetch: true });
@@ -140,11 +140,11 @@ module.exports = {
 		await interaction.deferUpdate();
 		const userId = interaction.user.id;
 		const correct = await trivia.get(`${userId}`);
-		if (interaction.values[0] == correct) {
+		if (interaction.values[0] == correct && interaction.message instanceof Message) {
 			trivia.delete(`${userId}`);
 			interaction.message.edit({ content:'You got correct answer, congratulation', components: [], embeds: [] });
 		}
-		else {
+		else if(interaction.values[0] !== correct && interaction.message instanceof Message) {
 			trivia.delete(`${userId}`);
 			interaction.message.edit({ content:'You got the wrong answer! Better luck next time', components: [], embeds: [] });
 		}

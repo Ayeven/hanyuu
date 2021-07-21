@@ -7,11 +7,13 @@ module.exports = {
 	owner:true,
 	/**
    * @param {import('discord.js').Message} message Represent the `Command Message`
-   * @param {ArrayLike<string>} args Represent the `arguments`
+   * @param {Array<string>} args Represent the `arguments`
    */
 	run(message, args) {
 		const commandName = args[0].toLowerCase();
+		// @ts-expect-error
 		const command = message.client.commands.get(commandName)
+		// @ts-expect-error
 			|| message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
 		if (!command) {
@@ -25,6 +27,7 @@ module.exports = {
 
 		try {
 			const newCommand = require(`../${folderName}/${command.name}.js`);
+			// @ts-expect-error
 			message.client.commands.set(newCommand.name, newCommand);
 			return message.channel.send(`Command \`${command.name}\` was reloaded!`);
 		}

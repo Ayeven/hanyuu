@@ -2,14 +2,16 @@ const Discord = require('discord.js');
 const config = require('./.setting/config.json');
 const fastGlob = require('fast-glob');
 const client = new Discord.Client({
-	partials: config.partials,
-	intents: config.intents,
+	partials: ['CHANNEL', 'GUILD_MEMBER', 'MESSAGE', 'REACTION', 'USER'],
+	intents: ['GUILDS', 'GUILD_MESSAGES', 'GUILD_VOICE_STATES'],
 	http: {
-		version: 9,
+		version: 8,
 	},
 });
 client.sweepMessages(10 * 60 * 1000);
+// @ts-ignore
 client.commands = new Discord.Collection();
+// @ts-ignore
 client.SlashCommands = new Discord.Collection();
 
 // Checks commands, events and the slash folder
@@ -30,11 +32,13 @@ for (const match of matches) {
 	switch (dirName) {
 	case 'commands':
 		console.log(`Loading Command ${fileName}`);
+		// @ts-ignore
 		client.commands.set(requiredFile.name, requiredFile);
 		break;
 
 	case 'slash':
 		console.log(`Loading SlashCommand ${fileName}`);
+		// @ts-ignore
 		client.SlashCommands.set(requiredFile.name, requiredFile);
 		break;
 

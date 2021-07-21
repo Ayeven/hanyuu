@@ -1,4 +1,4 @@
-const { Giveaway, Type, Platform, Sort } = require('../../dependancies/giveaway');
+const { Giveaway, Type, Platform, Sort } = require('../../dependancies/giveaway.js');
 const { MessageEmbed, MessageSelectMenu, MessageButton } = require('discord.js');
 const Enmap = require('enmap');
 const platforms = [
@@ -71,7 +71,7 @@ module.exports = {
 	async run(interaction) {
 		try {
 			await interaction.defer();
-			if (interaction.options.getSubCommand('giveaway') == 'giveaway') {
+			if (interaction.options.getSubCommand() == 'giveaway') {
 				const platform = interaction.options.getString('platform');
 				const t = interaction.options.getString('type');
 				const s = interaction.options.getString('sort');
@@ -125,10 +125,10 @@ module.exports = {
 			await interaction.defer();
 			const giveawayId = interaction.values[0];
 			const userId = `${interaction.user.id}`;
-			const collection = new Enmap({ name: 'giveaway', dataDir: './data/giveaway', fetchAll: false, autoFetch: true });
 			/**
-			 * @type {Array}
+			 * @type {Enmap<userId,Array>}
 			 */
+			const collection = new Enmap({ name: 'giveaway', dataDir: './data/giveaway', fetchAll: false, autoFetch: true });
 			const arrays = collection.get(userId);
 			const userRequst = arrays.find(({ id }) => id == giveawayId);
 			const button = new MessageButton({

@@ -117,7 +117,7 @@ module.exports = {
 		}
 		catch (error) {
 			console.warn(error);
-			return interaction.message.reply('Failed to execute Select Menu Interaction');
+			return interaction.editReply('Failed to execute Select Menu Interaction');
 		}
 	},
 

@@ -20,7 +20,13 @@ module.exports = {
 					title:'Commands for Hanyuu',
 					color: 'RANDOM',
 					description: descArray.join('\n'),
-					footer: { text:'**P.S** : If it first time adding the bot, there might be delay on synchronizing the slash commands to your server/guild' },
+					fields:[
+						{
+							name:'\u200b',
+							value: '**P.S** : If it first time adding the bot, there might be delay on synchronizing the slash commands to your server/guild.\nSome of the commands have subcommands that not shown here, each subcommand(s) will be shown when you typing the main command',
+							inline: false,
+						},
+					],
 				},
 			);
 

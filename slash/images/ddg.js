@@ -63,7 +63,7 @@ module.exports = {
 				emoji: '🗑️',
 			});
 
-			if (interaction.options.getSubCommand('images') == 'images') {
+			if (interaction.options.getSubCommand() == 'images') {
 				const enquiry = interaction.options.getString('images');
 				if (enquiry.match(/[!`~#$%^&*()\\|:;{}[\],><?]+/gm)) { return interaction.followUp('Forbidden character(s) found, please try again');}
 				const safe = interaction.options?.getInteger('safesearch') ?? -1;

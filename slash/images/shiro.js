@@ -182,85 +182,85 @@ module.exports = {
 			let image;
 			const opt = interaction?.options;
 			let text;
-			if (interaction.options.getSubCommand('cry') == 'cry') {
+			if (interaction.options.getSubCommand() == 'cry') {
 				image = await shiro.cry();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.getSubCommand('blush') == 'blush') {
+			else if (interaction.options.getSubCommand() == 'blush') {
 				image = await shiro.blush();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.getSubCommand('hug') == 'hug') {
+			else if (interaction.options.getSubCommand() == 'hug') {
 				image = await shiro.hug();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.getSubCommand('kiss') == 'kiss') {
+			else if (interaction.options.getSubCommand() == 'kiss') {
 				image = await shiro.kiss();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.getSubCommand('lick') == 'lick') {
+			else if (interaction.options.getSubCommand() == 'lick') {
 				image = await shiro.lick();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.getSubCommand('nom') == 'nom') {
+			else if (interaction.options.getSubCommand() == 'nom') {
 				image = await shiro.nom();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.getSubCommand('pat') == 'pat') {
+			else if (interaction.options.getSubCommand() == 'pat') {
 				image = await shiro.pat();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.getSubCommand('poke') == 'pat') {
+			else if (interaction.options.getSubCommand() == 'poke') {
 				image = await shiro.poke();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.getSubCommand('pout') == 'pout') {
+			else if (interaction.options.getSubCommand() == 'pout') {
 				image = await shiro.pout();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.getSubCommand('punch') == 'punch') {
+			else if (interaction.options.getSubCommand() == 'punch') {
 				image = await shiro.punch();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.getSubCommand('slap') == 'slap') {
+			else if (interaction.options.getSubCommand() == 'slap') {
 				image = await shiro.slap();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.getSubCommand('sleep') == 'sleep') {
+			else if (interaction.options.getSubCommand() == 'sleep') {
 				image = await shiro.sleep();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.getSubCommand('smug') == 'smug') {
+			else if (interaction.options.getSubCommand() == 'smug') {
 				image = await shiro.smug();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.getSubCommand('tickle') == 'tickle') {
+			else if (interaction.options.getSubCommand() == 'tickle') {
 				image = await shiro.tickle();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })

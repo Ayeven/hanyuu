@@ -2,22 +2,23 @@ const Youtube = require('youtube-sr').default;
 const { Playlist } = require('../../dependancies/playlist');
 const { joinVoiceChannel, entersState, VoiceConnectionStatus } = require('@discordjs/voice');
 const { Track } = require('../../dependancies/track');
-const { MessageSelectMenu, MessageEmbed, MessageButton } = require('discord.js');
+const { MessageSelectMenu, MessageEmbed, MessageButton, GuildMember } = require('discord.js');
 const moment = require('moment');
 require('moment-duration-format');
 const scdl = require('soundcloud-downloader').default;
+const opt = require('discord-api-types/v8').ApplicationCommandOptionType;
 module.exports = {
 	name: 'music',
 	description: 'Search Tracks',
 	cooldown: 10,
 	options:[
 		{
-			type: 'SUB_COMMAND',
+			type: opt.SubCommand,
 			name: 'yt',
 			description: 'The song name you want to search for!',
 			options: [
 				{
-					type: 'STRING',
+					type: opt.String,
 					name: 'song_name',
 					description: 'The song title you looking for',
 					required: true,
@@ -25,12 +26,12 @@ module.exports = {
 			],
 		},
 		{
-			type:'SUB_COMMAND',
+			type: opt.SubCommand,
 			name:'sc',
 			description:'The song name you want to search for!',
 			options: [
 				{
-					type: 'STRING',
+					type: opt.String,
 					name: 'song_name',
 					description: 'The song title you looking for',
 					required: true,
@@ -45,7 +46,7 @@ module.exports = {
 
 		try {
 			await interaction.defer();
-			if (interaction.options.getSubCommand('yt') == 'yt') {
+			if (interaction.options.getSubCommand() == 'yt') {
 				const query = interaction.options.getString('song_name');
 				const result = await Youtube.search(query, { limit: 10, type: 'video' });
 				const videos = result.slice(0, 10);
@@ -82,6 +83,10 @@ module.exports = {
 			else {
 				const query = interaction.options.getString('song_name');
 				const arrayResult = await scdl.search({ limit: 10, resourceType: 'tracks', query });
+				/**
+				 * @type {import('soundcloud-downloader/src/info').TrackInfo[]}
+				 */
+				// @ts-expect-error
 				const audios = arrayResult.collection;
 				const EmbedDescriptionArray = [];
 				const songSelectMenu = new MessageSelectMenu({
@@ -115,7 +120,7 @@ module.exports = {
 	},
 	/**
    	* @param {import('discord.js').SelectMenuInteraction} interaction - Represents a SelectMenu Interaction
-   	* @param {import('discord.js').Collection<bigint, Playlist>} playlist - List of song(s) in Discord.js Collection format
+   	* @param {import('discord.js').Collection<string, Playlist>} playlist - List of song(s) in Discord.js Collection format
    	*/
 	async selectmenu(interaction, playlist) {
 
@@ -183,6 +188,10 @@ module.exports = {
 			else if (platform == 'sc') {
 				const query = interaction.message.embeds[0].title;
 				const arrayResult = await scdl.search({ limit: 10, resourceType: 'tracks', query });
+				/**
+				 * @type {import('soundcloud-downloader/src/info').TrackInfo[]}
+				*/
+				// @ts-expect-error
 				const audios = arrayResult.collection;
 				for (let n = 0;n < audios.length; n++) {
 					const duration = moment.duration(audios[n].full_duration).format('HH:mm:ss');
@@ -199,23 +208,23 @@ module.exports = {
 			}
 
 			if (!list) {
-				if (interaction.member && interaction.member.voice.channel) {
-					/**
-           			* @type {import('discord.js').VoiceState}
-           			*/
-					const channel = interaction.member.voice.channel;
-					list = new Playlist(
-						joinVoiceChannel({
-							channelId: channel.id,
-							guildId: channel.guild.id,
-							adapterCreator: channel.guild.voiceAdapterCreator,
-						}),
-					);
-					list.voiceConnection.on('error', console.warn);
-					playlist.set(interaction.guildId, list);
+				if (interaction.member instanceof GuildMember) {
+					if (interaction.member.voice.channel && interaction.member) {
+
+						const channel = interaction.member.voice.channel ;
+						list = new Playlist(
+							joinVoiceChannel({
+								channelId: channel.id,
+								guildId: channel.guild.id,
+								// @ts-expect-error
+								adapterCreator: channel.guild.voiceAdapterCreator,
+							}),
+						);
+						list.voiceConnection.on('error', console.warn);
+						playlist.set(interaction.guildId, list);
+					}
 				}
 			}
-
 			if (!list) {
 				await interaction.editReply('Join a voice channel and then try that again!');
 				return;
@@ -226,8 +235,10 @@ module.exports = {
 			try {
 				// Attempt to create a Track from the user's video URL
 				const track = await Track.from(url, title, {
+					// @ts-ignore
 					async onStart() {
 						return interaction
+							// @ts-ignore
 							.message.edit({ content:`Playing ${track.title}`,
 								components: [{ type: 'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [pause, skip, queue, leave] }] })
 							.catch(console.warn);
@@ -320,6 +331,7 @@ module.exports = {
 					value: `${i}`,
 				}]);
 			}
+			// @ts-ignore
 			const list = playlist.get(interaction.guildId);
 			if ((interaction.customId == `${this.name}_pause`) && (interaction.user.id === interaction.message.interaction.user.id)) {
 				list ? (list.audioPlayer.pause(),
@@ -348,9 +360,11 @@ module.exports = {
 				if (list) {
 					const current = list.audioPlayer.state.status == 'idle'
 						? 'Nothing is currently playing!'
+						// @ts-ignore
 						: `Currently playing **${list.audioPlayer.state.resource.metadata.title}**`;
 					const q = list.queue
 						.slice(0, 5)
+						// @ts-ignore
 						.map((track, index) => `${index + 1}) ${track.title}`)
 						.join('\n');
 					interaction.editReply(`${current}\n${q}`);
@@ -367,6 +381,7 @@ module.exports = {
 					await delay(2 * 1000),
 					interaction.deleteReply(),
 					list.voiceConnection.destroy(true),
+					// @ts-ignore
 					playlist.delete(interaction.guildId))
 					: interaction.deleteReply();
 			}
