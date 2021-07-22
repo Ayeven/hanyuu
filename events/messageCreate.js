@@ -24,23 +24,25 @@ module.exports = {
 		const args = message.content.slice(config.prefix.length).trim().split(/ +/);
 		const commandName = args.shift().toLowerCase();
 		const owner = config.owner;
-
-		const command =
-            client.commands.get(commandName) ||
-            client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
+		// @ts-expect-error
+		const command = client.commands.get(commandName)
+		// @ts-expect-error
+		|| client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
 
 		if (!command) return;
 
-		if (command.guildOnly && message.channel.type === 'dm') {
+		if (command.guildOnly && message.channel.type === 'DM') {
 			// Check if the command is available for guild only
 			return message.reply('I can\'t run that command inside DMs!');
 		}
 
 		if (command.permissions) {
 			// Check for permission to run the command
-			const authorPerms = message.channel.permissionsFor(message.author);
-			if (!authorPerms || !authorPerms.has(command.permissions)) {
-				return message.reply('You dont have enough permission to run this commands!');
+			if (message.channel.type !== 'DM') {
+				const authorPerms = message.channel.permissionsFor(message.author);
+				if (!authorPerms || !authorPerms.has(command.permissions)) {
+					return message.reply('You dont have enough permission to run this commands!');
+				}
 			}
 		}
 

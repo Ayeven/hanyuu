@@ -1,15 +1,12 @@
-const axios = require('axios').default;
-const waifu = axios.create({
-	baseURL: 'https://api.waifu.pics',
-});
+const waifu = require('../../dependancies/image').Waifupic;
 module.exports = {
 	name: 'waifupic',
-	description: 'Get a random waifu image/gif from waifu.pics',
+	description: 'Get a random waifu fetch/gif from waifu.pics',
 	options:[
 		{
 			type: 'SUB_COMMAND',
 			name:'waifu',
-			description: 'Get a random image/gif from waifu.pics of waifu ',
+			description: 'Get a random fetch/gif from waifu.pics of waifu ',
 			options:[
 				{
 					type:'STRING',
@@ -21,7 +18,7 @@ module.exports = {
 		{
 			type: 'SUB_COMMAND',
 			name:'neko',
-			description: 'Get a random image/gif from waifu.pics of neko',
+			description: 'Get a random fetch/gif from waifu.pics of neko',
 			options:[
 				{
 					type:'STRING',
@@ -33,7 +30,7 @@ module.exports = {
 		{
 			type: 'SUB_COMMAND',
 			name:'shinobu',
-			description: 'Get a random image/gif from waifu.pics of shinobu',
+			description: 'Get a random fetch/gif from waifu.pics of shinobu',
 			options:[
 				{
 					type:'STRING',
@@ -45,7 +42,7 @@ module.exports = {
 		{
 			type: 'SUB_COMMAND',
 			name:'megumin',
-			description: 'Get a random image/gif from waifu.pics of megumin',
+			description: 'Get a random fetch/gif from waifu.pics of megumin',
 			options:[
 				{
 					type:'STRING',
@@ -57,7 +54,7 @@ module.exports = {
 		{
 			type: 'SUB_COMMAND',
 			name:'bully',
-			description: 'Get a random image/gif from waifu.pics of bullying',
+			description: 'Get a random fetch/gif from waifu.pics of bullying',
 			options:[
 				{
 					type:'STRING',
@@ -69,7 +66,7 @@ module.exports = {
 		{
 			type: 'SUB_COMMAND',
 			name:'cuddle',
-			description: 'Get a random image/gif from waifu.pics of cuddle',
+			description: 'Get a random fetch/gif from waifu.pics of cuddle',
 			options:[
 				{
 					type:'STRING',
@@ -81,7 +78,7 @@ module.exports = {
 		{
 			type: 'SUB_COMMAND',
 			name:'awoo',
-			description: 'Get a random image/gif from waifu.pics of awoo',
+			description: 'Get a random fetch/gif from waifu.pics of awoo',
 			options:[
 				{
 					type:'STRING',
@@ -93,7 +90,7 @@ module.exports = {
 		{
 			type: 'SUB_COMMAND',
 			name:'bonk',
-			description: 'Get a random image/gif from waifu.pics of bonk',
+			description: 'Get a random fetch/gif from waifu.pics of bonk',
 			options:[
 				{
 					type:'STRING',
@@ -105,7 +102,7 @@ module.exports = {
 		{
 			type: 'SUB_COMMAND',
 			name:'yeet',
-			description: 'Get a random image/gif from waifu.pics of yeet-ing',
+			description: 'Get a random fetch/gif from waifu.pics of yeet-ing',
 			options:[
 				{
 					type:'STRING',
@@ -117,7 +114,7 @@ module.exports = {
 		{
 			type: 'SUB_COMMAND',
 			name:'smile',
-			description: 'Get a random image/gif from waifu.pics of smiling',
+			description: 'Get a random fetch/gif from waifu.pics of smiling',
 			options:[
 				{
 					type:'STRING',
@@ -129,7 +126,7 @@ module.exports = {
 		{
 			type: 'SUB_COMMAND',
 			name:'wave',
-			description: 'Get a random image/gif from waifu.pics of waving',
+			description: 'Get a random fetch/gif from waifu.pics of waving',
 			options:[
 				{
 					type:'STRING',
@@ -141,7 +138,7 @@ module.exports = {
 		{
 			type: 'SUB_COMMAND',
 			name:'highfive',
-			description: 'Get a random image/gif from waifu.pics of highfive',
+			description: 'Get a random fetch/gif from waifu.pics of highfive',
 			options:[
 				{
 					type:'STRING',
@@ -153,7 +150,7 @@ module.exports = {
 		{
 			type: 'SUB_COMMAND',
 			name:'handhold',
-			description: 'Get a random image/gif from waifu.pics of handhold',
+			description: 'Get a random fetch/gif from waifu.pics of handhold',
 			options:[
 				{
 					type:'STRING',
@@ -165,7 +162,7 @@ module.exports = {
 		{
 			type: 'SUB_COMMAND',
 			name:'glomp',
-			description: 'Get a random image/gif from waifu.pics of glomp',
+			description: 'Get a random fetch/gif from waifu.pics of glomp',
 			options:[
 				{
 					type:'STRING',
@@ -177,7 +174,7 @@ module.exports = {
 		{
 			type: 'SUB_COMMAND',
 			name:'happy',
-			description: 'Get a random image/gif from waifu.pics of happy',
+			description: 'Get a random fetch/gif from waifu.pics of happy',
 			options:[
 				{
 					type:'STRING',
@@ -189,7 +186,7 @@ module.exports = {
 		{
 			type: 'SUB_COMMAND',
 			name:'wink',
-			description: 'Get a random image/gif from waifu.pics of wink',
+			description: 'Get a random fetch/gif from waifu.pics of wink',
 			options:[
 				{
 					type:'STRING',
@@ -201,7 +198,7 @@ module.exports = {
 		{
 			type: 'SUB_COMMAND',
 			name:'dance',
-			description: 'Get a random image/gif from waifu.pics of dancing',
+			description: 'Get a random fetch/gif from waifu.pics of dancing',
 			options:[
 				{
 					type:'STRING',
@@ -213,7 +210,7 @@ module.exports = {
 		{
 			type: 'SUB_COMMAND',
 			name:'cringe',
-			description: 'Get a random image/gif from waifu.pics of cringe',
+			description: 'Get a random fetch/gif from waifu.pics of cringe',
 			options:[
 				{
 					type:'STRING',
@@ -229,279 +226,137 @@ module.exports = {
 	async run(interaction) {
 		try {
 			await interaction.defer();
-			let image;
 			const opt = interaction?.options;
-			let text;
+			let text = '';
 			let fetch;
+
 			if (interaction.options.getSubCommand() == 'waifu') {
-				fetch = await waifu.get('sfw/waifu')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
-				else {
-					image = fetch.data;
-					text = opt.getString('text');
-					opt ? void interaction.editReply({ content: text, files: [image.url] })
-						: void interaction.editReply({ content:image.url });
-				}
+				fetch = await waifu.waifu();
+				text = opt.getString('text');
+				opt ? void interaction.editReply({ content: text, files: [fetch] })
+					: void interaction.editReply({ content:fetch });
 			}
+
 			else if (interaction.options.getSubCommand() == 'neko') {
-				fetch = await waifu.get('sfw/neko')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
-				else {
-					image = fetch.data;
-					text = opt.getString('text');
-					opt ? void interaction.editReply({ content: text, files: [image.url] })
-						: void interaction.editReply({ content:image.url });
-				}
+				fetch = await waifu.neko();
+				text = opt.getString('text');
+				opt ? void interaction.editReply({ content: text, files: [fetch] })
+					: void interaction.editReply({ content:fetch });
+
 			}
+
 			else if (interaction.options.getSubCommand() == 'shinobu') {
-				fetch = await waifu.get('sfw/shinobu')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
-				else {
-					image = fetch.data;
-					text = opt.getString('text');
-					opt ? void interaction.editReply({ content: text, files: [image.url] })
-						: void interaction.editReply({ content:image.url });
-				}
+				fetch = await waifu.shinobu();
+				text = opt.getString('text');
+				opt ? void interaction.editReply({ content: text, files: [fetch] })
+					: void interaction.editReply({ content:fetch });
 			}
+
 			else if (interaction.options.getSubCommand() == 'megumin') {
-				fetch = await waifu.get('sfw/megumin')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
-				else {
-					image = fetch.data;
-					text = opt.getString('text');
-					opt ? void interaction.editReply({ content: text, files: [image.url] })
-						: void interaction.editReply({ content:image.url });
-				}
+				fetch = await waifu.megumin();
+				text = opt.getString('text');
+				opt ? void interaction.editReply({ content: text, files: [fetch] })
+					: void interaction.editReply({ content:fetch });
 			}
+
 			else if (interaction.options.getSubCommand() == 'bully') {
-				fetch = await waifu.get('sfw/bully')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
-				else {
-					image = fetch.data;
-					text = opt.getString('text');
-					opt ? void interaction.editReply({ content: text, files: [image.url] })
-						: void interaction.editReply({ content:image.url });
-				}
+				fetch = await waifu.bully();
+				text = opt.getString('text');
+				opt ? void interaction.editReply({ content: text, files: [fetch] })
+					: void interaction.editReply({ content:fetch });
 			}
+
 			else if (interaction.options.getSubCommand() == 'cuddle') {
-				fetch = await waifu.get('sfw/cuddle')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
-				else {
-					image = fetch.data;
-					text = opt.getString('text');
-					opt ? void interaction.editReply({ content: text, files: [image.url] })
-						: void interaction.editReply({ content:image.url });
-				}
+				fetch = await waifu.cuddle();
+				text = opt.getString('text');
+				opt ? void interaction.editReply({ content: text, files: [fetch] })
+					: void interaction.editReply({ content:fetch });
 			}
+
 			else if (interaction.options.getSubCommand() == 'awoo') {
-				fetch = await waifu.get('sfw/awoo')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
-				else {
-					image = fetch.data;
-					text = opt.getString('text');
-					opt ? void interaction.editReply({ content: text, files: [image.url] })
-						: void interaction.editReply({ content:image.url });
-				}
+				fetch = await waifu.awoo();
+				text = opt.getString('text');
+				opt ? void interaction.editReply({ content: text, files: [fetch] })
+					: void interaction.editReply({ content:fetch });
 			}
+
 			else if (interaction.options.getSubCommand() == 'bonk') {
-				fetch = await waifu.get('sfw/shinobu')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
-				else {
-					image = fetch.data;
-					text = opt.getString('text');
-					opt ? void interaction.editReply({ content: text, files: [image.url] })
-						: void interaction.editReply({ content:image.url });
-				}
+				fetch = await waifu.bonk();
+				text = opt.getString('text');
+				opt ? void interaction.editReply({ content: text, files: [fetch] })
+					: void interaction.editReply({ content:fetch });
 			}
+
 			else if (interaction.options.getSubCommand() == 'yeet') {
-				fetch = await waifu.get('sfw/yeet')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
-				else {
-					image = fetch.data;
-					text = opt.getString('text');
-					opt ? void interaction.editReply({ content: text, files: [image.url] })
-						: void interaction.editReply({ content:image.url });
-				}
+				fetch = await waifu.yeet();
+				text = opt.getString('text');
+				opt ? void interaction.editReply({ content: text, files: [fetch] })
+					: void interaction.editReply({ content:fetch });
 			}
+
 			else if (interaction.options.getSubCommand() == 'smile') {
-				fetch = await waifu.get('sfw/smile')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
-				else {
-					image = fetch.data;
-					text = opt.getString('text');
-					opt ? void interaction.editReply({ content: text, files: [image.url] })
-						: void interaction.editReply({ content:image.url });
-				}
+				fetch = await waifu.smile();
+				text = opt.getString('text');
+				opt ? void interaction.editReply({ content: text, files: [fetch] })
+					: void interaction.editReply({ content:fetch });
 			}
+
 			else if (interaction.options.getSubCommand() == 'wave') {
-				fetch = await waifu.get('sfw/wave')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
-				else {
-					image = fetch.data;
-					text = opt.getString('text');
-					opt ? void interaction.editReply({ content: text, files: [image.url] })
-						: void interaction.editReply({ content:image.url });
-				}
+				fetch = await waifu.wave();
+				text = opt.getString('text');
+				opt ? void interaction.editReply({ content: text, files: [fetch] })
+					: void interaction.editReply({ content:fetch });
+
 			}
+
 			else if (interaction.options.getSubCommand() == 'highfive') {
-				fetch = await waifu.get('sfw/highfive')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
-				else {
-					image = fetch.data;
-					text = opt.getString('text');
-					opt ? void interaction.editReply({ content: text, files: [image.url] })
-						: void interaction.editReply({ content:image.url });
-				}
+				fetch = await waifu.highfive();
+				text = opt.getString('text');
+				opt ? void interaction.editReply({ content: text, files: [fetch] })
+					: void interaction.editReply({ content:fetch });
 			}
+
 			else if (interaction.options.getSubCommand() == 'handhold') {
-				fetch = await waifu.get('sfw/handhold')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
-				else {
-					image = fetch.data;
-					text = opt.getString('text');
-					opt ? void interaction.editReply({ content: text, files: [image.url] })
-						: void interaction.editReply({ content:image.url });
-				}
+				fetch = await waifu.handhold();
+				text = opt.getString('text');
+				opt ? void interaction.editReply({ content: text, files: [fetch] })
+					: void interaction.editReply({ content:fetch });
 			}
+
 			else if (interaction.options.getSubCommand() == 'glomp') {
-				fetch = await waifu.get('sfw/glomp')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
-				else {
-					image = fetch.data;
-					text = opt.getString('text');
-					opt ? void interaction.editReply({ content: text, files: [image.url] })
-						: void interaction.editReply({ content:image.url });
-				}
+				fetch = await waifu.glomp();
+				text = opt.getString('text');
+				opt ? void interaction.editReply({ content: text, files: [fetch] })
+					: void interaction.editReply({ content:fetch });
 			}
+
 			else if (interaction.options.getSubCommand() == 'happy') {
-				fetch = await waifu.get('sfw/happy')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
-				else {
-					image = fetch.data;
-					text = opt.getString('text');
-					opt ? void interaction.editReply({ content: text, files: [image.url] })
-						: void interaction.editReply({ content:image.url });
-				}
+				fetch = await waifu.happy();
+				text = opt.getString('text');
+				opt ? void interaction.editReply({ content: text, files: [fetch] })
+					: void interaction.editReply({ content:fetch });
+
 			}
+
 			else if (interaction.options.getSubCommand() == 'wink') {
-				fetch = await waifu.get('sfw/wink')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
-				else {
-					image = fetch.data;
-					text = opt.getString('text');
-					opt ? void interaction.editReply({ content: text, files: [image.url] })
-						: void interaction.editReply({ content:image.url });
-				}
+				fetch = await waifu.wink();
+				text = opt.getString('text');
+				opt ? void interaction.editReply({ content: text, files: [fetch] })
+					: void interaction.editReply({ content:fetch });
+
 			}
+
 			else if (interaction.options.getSubCommand() == 'dance') {
-				fetch = await waifu.get('sfw/dance')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
-				else {
-					image = fetch.data;
-					text = opt.getString('text');
-					opt ? void interaction.editReply({ content: text, files: [image.url] })
-						: void interaction.editReply({ content:image.url });
-				}
+				fetch = await waifu.dance();
+				text = opt.getString('text');
+				opt ? void interaction.editReply({ content: text, files: [fetch] })
+					: void interaction.editReply({ content:fetch });
 			}
 			else if (interaction.options.getSubCommand() == 'cringe') {
-				fetch = await waifu.get('sfw/cringe')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!fetch || !fetch?.data) { return interaction.followUp('No data found or server is down');}
-				else {
-					image = fetch.data;
-					text = opt.getString('text');
-					opt ? void interaction.editReply({ content: text, files: [image.url] })
-						: void interaction.editReply({ content:image.url });
-				}
+				fetch = await waifu.cringe();
+				text = opt.getString('text');
+				opt ? void interaction.editReply({ content: text, files: [fetch] })
+					: void interaction.editReply({ content:fetch });
 			}
 		}
 		catch (err) {

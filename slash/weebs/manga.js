@@ -8,7 +8,7 @@ module.exports = {
 		{
 			type: 'STRING',
 			name:'query',
-			description: 'The anime name you want to look into',
+			description: 'The manga name you want to look into',
 			required: true,
 		},
 	],
