@@ -7,6 +7,7 @@ module.exports = {
    * @param {import('discord.js').Message} message
    */
 	async run(message) {
+		// @ts-expect-error
 		const { SlashCommands } = message.client;
 		await message.client.application.commands.set(SlashCommands);
 		message.channel.send({ content:'Done' });

@@ -31,7 +31,7 @@ module.exports = {
 	async run(interaction) {
 		try {
 			await interaction.defer();
-			if (interaction.options.get('anime')) {
+			if (interaction.options.getSubCommand() == 'anime') {
 				const response = await animes.get('/api/random')
 					.catch(error => {
 						if (error.response) {

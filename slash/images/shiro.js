@@ -182,87 +182,87 @@ module.exports = {
 			let image;
 			const opt = interaction?.options;
 			let text;
-			if (interaction.options.get('cry')) {
+			if (interaction.options.getSubCommand() == 'cry') {
 				image = await shiro.cry();
-				text = opt.get('cry').options?.get('text').value;
+				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.get('blush')) {
+			else if (interaction.options.getSubCommand() == 'blush') {
 				image = await shiro.blush();
-				text = opt.get('blush').options?.get('text').value;
+				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.get('hug')) {
+			else if (interaction.options.getSubCommand() == 'hug') {
 				image = await shiro.hug();
-				text = opt.get('hug').options?.get('text').value;
+				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.get('kiss')) {
+			else if (interaction.options.getSubCommand() == 'kiss') {
 				image = await shiro.kiss();
-				text = opt.get('kiss').options?.get('text')?.value;
+				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.get('lick')) {
+			else if (interaction.options.getSubCommand() == 'lick') {
 				image = await shiro.lick();
-				text = opt.get('lick').options?.get('text')?.value;
+				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.get('nom')) {
+			else if (interaction.options.getSubCommand() == 'nom') {
 				image = await shiro.nom();
-				text = opt.get('nom').options?.get('text')?.value;
+				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.get('pat')) {
+			else if (interaction.options.getSubCommand() == 'pat') {
 				image = await shiro.pat();
-				text = opt.get('pat').options?.get('text')?.value;
+				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.get('poke')) {
+			else if (interaction.options.getSubCommand() == 'poke') {
 				image = await shiro.poke();
-				text = opt.get('poke').options?.get('text')?.value;
+				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.get('pout')) {
+			else if (interaction.options.getSubCommand() == 'pout') {
 				image = await shiro.pout();
-				text = opt.get('pout').options?.get('text')?.value;
+				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.get('punch')) {
+			else if (interaction.options.getSubCommand() == 'punch') {
 				image = await shiro.punch();
-				text = opt.get('punch').options?.get('text')?.value;
+				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.get('slap')) {
+			else if (interaction.options.getSubCommand() == 'slap') {
 				image = await shiro.slap();
-				text = opt.get('slap').options?.get('text')?.value;
+				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.get('sleep')) {
+			else if (interaction.options.getSubCommand() == 'sleep') {
 				image = await shiro.sleep();
-				text = opt.get('sleep').options?.get('text')?.value;
+				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.get('smug')) {
+			else if (interaction.options.getSubCommand() == 'smug') {
 				image = await shiro.smug();
-				text = opt.get('smug').options?.get('text')?.value;
+				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}
-			else if (interaction.options.get('tickle')) {
+			else if (interaction.options.getSubCommand() == 'tickle') {
 				image = await shiro.tickle();
-				text = opt.get('tickle').options?.get('text')?.value;
+				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [image.url] })
 					: void interaction.editReply({ content:image.url });
 			}

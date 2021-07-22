@@ -84,9 +84,9 @@ module.exports = {
 	async run(interaction) {
 		try {
 			await interaction.defer();
-			const season = interaction.options.get('season').value;
-			const year = Number(interaction.options.get('year').value);
-			const page = interaction.options.get('page')?.value;
+			const season = interaction.options.getString('season');
+			const year = interaction.options.getString('year');
+			const page = interaction.options.getInteger('page');
 			const fetch = await Anime.getSeason({ year, season, page });
 
 			const descArray = [];
@@ -95,7 +95,7 @@ module.exports = {
 				customId: `${this.name}`,
 				placeholder:'Pick an anime to view details',
 			});
-			if (fetch.size == 0 || fetch == 'No data found') {
+			if (fetch == 'No data found' || fetch.size == 0) {
 				return interaction.followUp('No anime(s) with that query found/ No query for that page');
 			}
 			else {

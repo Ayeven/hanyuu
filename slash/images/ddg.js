@@ -21,7 +21,7 @@ const filterChoices = [
 module.exports = {
 	name: 'duckduckgo',
 	description: 'Search something online with Duck Duck Go service',
-	cooldown: 10,
+	cooldown: 5,
 	options: [
 		{
 			type:'SUB_COMMAND',
@@ -63,10 +63,10 @@ module.exports = {
 				emoji: '🗑️',
 			});
 
-			if (interaction.options.get('images')) {
-				const enquiry = interaction.options.get('images')?.options.get('images').value;
+			if (interaction.options.getSubCommand() == 'images') {
+				const enquiry = interaction.options.getString('images');
 				if (enquiry.match(/[!`~#$%^&*()\\|:;{}[\],><?]+/gm)) { return interaction.followUp('Forbidden character(s) found, please try again');}
-				const safe = interaction.options.get('images').options.get('safeSearch')?.value ?? -1;
+				const safe = interaction.options?.getInteger('safesearch') ?? -1;
 				const getToken = await vqd(enquiry, safe);
 				const getImage = await result(enquiry, getToken[1]);
 				en.set(userId, 5);
@@ -113,7 +113,7 @@ module.exports = {
 
 			const array = enmap.get(userId);
 			const files = [];
-			if (interaction.customId == `${this.name}_next` && interaction.user.id === interaction.member.id) {
+			if (interaction.customId == `${this.name}_next` && interaction.user.id === interaction.message.interaction.user.id) {
 				en.math(userId, 'add', 5);
 				const m = en.get(userId);
 				if (m < 101) {
@@ -128,7 +128,7 @@ module.exports = {
 				}
 			}
 
-			else if (interaction.customId == `${this.name}_prev` && interaction.user.id === interaction.member.id) {
+			else if (interaction.customId == `${this.name}_prev` && interaction.user.id === interaction.message.interaction.user.id) {
 				en.math(userId, 'subtract', 5);
 				const m = en.get(userId);
 				if (m <= 4) {
@@ -143,7 +143,7 @@ module.exports = {
 				}
 			}
 
-			else if (interaction.customId == `${this.name}_del` && interaction.user.id === interaction.member.id) {
+			else if (interaction.customId == `${this.name}_del` && interaction.user.id === interaction.message.interaction.user.id) {
 				interaction.deleteReply();
 			}
 		}

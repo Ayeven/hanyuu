@@ -19,7 +19,7 @@ module.exports = {
 	async run(interaction) {
 		try {
 			await interaction.defer();
-			const q = interaction.options.get('query').value;
+			const q = interaction.options.getString('query');
 			const fetch = await Anime.getAnimeSearch({ keyword:q });
 
 			const descArray = [];
@@ -105,7 +105,7 @@ module.exports = {
 		}
 		catch (error) {
 			console.warn(error);
-			return interaction.message.reply('Failed to execute Select Menu Interaction');
+			return interaction.editReply('Failed to execute Select Menu Interaction');
 		}
 	},
 };

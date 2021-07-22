@@ -2,7 +2,7 @@ const { Manga } = require('../../dependancies/manga');
 const { MessageEmbed, MessageSelectMenu } = require('discord.js');
 module.exports = {
 	name: 'manga',
-	description: 'Search for some anime(s)',
+	description: 'Search for some manga(s)',
 	cooldown: 25,
 	options:[
 		{
@@ -18,7 +18,7 @@ module.exports = {
 	async run(interaction) {
 		try {
 			await interaction.defer();
-			const q = interaction.options.get('query').value;
+			const q = interaction.options.getString('query');
 			const fetch = await Manga.getMangaSearch(q);
 			const descArray = [];
 
@@ -117,7 +117,7 @@ module.exports = {
 		}
 		catch (error) {
 			console.warn(error);
-			return interaction.message.reply('Failed to execute Select Menu Interaction');
+			return interaction.editReply('Failed to execute Select Menu Interaction');
 		}
 	},
 
