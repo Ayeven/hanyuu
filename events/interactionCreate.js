@@ -12,9 +12,11 @@ module.exports = {
      */
 	async run(interaction, client) {
 		if (!interaction.member) return;
-
+		// @ts-expect-error
 		const { SlashCommands } = client;
+		// @ts-expect-error
 		const SlashCommandName = interaction.commandName;
+		// @ts-expect-error
 		const CustomId = interaction.customId;
 		const SlashCommand = SlashCommands.get(SlashCommandName) || SlashCommands.get(CustomId.split('_')[0]);
 		const time = moment().format('YYYY MM DD HH:mm:ss');
@@ -28,7 +30,7 @@ module.exports = {
 
 			const now = Date.now();
 			const timestamps = cooldown.get(SlashCommand.name);
-			const cooldownAmount = (SlashCommand?.cooldown || 3) * 1000;
+			const cooldownAmount = (SlashCommand?.cooldown || 5) * 1000;
 
 			if (timestamps.has(interaction.user.id)) {
 				const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;

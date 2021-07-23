@@ -9,9 +9,9 @@ const client = new Discord.Client({
 	},
 });
 client.sweepMessages(10 * 60 * 1000);
-// @ts-ignore
+// @ts-expect-error
 client.commands = new Discord.Collection();
-// @ts-ignore
+// @ts-expect-error
 client.SlashCommands = new Discord.Collection();
 
 // Checks commands, events and the slash folder
@@ -32,13 +32,13 @@ for (const match of matches) {
 	switch (dirName) {
 	case 'commands':
 		console.log(`Loading Command ${fileName}`);
-		// @ts-ignore
+		// @ts-expect-error
 		client.commands.set(requiredFile.name, requiredFile);
 		break;
 
 	case 'slash':
 		console.log(`Loading SlashCommand ${fileName}`);
-		// @ts-ignore
+		// @ts-expect-error
 		client.SlashCommands.set(requiredFile.name, requiredFile);
 		break;
 
