@@ -30,7 +30,7 @@ module.exports = {
 
 			const now = Date.now();
 			const timestamps = cooldown.get(SlashCommand.name);
-			const cooldownAmount = (SlashCommand?.cooldown || 3) * 1000;
+			const cooldownAmount = (SlashCommand?.cooldown || 5) * 1000;
 
 			if (timestamps.has(interaction.user.id)) {
 				const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;

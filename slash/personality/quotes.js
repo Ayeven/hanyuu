@@ -1,13 +1,4 @@
-const axios = require('axios').default;
-
-const animes = axios.create({
-	baseURL: 'https://animechan.vercel.app',
-});
-
-const movies = axios.create({
-	baseURL: 'https://movie-quote-api.herokuapp.com',
-});
-
+const { Quotes } = require('../../dependancies/quotesApi');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
@@ -24,6 +15,26 @@ module.exports = {
 			name:'movie',
 			description:'Give you random movies/shows quotes',
 		},
+		{
+			type:'SUB_COMMAND',
+			name:'affirmation',
+			description:'Generate Stuart Smalley Affirmations',
+		},
+		{
+			type:'SUB_COMMAND',
+			name:'expression',
+			description:'Give you the most inspiring expressions of mankind',
+		},
+		{
+			type:'SUB_COMMAND',
+			name:'inspiration',
+			description:'Motivational and Inspirational quotes',
+		},
+		{
+			type:'SUB_COMMAND',
+			name:'breakingbad',
+			description:'Some Breaking Bad quotes',
+		},
 	],
 	/**
     * @param {import('discord.js').CommandInteraction} interaction
@@ -32,44 +43,96 @@ module.exports = {
 		try {
 			await interaction.defer();
 			if (interaction.options.getSubCommand() == 'anime') {
-				const response = await animes.get('/api/random')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!response || !response?.data) { return interaction.followUp('No data found or server is down');}
+				const response = await new Quotes().anime();
+				if (response == 'Something bad happen when trying to fetch data from server!') {
+					return interaction.followUp(response);
+				}
 				else {
-					const result = response.data;
 					const embed = new MessageEmbed({
-						color: 'RANDOM',
-						title: result.anime,
-						fields:[{ name: result.character, value: result.quote }],
+						title: `From anime: ${response.anime}`,
+						fields: [
+							{
+								name: `By character: ${response.character}`,
+								value: `"${response.quote}"`,
+							},
+						],
 					});
 					return interaction.followUp({ embeds:[embed] });
 				}
 			}
 
-			else {
-				const response = await movies.get('v1/quote/')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!response || !response?.data) { return interaction.followUp('No data found or server is down');}
+			else if(interaction.options.getSubCommand() == 'movie') {
+				const response = await new Quotes().movie();
+				if (response == 'Something bad happen when trying to fetch data from server!') {
+					return interaction.followUp(response);
+				}
 				else {
-					const result = response.data;
 					const embed = new MessageEmbed({
-						color: 'RANDOM',
-						description: `**${result.quote}**`,
-						fields:[{ name: 'Show/Movie', value: `${result.show}\nRole: ${result.role}` }],
+						title: `From show/movie: ${response.show}`,
+						fields: [
+							{
+								name: `By : ${response.role}`,
+								value: `"${response.quote}"`,
+							},
+						],
 					});
 					return interaction.followUp({ embeds:[embed] });
 				}
 			}
 
+			else if(interaction.options.getSubCommand() == 'affirmation') {
+				const response = await new Quotes().affirmation();
+				if (response == 'Something bad happen when trying to fetch data from server!') {
+					return interaction.followUp(response);
+				}
+				else {
+					const embed = new MessageEmbed({
+						description: `Affirmation: "${response.affirmation}"`,
+					});
+					return interaction.followUp({ embeds:[embed] });
+				}
+			}
+
+			else if(interaction.options.getSubCommand() == 'expression') {
+				const response = await new Quotes().expression();
+				if (response == 'Something bad happen when trying to fetch data from server!') {
+					return interaction.followUp(response);
+				}
+				else {
+					const embed = new MessageEmbed({
+						description: `**Author**:\n${response.author}\n\n"${response.text}"`,
+					});
+					return interaction.followUp({ embeds:[embed] });
+				}
+			}
+
+			else if(interaction.options.getSubCommand() == 'inspiration') {
+				const response = await new Quotes().inspiration();
+				if (response == 'Something bad happen when trying to fetch data from server!') {
+					return interaction.followUp(response);
+				}
+				else {
+					const embed = new MessageEmbed({
+						description: `**Author**:\n${response.author}\n\n"${response.quote}"`,
+					});
+					return interaction.followUp({ embeds:[embed] });
+				}
+			}
+
+			else if(interaction.options.getSubCommand() == 'breakingbad') {
+				const response = await new Quotes().breakingbad();
+				if (response == 'Something bad happen when trying to fetch data from server!') {
+					return interaction.followUp(response);
+				}
+				else {
+					const embed = new MessageEmbed({
+						description: `**Author**:\n${response[0].author}\n\n"${response[0].quote}"`,
+					});
+					return interaction.followUp({ embeds:[embed] });
+				}
+			}
 		}
+
 		catch (error) {
 			console.warn(error);
 			return interaction.editReply('Failed to execute Slash Command');
