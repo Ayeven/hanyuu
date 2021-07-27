@@ -6,11 +6,11 @@ const { MessageSelectMenu, MessageEmbed, MessageButton, GuildMember } = require(
 const moment = require('moment');
 require('moment-duration-format');
 const scdl = require('soundcloud-downloader').default;
-const opt = require('discord-api-types/v8').ApplicationCommandOptionType;
+const opt = require('discord-api-types/v9').ApplicationCommandOptionType;
 module.exports = {
 	name: 'music',
 	description: 'Search Tracks',
-	cooldown: 10,
+	cooldown: 25,
 	options:[
 		{
 			type: opt.SubCommand,
@@ -277,7 +277,7 @@ module.exports = {
 	},
 	/**
  	* @param {import('discord.js').ButtonInteraction} interaction - Represents a SelectMenu Interaction
-    * @param {import('discord.js').Collection<bigint, Playlist>} playlist - List of song(s) in Discord.js Collection format
+    * @param {import('discord.js').Collection<`${bigint}`, Playlist>} playlist - List of song(s) in Discord.js Collection format
  	*/
 	async button(interaction, playlist) {
 		try {
@@ -330,7 +330,7 @@ module.exports = {
 					value: `${i}`,
 				}]);
 			}
-			// @ts-ignore
+
 			const list = playlist.get(interaction.guildId);
 			if ((interaction.customId == `${this.name}_pause`) && (interaction.user.id === interaction.message.interaction.user.id)) {
 				list ? (list.audioPlayer.pause(),
@@ -359,11 +359,11 @@ module.exports = {
 				if (list) {
 					const current = list.audioPlayer.state.status == 'idle'
 						? 'Nothing is currently playing!'
-						// @ts-ignore
+						// @ts-expect-error
 						: `Currently playing **${list.audioPlayer.state.resource.metadata.title}**`;
 					const q = list.queue
 						.slice(0, 5)
-						// @ts-ignore
+						// @ts-expect-error
 						.map((track, index) => `${index + 1}) ${track.title}`)
 						.join('\n');
 					interaction.editReply(`${current}\n${q}`);
@@ -380,7 +380,6 @@ module.exports = {
 					await delay(2 * 1000),
 					interaction.deleteReply(),
 					list.voiceConnection.destroy(true),
-					// @ts-ignore
 					playlist.delete(interaction.guildId))
 					: interaction.deleteReply();
 			}
