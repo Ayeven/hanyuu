@@ -1,9 +1,8 @@
 const { result, vqd } = require('../../dependancies/ddg');
 const Enmap = require('enmap');
 const enmap = new Enmap({ name: 'images', dataDir: './data/images', fetchAll: false, autoFetch: true });
-const delay = function delay(time) {
-	return new Promise((resolve) => setTimeout(resolve, time).unref());
-};
+const util = require('util');
+const delay = util.promisify(setTimeout);
 const { MessageButton } = require('discord.js');
 const en = new Enmap({ name: 'count', dataDir: './data/images', fetchAll: false, autoFetch: true });
 const filterChoices = [

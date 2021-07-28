@@ -3,6 +3,7 @@ const shiro = require('../../dependancies/image').Shiro;
 module.exports = {
 	name: 'shiro',
 	description: 'Get a random image/gif from shiro.gg',
+	cooldown: 10,
 	options:[
 		{
 			type: 'SUB_COMMAND',

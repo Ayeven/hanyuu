@@ -1,14 +1,15 @@
-const { Manga } = require('../../dependancies/manga');
+const { Anime } = require('../../dependancies/anime');
 const { MessageEmbed, MessageSelectMenu } = require('discord.js');
+
 module.exports = {
-	name: 'manga',
-	description: 'Search for some manga(s)',
-	cooldown: 25,
+	name: 'jikansearch',
+	description: 'Search for some anime(s)',
+	cooldown: 10,
 	options:[
 		{
 			type: 'STRING',
 			name:'query',
-			description: 'The manga name you want to look into',
+			description: 'The anime name you want to look into',
 			required: true,
 		},
 	],
@@ -19,32 +20,30 @@ module.exports = {
 		try {
 			await interaction.defer();
 			const q = interaction.options.getString('query');
-			const fetch = await Manga.getMangaSearch(q);
+			const fetch = await Anime.getAnimeSearch({ keyword:q });
+
 			const descArray = [];
 
 			const selectMenu = new MessageSelectMenu({
 				customId: `${this.name}`,
 				placeholder:'Pick an anime to view details',
 			});
-
-			if (fetch == 'No data found') {
-				return interaction.followUp('No anime(s) with that name found or server is broken, who knows');
+			if (fetch == 'No data found' || fetch.size == 0) {
+				return interaction.followUp('No anime(s) with that name found');
 			}
-
 			else {
 				let n = 0;
-				fetch.map((value, key) => {
+				fetch.each((value, key)=>{
 					n++;
-					descArray.push(`[${n.toString().padStart(2, '0')}) ${value.status} | ${value.title}](${value.url})`);
+					descArray.push(`[${n.toString().padStart(2, '0')}) ${value?.year} | ${value.status} | ${value.title}](${value.url})`);
 					selectMenu.addOptions([
 						{
-							label:`${n.toString().padStart(2, '0')}) ID : ${key}`,
+							label: `${n.toString().padStart(2, '0')}) Year: ${value.year}`,
 							description: `${value.title}`.slice(0, 48),
 							value: `${key}`,
 						},
 					]);
 				});
-
 				const embed = new MessageEmbed({
 					color: 'RANDOM',
 					title: `Search Result(s) : ${q}`,
@@ -67,51 +66,40 @@ module.exports = {
 	async selectmenu(interaction) {
 		try {
 			await interaction.deferUpdate();
-			const fetch = new Manga(interaction.values[0]);
-			const result = await fetch.details;
-			if (result == 'No data found') {
-				return interaction.followUp(result);
-			}
+			const result = await Anime.getAnimeID(interaction.values[0]);
+			if (result == 'No data found' || !result) { return interaction.followUp('No anime(s) found');}
 			else {
 				const embed = new MessageEmbed({
 					title: `${result.title}`,
 					color:'RANDOM',
-					description:`\n**Scores:** ${result.score}/10\n\n**Synopsis: **\n${result.synopsis}`,
+					description:`**Scores:**\n ${result.score}/10\n\n**Synopsis:**\n${result.synopsis}`.slice(0, 2040),
 					fields:[
 						{
-							name: 'Type:',
-							value:`${result.type} `,
+							name:'Rating: ',
+							value:`${result.rating}`,
 							inline:true,
 						},
 						{
-							name: `Status: ${result.status}`,
-							value:`Chapters: ${result.chapters} \n Volumes: ${result.volumes}`,
+							name:'Status: ',
+							value:`${result?.status}`,
 							inline:true,
 						},
 						{
-							name: `Still publishing: ${result.publishing}`,
-							value:`${result.publish}`,
+							name:'Episodes: ',
+							value:`Total Episode(s): ${result?.episodes}\n${result?.duration}`,
 							inline:true,
 						},
 						{
-							name:'English Title:',
-							value:`${result?.title_english}`,
-							inline:true,
-						},
-						{
-							name:'Japanese Title:',
-							value:`${result?.title_japanese}`,
-							inline:true,
-						},
-						{
-							name:'Genres: ',
-							value:`${result?.genres}`,
-							inline:false,
+							name: 'Genres :',
+							value: `${result.genres}`,
+							inline: false,
 						},
 					],
 					url:result?.url,
+					thumbnail: { url:result.images },
 					image: { url: result.images },
 				});
+
 				return interaction.followUp({ embeds:[embed], components : [] });
 			}
 		}
@@ -120,5 +108,4 @@ module.exports = {
 			return interaction.editReply('Failed to execute Select Menu Interaction');
 		}
 	},
-
 };

@@ -23,11 +23,11 @@
     },
     "dependencies": {
         "@discordjs/opus": "^0.5.3",
-        "@discordjs/voice": "^0.5.4",
+        "@discordjs/voice": "^0.5.5",
         "axios": "^0.21.1",
         "bufferutil": "^4.0.3",
         "discord-api-types": "^0.20.2",
-        "discord.js": "^13.0.0-dev.07017a9.1626869177",
+        "discord.js": "^13.0.0-dev.5e433b5.1627473836",
         "enmap": "^5.8.5",
         "fast-glob": "^3.2.7",
         "ffmpeg-static": "^4.4.0",

@@ -4,9 +4,6 @@ const fastGlob = require('fast-glob');
 const client = new Discord.Client({
 	partials: ['CHANNEL', 'GUILD_MEMBER', 'MESSAGE', 'REACTION', 'USER'],
 	intents: ['GUILDS', 'GUILD_MESSAGES', 'GUILD_VOICE_STATES'],
-	http: {
-		version: 8,
-	},
 });
 client.sweepMessages(10 * 60 * 1000);
 // @ts-expect-error

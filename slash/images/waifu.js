@@ -2,6 +2,7 @@ const waifu = require('../../dependancies/image').Waifupic;
 module.exports = {
 	name: 'waifupic',
 	description: 'Get a random waifu fetch/gif from waifu.pics',
+	cooldown: 10,
 	options:[
 		{
 			type: 'SUB_COMMAND',
