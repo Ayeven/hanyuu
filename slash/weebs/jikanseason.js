@@ -53,7 +53,7 @@ const y = [
 	},
 ];
 module.exports = {
-	name: 'animeseason',
+	name: 'jikanseason',
 	description: 'Search for seasonal anime(s)',
 	cooldown: 10,
 	options:[

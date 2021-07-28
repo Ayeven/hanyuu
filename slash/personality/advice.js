@@ -1,15 +1,5 @@
-const axios = require('axios').default;
-
-const advice = axios.create({
-	baseURL: 'https://api.adviceslip.com',
-});
-
-const activity = axios.create({
-	baseURL: 'https://www.boredapi.com',
-});
-
+const { Advice } = require('../../dependancies/advice');
 const { MessageEmbed } = require('discord.js');
-
 module.exports = {
 	name: 'advices',
 	description: 'Give you some random advice(s)/activities recommendation',
@@ -32,38 +22,30 @@ module.exports = {
 		try {
 			await interaction.defer();
 			if (interaction.options.getSubCommand() == 'random') {
-				const response = await advice.get('advice')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!response || !response?.data) { return interaction.followUp('No data found or server is down');}
+				const response = await new Advice().advice();
+				if(response == 'No data found or server is down!') {
+					return interaction.followUp(response);
+				}
 				else {
-					const result = response.data;
 					const embed = new MessageEmbed({
 						color:'RANDOM',
 						title: 'Random advices : ',
-						description: `${result?.slip.advice}`,
+						description: `${response?.slip.advice}`,
 					});
 					return interaction.followUp({ embeds:[embed] });
 				}
 			}
 
 			else {
-				const randomActivity = await activity.get('api/activity')
-					.catch(error => {
-						if (error.response) {
-							return console.warn(error.response.data.error);
-						}
-					});
-				if (!randomActivity || !randomActivity?.data) { return interaction.followUp('No data found or server is down');}
+				const randomActivity = await new Advice().activity();
+				if (randomActivity == 'No data found or server is down!') {
+					return interaction.followUp(randomActivity);
+				}
 				else {
-					const result = randomActivity.data;
 					const embed = new MessageEmbed({
 						color:'RANDOM',
 						title:'Random activity to look for : ',
-						description: `Activity : ${result.activity}\nType : ${result.type}`,
+						description: `Activity : ${randomActivity.activity}\nType : ${randomActivity.type}`,
 					});
 					return interaction.followUp({ embeds:[embed] });
 				}

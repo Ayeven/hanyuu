@@ -1,15 +1,14 @@
-const { Anime } = require('../../dependancies/anime');
+const { Manga } = require('../../dependancies/manga');
 const { MessageEmbed, MessageSelectMenu } = require('discord.js');
-
 module.exports = {
-	name: 'animesearch',
-	description: 'Search for some anime(s)',
-	cooldown: 10,
+	name: 'jikanmanga',
+	description: 'Search for some manga(s)',
+	cooldown: 25,
 	options:[
 		{
 			type: 'STRING',
 			name:'query',
-			description: 'The anime name you want to look into',
+			description: 'The manga name you want to look into',
 			required: true,
 		},
 	],
@@ -20,30 +19,32 @@ module.exports = {
 		try {
 			await interaction.defer();
 			const q = interaction.options.getString('query');
-			const fetch = await Anime.getAnimeSearch({ keyword:q });
-
+			const fetch = await Manga.getMangaSearch(q);
 			const descArray = [];
 
 			const selectMenu = new MessageSelectMenu({
 				customId: `${this.name}`,
 				placeholder:'Pick an anime to view details',
 			});
-			if (fetch == 'No data found' || fetch.size == 0) {
-				return interaction.followUp('No anime(s) with that name found');
+
+			if (fetch == 'No data found') {
+				return interaction.followUp('No anime(s) with that name found or server is broken, who knows');
 			}
+
 			else {
 				let n = 0;
-				fetch.each((value, key)=>{
+				fetch.map((value, key) => {
 					n++;
-					descArray.push(`[${n.toString().padStart(2, '0')}) ${value?.year} | ${value.status} | ${value.title}](${value.url})`);
+					descArray.push(`[${n.toString().padStart(2, '0')}) ${value.status} | ${value.title}](${value.url})`);
 					selectMenu.addOptions([
 						{
-							label: `${n.toString().padStart(2, '0')}) Year: ${value.year}`,
+							label:`${n.toString().padStart(2, '0')}) ID : ${key}`,
 							description: `${value.title}`.slice(0, 48),
 							value: `${key}`,
 						},
 					]);
 				});
+
 				const embed = new MessageEmbed({
 					color: 'RANDOM',
 					title: `Search Result(s) : ${q}`,
@@ -66,40 +67,51 @@ module.exports = {
 	async selectmenu(interaction) {
 		try {
 			await interaction.deferUpdate();
-			const result = await Anime.getAnimeID(interaction.values[0]);
-			if (result == 'No data found' || !result) { return interaction.followUp('No anime(s) found');}
+			const fetch = new Manga(interaction.values[0]);
+			const result = await fetch.details;
+			if (result == 'No data found') {
+				return interaction.followUp(result);
+			}
 			else {
 				const embed = new MessageEmbed({
 					title: `${result.title}`,
 					color:'RANDOM',
-					description:`**Scores:**\n ${result.score}/10\n\n**Synopsis:**\n${result.synopsis}`.slice(0, 2040),
+					description:`\n**Scores:** ${result.score}/10\n\n**Synopsis: **\n${result.synopsis}`,
 					fields:[
 						{
-							name:'Rating: ',
-							value:`${result.rating}`,
+							name: 'Type:',
+							value:`${result.type} `,
 							inline:true,
 						},
 						{
-							name:'Status: ',
-							value:`${result?.status}`,
+							name: `Status: ${result.status}`,
+							value:`Chapters: ${result.chapters} \n Volumes: ${result.volumes}`,
 							inline:true,
 						},
 						{
-							name:'Episodes: ',
-							value:`Total Episode(s): ${result?.episodes}\n${result?.duration}`,
+							name: `Still publishing: ${result.publishing}`,
+							value:`${result.publish}`,
 							inline:true,
 						},
 						{
-							name: 'Genres :',
-							value: `${result.genres}`,
-							inline: false,
+							name:'English Title:',
+							value:`${result?.title_english}`,
+							inline:true,
+						},
+						{
+							name:'Japanese Title:',
+							value:`${result?.title_japanese}`,
+							inline:true,
+						},
+						{
+							name:'Genres: ',
+							value:`${result?.genres}`,
+							inline:false,
 						},
 					],
 					url:result?.url,
-					thumbnail: { url:result.images },
 					image: { url: result.images },
 				});
-
 				return interaction.followUp({ embeds:[embed], components : [] });
 			}
 		}
@@ -108,4 +120,5 @@ module.exports = {
 			return interaction.editReply('Failed to execute Select Menu Interaction');
 		}
 	},
+
 };
