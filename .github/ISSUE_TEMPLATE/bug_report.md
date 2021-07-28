@@ -1,31 +1,29 @@
 ---
 name: Bug report
-about: Create a report to help us improve
-title: "[BUG]"
+about: Report incorrect or unexpected behavior of my bot
+title: '[BUG]'
 labels: bug
 assignees: Ayeven
-
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**Please describe the problem you are having in as much detail as possible:**
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+**Include a reproducible code sample here, if possible:**
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+```js
+// Place your code here
+```
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+**Further details:**
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Version [e.g. 22]
+- discord.js version:
+- Node.js version:
+- Operating system:
+- Priority this issue should have – please be realistic and elaborate if possible:
 
-**Additional context**
-Add any other context about the problem here. Screenshot etc
+**Relevant client options:**
+
+- partials: none
+- gateway intents: none
+- other: none
+
