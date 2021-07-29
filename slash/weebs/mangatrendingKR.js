@@ -13,7 +13,7 @@ const count = anilist.aniManhwaTrendingCount;
 module.exports = {
 	name: 'mangatrendingkr',
 	description: 'Show trending manga(s) [KR] from Anilist up to 50 result',
-	cooldown: 10,
+	cooldown: 15,
 	/**
    * @param {import('discord.js').CommandInteraction} interaction
    */
@@ -46,7 +46,7 @@ module.exports = {
 				const descArray = [];
 				const selectMenu = new MessageSelectMenu({
 					customId: `${this.name}`,
-					placeholder:'Pick a manga to view details',
+					placeholder:'Select a manga to view more details',
 				});
 
 				for (let i = 0; i < 10; i++) {
@@ -54,7 +54,7 @@ module.exports = {
 					selectMenu.addOptions([
 						{
 							label: `${(i + 1).toString().padStart(2, '0')}) Year : ${trendingArray[i].startDate.year}`,
-							description: `${trendingArray[i].title.userPreferred}`.slice(0, 48),
+							description: `${trendingArray[i].title?.english ?? trendingArray[i].title?.userPreferred}`.slice(0, 48),
 							value: `${trendingArray[i].id}`,
 						},
 					]);
@@ -80,7 +80,7 @@ module.exports = {
 			const trending = trendingManhwa.get(userId);
 			const details = trending.find(({ id }) => `${id}` == interaction.values[0]);
 			const embed = new MessageEmbed({
-				title: `${details.title.userPreferred}`,
+				title: `${ details.title?.english ?? details.title?.userPreferred}`,
 				url: `https://anilist.co/manga/${details.id}`,
 				image: { url: `${details.coverImage?.extraLarge ?? details.coverImage?.large}` },
 				color: 'RANDOM',
@@ -123,7 +123,7 @@ module.exports = {
 
 			const selectMenu = new MessageSelectMenu({
 				customId:`${this.name}`,
-				placeholder: 'Select an anime to view details',
+				placeholder: 'Select a manga to view more details',
 			});
 
 			const trending = trendingManhwa.get(userId);
@@ -136,11 +136,11 @@ module.exports = {
 						selectMenu.addOptions([
 							{
 								label: `${(i + 1).toString().padStart(2, '0')}) Year: ${trending[i].startDate.year}`,
-								description: `${trending[i].title.userPreferred}`.slice(0, 48),
+								description: `${ trending[i].title?.english ?? trending[i].title.userPreferred}`.slice(0, 48),
 								value: `${trending[i].id}`,
 							},
 						]);
-						descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${trending[i].startDate.year} | ${trending[i].title.userPreferred}](https://anilist.co/manga/${trending[i].id})`);
+						descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${trending[i].startDate.year} | ${ trending[i].title?.english ?? trending[i].title.userPreferred}](https://anilist.co/manga/${trending[i].id})`);
 					}
 					const embed = new MessageEmbed({
 						color: 'RANDOM',
@@ -166,11 +166,11 @@ module.exports = {
 						selectMenu.addOptions([
 							{
 								label: `${(i + 1).toString().padStart(2, '0')}) Year : ${trending[i].startDate.year}`,
-								description: `${trending[i].title.userPreferred}`.slice(0, 48),
+								description: `${trending[i].title?.english ?? trending[i].title.userPreferred}`.slice(0, 48),
 								value: `${trending[i].id}`,
 							},
 						]);
-						descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${trending[i].startDate.year} | ${trending[i].title.userPreferred}](https://anilist.co/manga/${trending[i].id})`);
+						descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${trending[i].startDate.year} | ${trending[i].title?.english ?? trending[i].title.userPreferred}](https://anilist.co/manga/${trending[i].id})`);
 					}
 					const embed = new MessageEmbed({
 						color: 'RANDOM',

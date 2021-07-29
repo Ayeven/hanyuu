@@ -10,7 +10,7 @@ const opt = require('discord-api-types/v9').ApplicationCommandOptionType;
 module.exports = {
 	name: 'music',
 	description: 'Search Tracks',
-	cooldown: 25,
+	cooldown: 15,
 	options:[
 		{
 			type: opt.SubCommand,

@@ -5,7 +5,7 @@ const { aniTrending, aniTendingCount } = require('../../dependancies/database');
 module.exports = {
 	name: 'anitrending',
 	description: 'Anilist anime trending(s) up to 50 result',
-	cooldown: 10,
+	cooldown: 15,
 	/**
    	* @param {import('discord.js').CommandInteraction} interaction
    	*/
