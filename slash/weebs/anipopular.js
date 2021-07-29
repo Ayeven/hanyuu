@@ -1,15 +1,15 @@
 // eslint-disable-next-line no-unused-vars
 const { Anilist, animedata } = require('../../dependancies/anilist');
 const { MessageEmbed, MessageSelectMenu, MessageButton } = require('discord.js');
-const Enmap = require('enmap');
+const animePopular = require('../../dependancies/database');
 /**
-* @type {Enmap<`${bigint}`, animedata>}
-*/
-const aniPopular = new Enmap({ name:'anilist_popular', dataDir: './data/anime', fetchAll: false, autoFetch: true });
+ * @type {import('enmap')<string|number|`${bigint}`, animedata> }
+ */
+const aniPopular = animePopular.aniPopular;
 /**
-* @type {Enmap<`${bigint}`, number>}
-*/
-const count = new Enmap({ name:'anipopular_count', dataDir: './data/anime', fetchAll: false, autoFetch: true });
+ * @type {import('enmap')<string|number|`${bigint}`, number> }
+ */
+const count = animePopular.aniPopularCount;
 module.exports = {
 	name: 'anipopular',
 	description: 'Anilist popular anime(s) up to 50 result',
@@ -39,9 +39,9 @@ module.exports = {
 				return interaction.editReply(popular);
 			}
 			else {
-				const setPopular = aniPopular.set(userId, popular);
+				aniPopular.set(userId, popular);
 				count.set(userId, 10);
-				const arrayPopular = setPopular.get(userId);
+				const arrayPopular = aniPopular.get(userId);
 				const descArray = [];
 				const selectMenu = new MessageSelectMenu({
 					customId:`${this.name}`,
@@ -84,14 +84,14 @@ module.exports = {
 				color: 'RANDOM',
 				description: `${details.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
 			});
-			return interaction.followUp({ embeds:[embed] });
+			return interaction.editReply({ embeds:[embed] });
 		}
 		catch (error) {
 			console.warn(error);
 		}
 	},
 	/**
-     * @param {import('discord.js').SelectMenuInteraction} interaction - Represents a SelectMenu Interaction.
+     * @param {import('discord.js').ButtonInteraction} interaction - Represents a Button Interaction.
      */
 	async button(interaction) {
 		try {

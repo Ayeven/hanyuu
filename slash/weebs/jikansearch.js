@@ -67,7 +67,7 @@ module.exports = {
 		try {
 			await interaction.deferUpdate();
 			const result = await Anime.getAnimeID(interaction.values[0]);
-			if (result == 'No data found' || !result) { return interaction.followUp('No anime(s) found');}
+			if (result == 'No data found' || !result) { return interaction.editReply('No anime(s) found');}
 			else {
 				const embed = new MessageEmbed({
 					title: `${result.title}`,
@@ -100,7 +100,7 @@ module.exports = {
 					image: { url: result.images },
 				});
 
-				return interaction.followUp({ embeds:[embed], components : [] });
+				return interaction.editReply({ embeds:[embed], components : [] });
 			}
 		}
 		catch (error) {

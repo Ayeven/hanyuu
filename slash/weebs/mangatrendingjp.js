@@ -1,19 +1,26 @@
 // eslint-disable-next-line no-unused-vars
-const { Anilist, animedata } = require('../../dependancies/anilist');
+const { Anilist, mangadata } = require('../../dependancies/anilist');
 const { MessageEmbed, MessageSelectMenu, MessageButton } = require('discord.js');
-const { aniTrending, aniTendingCount } = require('../../dependancies/database');
+const anilist = require('../../dependancies/database');
+/**
+* @type {import('enmap')<string|number|`${bigint}`, mangadata>}
+*/
+const anilistTrending = anilist.aniMangaTrending;
+/**
+* @type {import('enmap')<string|number|`${bigint}`, number>}
+*/
+const count = anilist.aniMangaTrendingCount;
 module.exports = {
-	name: 'anitrending',
-	description: 'Anilist anime trending(s) up to 50 result',
+	name:'mangatrendingjp',
+	description:'Show some trending manga(s) [JP] from Anilist up to 50 result',
 	cooldown: 10,
 	/**
-   	* @param {import('discord.js').CommandInteraction} interaction
-   	*/
+   * @param {import('discord.js').CommandInteraction} interaction
+   */
 	async run(interaction) {
 		try{
 			await interaction.defer();
 			const userId = interaction.user.id;
-
 			const next = new MessageButton({
 				style: 'SECONDARY',
 				customId: `${this.name}_next`,
@@ -28,39 +35,37 @@ module.exports = {
 				label: 'DELETE',
 			});
 
-			const trend = await new Anilist().getTrendingAnime();
-			if (trend == 'no data found or unexpected server error!') {
-				return interaction.editReply(trend);
+			const getTrendingManga = await new Anilist().getTrendingManga();
+			if (getTrendingManga == 'no data found or unexpected server error!') {
+				return interaction.editReply(getTrendingManga);
 			}
 			else {
-				/**
-    			* @type {import('enmap')<string|number|`${bigint}`, animedata>}
-    			*/
-				const setTrend = aniTrending.set(userId, trend);
-				aniTendingCount.set(userId, 10);
-				const arrayTrend = setTrend.get(userId);
+
+				anilistTrending.set(userId, getTrendingManga);
+				count.set(userId, 10);
+				const trendingArray = anilistTrending.get(userId);
 				const descArray = [];
 				const selectMenu = new MessageSelectMenu({
-					customId:`${this.name}`,
-					placeholder: 'Select an anime to view details',
+					customId: `${this.name}`,
+					placeholder:'Pick a manga to view details',
 				});
+
 				for (let i = 0; i < 10; i++) {
+					descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${trendingArray[i].startDate.year} | ${trendingArray[i].title.userPreferred}](https://anilist.co/manga/${trendingArray[i].id})`);
 					selectMenu.addOptions([
 						{
-							label: `${(i + 1).toString().padStart(2, '0')}) Year : ${arrayTrend[i].startDate.year}`,
-							description: `${arrayTrend[i].title.userPreferred}`.slice(0, 48),
-							value: `${arrayTrend[i].id}`,
+							label: `${(i + 1).toString().padStart(2, '0')}) Year : ${trendingArray[i].startDate.year}`,
+							description: `${trendingArray[i].title.userPreferred}`.slice(0, 48),
+							value: `${trendingArray[i].id}`,
 						},
 					]);
-					descArray.push(`[${i + 1}) ${arrayTrend[i].startDate.year} ${arrayTrend[i].title.userPreferred}](https://anilist.co/anime/${arrayTrend[i].id})`);
 				}
 				const embed = new MessageEmbed({
 					color: 'RANDOM',
 					description: descArray.join('\n'),
 				});
-				return interaction.editReply({ embeds: [embed], components: [{ type: 'ACTION_ROW', components: [selectMenu] }, { type:'ACTION_ROW', components: [next, del] }] });
+				return interaction.editReply({ embeds:[embed], components:[{ type: 'ACTION_ROW', components: [selectMenu] }, { type:'ACTION_ROW', components:[next, del] }] });
 			}
-
 		}
 		catch(error) {
 			console.warn(error);
@@ -73,28 +78,28 @@ module.exports = {
 		try {
 			await interaction.deferUpdate();
 			const userId = interaction.user.id;
-			const getTrend = aniTrending.get(userId);
-			const detail = getTrend.find(({ id })=> `${id}` == interaction.values[0]);
+			const trending = anilistTrending.get(userId);
+			const details = trending.find(({ id }) => `${id}` == interaction.values[0]);
 			const embed = new MessageEmbed({
-				title: `${detail.title.userPreferred}`,
-				url: `https://anilist.co/anime/${detail.id}`,
-				image: { url: `${detail.coverImage?.extraLarge ?? detail.coverImage?.large}` },
+				title: `${details.title.userPreferred}`,
+				url: `https://anilist.co/manga/${details.id}`,
+				image: { url: `${details.coverImage?.extraLarge ?? details.coverImage?.large}` },
 				color: 'RANDOM',
-				description: `${detail.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
+				description: `${details.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
+				thumbnail: { url: `${details.coverImage?.large}` },
 			});
 			return interaction.editReply({ embeds:[embed] });
 		}
-		catch(error) {
+		catch (error) {
 			console.warn(error);
 		}
 	},
 	/**
-    * @param {import('discord.js').ButtonInteraction} interaction
-    */
+     * @param {import('discord.js').ButtonInteraction} interaction - Represents a Button Interaction.
+     */
 	async button(interaction) {
 		try {
 			await interaction.deferUpdate();
-
 			const userId = interaction.user.id;
 			const next = new MessageButton({
 				style: 'SECONDARY',
@@ -122,21 +127,21 @@ module.exports = {
 				placeholder: 'Select an anime to view details',
 			});
 
-			const getTrend = aniTrending.get(userId);
+			const getTrendingManga = anilistTrending.get(userId);
 			if (interaction.customId == `${this.name}_next` && interaction.user.id === interaction.message.interaction.user.id) {
-				aniTendingCount.math(userId, 'add', 10);
-				const buttonAction = aniTendingCount.get(userId);
+				count.math(userId, 'add', 10);
+				const buttonAction = count.get(userId);
 				const descArray = [];
 				if (buttonAction < 51) {
 					for (let i = buttonAction - 10; i < buttonAction; i++) {
 						selectMenu.addOptions([
 							{
-								label: `${(i + 1).toString().padStart(2, '0')} Year : ${getTrend[i].startDate.year}`,
-								description: `${getTrend[i].title.userPreferred}`.slice(0, 48),
-								value: `${getTrend[i].id}`,
+								label: `${(i + 1).toString().padStart(2, '0')}) Year: ${getTrendingManga[i].startDate.year}`,
+								description: `${getTrendingManga[i].title.userPreferred}`.slice(0, 48),
+								value: `${getTrendingManga[i].id}`,
 							},
 						]);
-						descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${getTrend[i].startDate.year} ${getTrend[i].title.userPreferred}](https://anilist.co/anime/${getTrend[i].id})`);
+						descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${getTrendingManga[i].startDate.year} | ${getTrendingManga[i].title.userPreferred}](https://anilist.co/manga/${getTrendingManga[i].id})`);
 					}
 					const embed = new MessageEmbed({
 						color: 'RANDOM',
@@ -151,8 +156,8 @@ module.exports = {
 			}
 
 			else if (interaction.customId == `${this.name}_prev` && interaction.user.id === interaction.message.interaction.user.id) {
-				aniTendingCount.math(userId, 'sub', 10);
-				const buttonAction = aniTendingCount.get(userId);
+				count.math(userId, 'sub', 10);
+				const buttonAction = count.get(userId);
 				const descArray = [];
 				if (buttonAction < 10) {
 					interaction.editReply({ content: 'End of line', embeds: [], components: [{ type:'ACTION_ROW', components: [next, del] }] });
@@ -161,12 +166,12 @@ module.exports = {
 					for (let i = buttonAction - 10; i < buttonAction; i++) {
 						selectMenu.addOptions([
 							{
-								label: `${(i + 1).toString().padStart(2, '0')} Year : ${getTrend[i].startDate.year}`,
-								description: `${getTrend[i].title.userPreferred}`.slice(0, 48),
-								value: `${getTrend[i].id}`,
+								label: `${(i + 1).toString().padStart(2, '0')}) Year : ${getTrendingManga[i].startDate.year}`,
+								description: `${getTrendingManga[i].title.userPreferred}`.slice(0, 48),
+								value: `${getTrendingManga[i].id}`,
 							},
 						]);
-						descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${getTrend[i].startDate.year} ${getTrend[i].title.userPreferred}](https://anilist.co/anime/${getTrend[i].id})`);
+						descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${getTrendingManga[i].startDate.year} | ${getTrendingManga[i].title.userPreferred}](https://anilist.co/manga/${getTrendingManga[i].id})`);
 					}
 					const embed = new MessageEmbed({
 						color: 'RANDOM',
