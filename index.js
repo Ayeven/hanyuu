@@ -5,7 +5,7 @@ const client = new Discord.Client({
 	partials: ['CHANNEL', 'GUILD_MEMBER', 'MESSAGE', 'REACTION', 'USER'],
 	intents: ['GUILDS', 'GUILD_MESSAGES', 'GUILD_VOICE_STATES'],
 });
-client.sweepMessages(10 * 60 * 1000);
+client.sweepMessages(6 * 60 * 1000);
 // @ts-expect-error
 client.commands = new Discord.Collection();
 // @ts-expect-error

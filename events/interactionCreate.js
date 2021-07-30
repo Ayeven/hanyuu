@@ -3,7 +3,7 @@ const { Collection, Interaction, Client } = require('discord.js');
 const cooldown = new Collection();
 const moment = require('moment');
 const playlist = new Collection();
-
+const { owner } = require('../.setting/config.json');
 module.exports = {
 	name: 'interactionCreate',
 	/**
@@ -11,7 +11,7 @@ module.exports = {
      * @param {Client} client - Represent the bot client
      */
 	async run(interaction, client) {
-		if (!interaction.member) return;
+
 		// @ts-expect-error
 		const { SlashCommands } = client;
 		// @ts-expect-error
@@ -23,9 +23,18 @@ module.exports = {
 		console.log(`${time}: Interaction ${SlashCommandName || CustomId} have been used`);
 
 		if (interaction.isCommand()) {
+			if (!interaction.member) {
+				return interaction.reply('Nope! can\'t do that in DM');
+			}
+
+			if(SlashCommand.owner && interaction.user.id !== owner) {
+				return interaction.reply({ content:'Nope! Only owner command', ephemeral: true });
+			}
 			// Check if there is any cooldown and set the cooldown if none exist
-			if (!cooldown.has(SlashCommand.name)) {
-				cooldown.set(SlashCommand.name, new Collection());
+			{
+				if (!cooldown.has(SlashCommand.name)) {
+					cooldown.set(SlashCommand.name, new Collection());
+				}
 			}
 
 			const now = Date.now();

@@ -1,19 +1,11 @@
 // eslint-disable-next-line no-unused-vars
 const { Anilist, animedata } = require('../../dependancies/anilist');
 const { MessageEmbed, MessageSelectMenu, MessageButton } = require('discord.js');
-const Enmap = require('enmap');
-/**
-* @type {Enmap<`${bigint}`, animedata>}
-*/
-const aniTrending = new Enmap({ name:'anilist_trending', dataDir: './data/anime', fetchAll: false, autoFetch: true });
-/**
-* @type {Enmap<`${bigint}`, number>}
-*/
-const count = new Enmap({ name:'anitrending_count', dataDir: './data/anime', fetchAll: false, autoFetch: true });
+const { aniTrending, aniTendingCount } = require('../../dependancies/database');
 module.exports = {
 	name: 'anitrending',
 	description: 'Anilist anime trending(s) up to 50 result',
-	cooldown: 10,
+	cooldown: 15,
 	/**
    	* @param {import('discord.js').CommandInteraction} interaction
    	*/
@@ -41,8 +33,11 @@ module.exports = {
 				return interaction.editReply(trend);
 			}
 			else {
+				/**
+    			* @type {import('enmap')<string|number|`${bigint}`, animedata>}
+    			*/
 				const setTrend = aniTrending.set(userId, trend);
-				count.set(userId, 10);
+				aniTendingCount.set(userId, 10);
 				const arrayTrend = setTrend.get(userId);
 				const descArray = [];
 				const selectMenu = new MessageSelectMenu({
@@ -87,7 +82,7 @@ module.exports = {
 				color: 'RANDOM',
 				description: `${detail.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
 			});
-			return interaction.followUp({ embeds:[embed] });
+			return interaction.editReply({ embeds:[embed] });
 		}
 		catch(error) {
 			console.warn(error);
@@ -129,8 +124,8 @@ module.exports = {
 
 			const getTrend = aniTrending.get(userId);
 			if (interaction.customId == `${this.name}_next` && interaction.user.id === interaction.message.interaction.user.id) {
-				count.math(userId, 'add', 10);
-				const buttonAction = count.get(userId);
+				aniTendingCount.math(userId, 'add', 10);
+				const buttonAction = aniTendingCount.get(userId);
 				const descArray = [];
 				if (buttonAction < 51) {
 					for (let i = buttonAction - 10; i < buttonAction; i++) {
@@ -156,8 +151,8 @@ module.exports = {
 			}
 
 			else if (interaction.customId == `${this.name}_prev` && interaction.user.id === interaction.message.interaction.user.id) {
-				count.math(userId, 'sub', 10);
-				const buttonAction = count.get(userId);
+				aniTendingCount.math(userId, 'sub', 10);
+				const buttonAction = aniTendingCount.get(userId);
 				const descArray = [];
 				if (buttonAction < 10) {
 					interaction.editReply({ content: 'End of line', embeds: [], components: [{ type:'ACTION_ROW', components: [next, del] }] });

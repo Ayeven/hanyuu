@@ -5,7 +5,7 @@ module.exports = {
 	/**
      * @param {import("discord.js").Client} client Represent the bot `Client`
      */
-	run(client) {
+	async run(client) {
 		const time = moment().format('YYYY MM DD HH:mm:ss');
 		client.user.setActivity(`${prefix}help`, { type: 'COMPETING' });
 		console.log(`Logged in as ${client.user.tag} at ${time}`);

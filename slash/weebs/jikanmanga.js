@@ -28,7 +28,7 @@ module.exports = {
 			});
 
 			if (fetch == 'No data found') {
-				return interaction.followUp('No anime(s) with that name found or server is broken, who knows');
+				return interaction.editReply('No anime(s) with that name found or server is broken, who knows');
 			}
 
 			else {
@@ -51,7 +51,7 @@ module.exports = {
 					description: descArray.join('\n'),
 				});
 				fetch.clear();
-				return interaction.followUp({ embeds:[embed], components: [{ type:'ACTION_ROW', components: [selectMenu] }] });
+				return interaction.editReply({ embeds:[embed], components: [{ type:'ACTION_ROW', components: [selectMenu] }] });
 			}
 
 		}
@@ -70,7 +70,7 @@ module.exports = {
 			const fetch = new Manga(interaction.values[0]);
 			const result = await fetch.details;
 			if (result == 'No data found') {
-				return interaction.followUp(result);
+				return interaction.editReply(result);
 			}
 			else {
 				const embed = new MessageEmbed({
@@ -112,7 +112,7 @@ module.exports = {
 					url:result?.url,
 					image: { url: result.images },
 				});
-				return interaction.followUp({ embeds:[embed], components : [] });
+				return interaction.editReply({ embeds:[embed], components : [] });
 			}
 		}
 		catch (error) {
