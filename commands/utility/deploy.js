@@ -9,7 +9,8 @@ module.exports = {
 	async run(message) {
 		// @ts-expect-error
 		const { SlashCommands } = message.client;
-		await message.client.application.commands.set(SlashCommands);
+		const guildCommand = await SlashCommands.get('deploy');
+		await message.client.application.commands.create(guildCommand, guildCommand.guildId);
 		message.channel.send({ content:'Done' });
 
 	},
