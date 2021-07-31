@@ -1,24 +1,24 @@
 // eslint-disable-next-line no-unused-vars
 const { Anilist, animedata } = require('../../dependancies/anilist');
 const { MessageEmbed, MessageSelectMenu, MessageButton } = require('discord.js');
-const animePopular = require('../../dependancies/database');
+const anidb = require('../../dependancies/database');
 /**
  * @type {import('enmap')<string|number|`${bigint}`, animedata> }
  */
-const aniPopular = animePopular.aniPopular;
+const aniupAnimes = anidb.aniUpcomingAnime;
 /**
- * @type {import('enmap')<string|number|`${bigint}`, number> }
- */
-const count = animePopular.aniPopularCount;
+  * @type {import('enmap')<string|number|`${bigint}`, number> }
+  */
+const count = anidb.aniUpcomingAnimeCount;
 module.exports = {
-	name: 'anipopular',
-	description: 'Anilist popular anime(s) up to 50 result',
+	name: 'aniupcominganimes',
+	description: 'Anilist upcoming anime TV Show up to 50 result',
 	cooldown: 15,
 	/**
    	* @param {import('discord.js').CommandInteraction} interaction
    	*/
 	async run(interaction) {
-		try {
+		try{
 			await interaction.defer();
 			const userId = interaction.user.id;
 			const next = new MessageButton({
@@ -34,14 +34,14 @@ module.exports = {
 				emoji: '🗑️',
 				label: 'DELETE',
 			});
-			const popular = await new Anilist().getPopularAnime();
-			if (popular == 'no data found or unexpected server error!') {
-				return interaction.editReply(popular);
+			const upcoming = await new Anilist().getUpcomingAnime();
+			if (upcoming == 'no data found or unexpected server error!') {
+				return interaction.editReply(upcoming);
 			}
 			else {
-				aniPopular.set(userId, popular);
+				aniupAnimes.set(userId, upcoming);
 				count.set(userId, 10);
-				const arrayPopular = aniPopular.get(userId);
+				const arrayUpcoming = aniupAnimes.get(userId);
 				const descArray = [];
 				const selectMenu = new MessageSelectMenu({
 					customId:`${this.name}`,
@@ -50,12 +50,12 @@ module.exports = {
 				for (let i = 0; i < 10; i++) {
 					selectMenu.addOptions([
 						{
-							label: `${(i + 1).toString().padStart(2, '0')}) Year : ${arrayPopular[i].startDate.year}`,
-							description: `${arrayPopular[i].title?.english ?? arrayPopular[i]?.title.userPreferred}`.slice(0, 48),
-							value: `${arrayPopular[i].id}`,
+							label: `${(i + 1).toString().padStart(2, '0')}) Year : ${arrayUpcoming[i].startDate?.year ?? 'TBA'}`,
+							description: `${arrayUpcoming[i].title?.english ?? arrayUpcoming[i].title.userPreferred}`.slice(0, 48),
+							value: `${arrayUpcoming[i].id}`,
 						},
 					]);
-					descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${arrayPopular[i].title?.english ?? arrayPopular[i]?.title.userPreferred}](https://anilist.co/anime/${arrayPopular[i].id})`);
+					descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${arrayUpcoming[i].startDate?.year ?? 'TBA'} | ${arrayUpcoming[i].title?.english ?? arrayUpcoming[i].title.userPreferred}](https://anilist.co/anime/${arrayUpcoming[i].id})`);
 				}
 				const embed = new MessageEmbed({
 					color: 'RANDOM',
@@ -66,35 +66,39 @@ module.exports = {
 		}
 		catch(error) {
 			console.warn(error);
+			interaction.editReply('Something went wrong with the execution');
 		}
 	},
 	/**
      * @param {import('discord.js').SelectMenuInteraction} interaction - Represents a SelectMenu Interaction.
      */
 	async selectmenu(interaction) {
-		try {
+		try{
 			await interaction.deferUpdate();
-			const userId = interaction.user.id;
-			const getPopular = aniPopular.get(userId);
-			const details = getPopular.find(({ id }) => `${id}` == interaction.values[0]);
-			const embed = new MessageEmbed({
-				title: `${details.title?.english ?? details.title?.userPreferred}`,
-				url: `https://anilist.co/anime/${details.id}`,
-				image: { url: `${details.coverImage?.extraLarge ?? details.coverImage?.large}` },
-				color: 'RANDOM',
-				description: `${details.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
-			});
-			return interaction.editReply({ embeds:[embed] });
+			if (interaction.user.id === interaction.message.interaction.user.id) {
+				const userId = interaction.user.id;
+				const upcoming = aniupAnimes.get(userId);
+				const details = upcoming.find(({ id }) => `${id}` == interaction.values[0]);
+				const embed = new MessageEmbed({
+					title: `${details.title.userPreferred}`,
+					url: `https://anilist.co/anime/${details.id}`,
+					image: { url: `${details.coverImage?.extraLarge ?? details.coverImage?.large}` },
+					color: 'RANDOM',
+					description: `${details.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
+				});
+				return interaction.editReply({ embeds:[embed] });
+			}
 		}
-		catch (error) {
+		catch(error) {
 			console.warn(error);
+			interaction.editReply('Something went wrong with the execution');
 		}
 	},
 	/**
-     * @param {import('discord.js').ButtonInteraction} interaction - Represents a Button Interaction.
-     */
+    * @param {import('discord.js').ButtonInteraction} interaction - Represents a Button Interaction.
+    */
 	async button(interaction) {
-		try {
+		try{
 			await interaction.deferUpdate();
 
 			const userId = interaction.user.id;
@@ -124,7 +128,7 @@ module.exports = {
 				placeholder: 'Select an anime to view details',
 			});
 
-			const getPopular = aniPopular.get(userId);
+			const upcoming = aniupAnimes.get(userId);
 			if(interaction.customId == `${this.name}_next` && interaction.user.id === interaction.message.interaction.user.id) {
 				count.math(userId, 'add', 10);
 				const buttonAction = count.get(userId);
@@ -133,12 +137,12 @@ module.exports = {
 					for (let i = buttonAction - 10; i < buttonAction; i++) {
 						selectMenu.addOptions([
 							{
-								label: `${(i + 1).toString().padStart(2, '0')} Year : ${getPopular[i].startDate.year}`,
-								description: `${getPopular[i].title.userPreferred}`.slice(0, 48),
-								value: `${getPopular[i].id}`,
+								label: `${(i + 1).toString().padStart(2, '0')}) Year : ${upcoming[i].startDate?.year ?? 'TBA'}`,
+								description: `${upcoming[i].title?.english ?? upcoming[i].title?.userPreferred}`.slice(0, 48),
+								value: `${upcoming[i].id}`,
 							},
 						]);
-						descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${getPopular[i].startDate.year} ${getPopular[i].title.userPreferred}](https://anilist.co/anime/${getPopular[i].id})`);
+						descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${upcoming[i].startDate?.year ?? 'TBA'} | ${upcoming[i].title?.english ?? upcoming[i].title?.userPreferred}](https://anilist.co/anime/${upcoming[i].id})`);
 					}
 					const embed = new MessageEmbed({
 						color: 'RANDOM',
@@ -163,12 +167,12 @@ module.exports = {
 					for (let i = buttonAction - 10; i < buttonAction; i++) {
 						selectMenu.addOptions([
 							{
-								label: `${(i + 1).toString().padStart(2, '0')} Year : ${getPopular[i].startDate.year}`,
-								description: `${getPopular[i].title.userPreferred}`.slice(0, 48),
-								value: `${getPopular[i].id}`,
+								label: `${(i + 1).toString().padStart(2, '0')} Year : ${upcoming[i].startDate?.year ?? 'TBA'}`,
+								description: `${upcoming[i].title?.english ?? upcoming[i].title?.userPreferred}`.slice(0, 48),
+								value: `${upcoming[i].id}`,
 							},
 						]);
-						descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${getPopular[i].startDate.year} ${getPopular[i].title.userPreferred}](https://anilist.co/anime/${getPopular[i].id})`);
+						descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${upcoming[i].startDate?.year ?? 'TBA'} | ${upcoming[i].title?.english ?? upcoming[i].title?.userPreferred}](https://anilist.co/anime/${upcoming[i].id})`);
 					}
 					const embed = new MessageEmbed({
 						color: 'RANDOM',
@@ -184,6 +188,7 @@ module.exports = {
 		}
 		catch(error) {
 			console.warn(error);
+			interaction.editReply('Something went wrong with the execution');
 		}
 	},
 };
