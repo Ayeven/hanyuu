@@ -30,7 +30,7 @@ module.exports = {
 			let button;
 			let invite = '';
 			const duration = moment.duration(interaction.client.uptime).format(' D [days], H [hrs], m [mins], s [secs]');
-			switch(interaction.options.getSubCommand()) {
+			switch(interaction.options.getSubcommand()) {
 			case 'ping' :
 				interaction.editReply(`❤ Pong!Ping is ${interaction.client.ws.ping}`);
 				break;
