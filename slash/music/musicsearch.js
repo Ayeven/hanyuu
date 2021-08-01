@@ -47,7 +47,7 @@ module.exports = {
 
 		try {
 			await interaction.defer();
-			if (interaction.options.getSubCommand() == 'yt') {
+			if (interaction.options.getSubcommand() == 'yt') {
 				const query = interaction.options.getString('song_name');
 				const result = await Youtube.search(query, { limit: 10, type: 'video' });
 				const videos = result.slice(0, 10);
@@ -217,6 +217,7 @@ module.exports = {
 							joinVoiceChannel({
 								channelId: channel.id,
 								guildId: channel.guild.id,
+								// @ts-expect-error
 								adapterCreator: channel.guild.voiceAdapterCreator,
 							}),
 						);
@@ -278,7 +279,7 @@ module.exports = {
 	},
 	/**
  	* @param {import('discord.js').ButtonInteraction} interaction - Represents a SelectMenu Interaction
-    * @param {import('discord.js').Collection<`${bigint}`, Playlist>} playlist - List of song(s) in Discord.js Collection format
+    * @param {import('discord.js').Collection<string, Playlist>} playlist - List of song(s) in Discord.js Collection format
  	*/
 	async button(interaction, playlist) {
 		try {

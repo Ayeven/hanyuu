@@ -42,7 +42,7 @@ module.exports = {
 	async run(interaction) {
 		try {
 			await interaction.defer();
-			if (interaction.options.getSubCommand() == 'anime') {
+			if (interaction.options.getSubcommand() == 'anime') {
 				const response = await new Quotes().anime();
 				if (response == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.followUp(response);
@@ -61,7 +61,7 @@ module.exports = {
 				}
 			}
 
-			else if(interaction.options.getSubCommand() == 'movie') {
+			else if(interaction.options.getSubcommand() == 'movie') {
 				const response = await new Quotes().movie();
 				if (response == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.followUp(response);
@@ -80,7 +80,7 @@ module.exports = {
 				}
 			}
 
-			else if(interaction.options.getSubCommand() == 'affirmation') {
+			else if(interaction.options.getSubcommand() == 'affirmation') {
 				const response = await new Quotes().affirmation();
 				if (response == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.followUp(response);
@@ -93,7 +93,7 @@ module.exports = {
 				}
 			}
 
-			else if(interaction.options.getSubCommand() == 'expression') {
+			else if(interaction.options.getSubcommand() == 'expression') {
 				const response = await new Quotes().expression();
 				if (response == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.followUp(response);
@@ -106,7 +106,7 @@ module.exports = {
 				}
 			}
 
-			else if(interaction.options.getSubCommand() == 'inspiration') {
+			else if(interaction.options.getSubcommand() == 'inspiration') {
 				const response = await new Quotes().inspiration();
 				if (response == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.followUp(response);
@@ -119,7 +119,7 @@ module.exports = {
 				}
 			}
 
-			else if(interaction.options.getSubCommand() == 'breakingbad') {
+			else if(interaction.options.getSubcommand() == 'breakingbad') {
 				const response = await new Quotes().breakingbad();
 				if (response == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.followUp(response);

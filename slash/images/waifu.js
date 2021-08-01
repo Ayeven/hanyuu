@@ -231,14 +231,14 @@ module.exports = {
 			let text = '';
 			let fetch;
 
-			if (interaction.options.getSubCommand() == 'waifu') {
+			if (interaction.options.getSubcommand() == 'waifu') {
 				fetch = await waifu.waifu();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [fetch] })
 					: void interaction.editReply({ content:fetch });
 			}
 
-			else if (interaction.options.getSubCommand() == 'neko') {
+			else if (interaction.options.getSubcommand() == 'neko') {
 				fetch = await waifu.neko();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [fetch] })
@@ -246,63 +246,63 @@ module.exports = {
 
 			}
 
-			else if (interaction.options.getSubCommand() == 'shinobu') {
+			else if (interaction.options.getSubcommand() == 'shinobu') {
 				fetch = await waifu.shinobu();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [fetch] })
 					: void interaction.editReply({ content:fetch });
 			}
 
-			else if (interaction.options.getSubCommand() == 'megumin') {
+			else if (interaction.options.getSubcommand() == 'megumin') {
 				fetch = await waifu.megumin();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [fetch] })
 					: void interaction.editReply({ content:fetch });
 			}
 
-			else if (interaction.options.getSubCommand() == 'bully') {
+			else if (interaction.options.getSubcommand() == 'bully') {
 				fetch = await waifu.bully();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [fetch] })
 					: void interaction.editReply({ content:fetch });
 			}
 
-			else if (interaction.options.getSubCommand() == 'cuddle') {
+			else if (interaction.options.getSubcommand() == 'cuddle') {
 				fetch = await waifu.cuddle();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [fetch] })
 					: void interaction.editReply({ content:fetch });
 			}
 
-			else if (interaction.options.getSubCommand() == 'awoo') {
+			else if (interaction.options.getSubcommand() == 'awoo') {
 				fetch = await waifu.awoo();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [fetch] })
 					: void interaction.editReply({ content:fetch });
 			}
 
-			else if (interaction.options.getSubCommand() == 'bonk') {
+			else if (interaction.options.getSubcommand() == 'bonk') {
 				fetch = await waifu.bonk();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [fetch] })
 					: void interaction.editReply({ content:fetch });
 			}
 
-			else if (interaction.options.getSubCommand() == 'yeet') {
+			else if (interaction.options.getSubcommand() == 'yeet') {
 				fetch = await waifu.yeet();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [fetch] })
 					: void interaction.editReply({ content:fetch });
 			}
 
-			else if (interaction.options.getSubCommand() == 'smile') {
+			else if (interaction.options.getSubcommand() == 'smile') {
 				fetch = await waifu.smile();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [fetch] })
 					: void interaction.editReply({ content:fetch });
 			}
 
-			else if (interaction.options.getSubCommand() == 'wave') {
+			else if (interaction.options.getSubcommand() == 'wave') {
 				fetch = await waifu.wave();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [fetch] })
@@ -310,28 +310,28 @@ module.exports = {
 
 			}
 
-			else if (interaction.options.getSubCommand() == 'highfive') {
+			else if (interaction.options.getSubcommand() == 'highfive') {
 				fetch = await waifu.highfive();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [fetch] })
 					: void interaction.editReply({ content:fetch });
 			}
 
-			else if (interaction.options.getSubCommand() == 'handhold') {
+			else if (interaction.options.getSubcommand() == 'handhold') {
 				fetch = await waifu.handhold();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [fetch] })
 					: void interaction.editReply({ content:fetch });
 			}
 
-			else if (interaction.options.getSubCommand() == 'glomp') {
+			else if (interaction.options.getSubcommand() == 'glomp') {
 				fetch = await waifu.glomp();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [fetch] })
 					: void interaction.editReply({ content:fetch });
 			}
 
-			else if (interaction.options.getSubCommand() == 'happy') {
+			else if (interaction.options.getSubcommand() == 'happy') {
 				fetch = await waifu.happy();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [fetch] })
@@ -339,7 +339,7 @@ module.exports = {
 
 			}
 
-			else if (interaction.options.getSubCommand() == 'wink') {
+			else if (interaction.options.getSubcommand() == 'wink') {
 				fetch = await waifu.wink();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [fetch] })
@@ -347,13 +347,13 @@ module.exports = {
 
 			}
 
-			else if (interaction.options.getSubCommand() == 'dance') {
+			else if (interaction.options.getSubcommand() == 'dance') {
 				fetch = await waifu.dance();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [fetch] })
 					: void interaction.editReply({ content:fetch });
 			}
-			else if (interaction.options.getSubCommand() == 'cringe') {
+			else if (interaction.options.getSubcommand() == 'cringe') {
 				fetch = await waifu.cringe();
 				text = opt.getString('text');
 				opt ? void interaction.editReply({ content: text, files: [fetch] })

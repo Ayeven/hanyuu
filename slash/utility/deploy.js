@@ -23,6 +23,10 @@ module.exports = {
 							name:'set',
 							value:'set',
 						},
+						{
+							name:'clear',
+							value:'clear',
+						},
 					],
 				},
 				{
@@ -50,6 +54,10 @@ module.exports = {
 						{
 							name:'set',
 							value:'set',
+						},
+						{
+							name:'clear',
+							value:'clear',
 						},
 					],
 				},
@@ -83,6 +91,8 @@ module.exports = {
 						await interaction.editReply({ content: `Slash command \`${commandname}\` have been created` }))
 						: (await interaction.editReply({ content:'The command name does not exist! Put in the correct name of the command in the `commandname` option' }));
 					break;
+				case 'clear':
+					await interaction.client.application.commands.set([]);
 				}
 			}
 
@@ -99,6 +109,8 @@ module.exports = {
 						await interaction.editReply({ content: `Slash Command \`${commandname}\` have been created` }))
 						: (await interaction.editReply({ content: 'The command name does not exist! Put in the correct name of the command in the `commandname` option' }));
 					break;
+				case 'clear':
+					await interaction.guild.commands.set([]);
 				}
 			}
 		}

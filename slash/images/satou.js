@@ -314,7 +314,7 @@ module.exports = {
 			await interaction.defer();
 			const option = interaction?.options;
 
-			if(option.getSubCommand() == 'angry') {
+			if(option.getSubcommand() == 'angry') {
 				const image = await new Satou().angry();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -326,7 +326,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'bite') {
+			else if(option.getSubcommand() == 'bite') {
 				const image = await new Satou().bite();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -338,7 +338,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'bored') {
+			else if(option.getSubcommand() == 'bored') {
 				const image = await new Satou().bored();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -350,7 +350,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'bread') {
+			else if(option.getSubcommand() == 'bread') {
 				const image = await new Satou().bread();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -362,7 +362,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'chocolate') {
+			else if(option.getSubcommand() == 'chocolate') {
 				const image = await new Satou().chocolate();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -374,7 +374,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'cookie') {
+			else if(option.getSubcommand() == 'cookie') {
 				const image = await new Satou().cookie();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -386,7 +386,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'cuddle') {
+			else if(option.getSubcommand() == 'cuddle') {
 				const image = await new Satou().cuddle();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -398,7 +398,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'dance') {
+			else if(option.getSubcommand() == 'dance') {
 				const image = await new Satou().dance();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -410,7 +410,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'drunk') {
+			else if(option.getSubcommand() == 'drunk') {
 				const image = await new Satou().drunk();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -422,7 +422,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'happy') {
+			else if(option.getSubcommand() == 'happy') {
 				const image = await new Satou().happy();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -434,7 +434,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'kill') {
+			else if(option.getSubcommand() == 'kill') {
 				const image = await new Satou().kill();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -446,7 +446,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'kiss') {
+			else if(option.getSubcommand() == 'kiss') {
 				const image = await new Satou().kiss();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -458,7 +458,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'laugh') {
+			else if(option.getSubcommand() == 'laugh') {
 				const image = await new Satou().laugh();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -470,7 +470,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'lick') {
+			else if(option.getSubcommand() == 'lick') {
 				const image = await new Satou().lick();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -482,7 +482,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'lonely') {
+			else if(option.getSubcommand() == 'lonely') {
 				const image = await new Satou().lonely();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -494,7 +494,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'pat') {
+			else if(option.getSubcommand() == 'pat') {
 				const image = await new Satou().pat();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -506,7 +506,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'poke') {
+			else if(option.getSubcommand() == 'poke') {
 				const image = await new Satou().poke();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -518,7 +518,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'pregnant') {
+			else if(option.getSubcommand() == 'pregnant') {
 				const image = await new Satou().pregnant();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -530,7 +530,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'punch') {
+			else if(option.getSubcommand() == 'punch') {
 				const image = await new Satou().punch();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -542,7 +542,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'run') {
+			else if(option.getSubcommand() == 'run') {
 				const image = await new Satou().run();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -554,7 +554,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'sleep') {
+			else if(option.getSubcommand() == 'sleep') {
 				const image = await new Satou().sleep();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -566,7 +566,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'spank') {
+			else if(option.getSubcommand() == 'spank') {
 				const image = await new Satou().spank();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -578,7 +578,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'spit') {
+			else if(option.getSubcommand() == 'spit') {
 				const image = await new Satou().spit();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -590,7 +590,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'steal') {
+			else if(option.getSubcommand() == 'steal') {
 				const image = await new Satou().steal();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
@@ -602,7 +602,7 @@ module.exports = {
 				}
 			}
 
-			else if(option.getSubCommand() == 'tickle') {
+			else if(option.getSubcommand() == 'tickle') {
 				const image = await new Satou().tickle();
 				if (image == 'Something bad happen when trying to fetch data from server!') {
 					return interaction.editReply(image);
