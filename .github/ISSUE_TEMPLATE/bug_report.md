@@ -1,9 +1,10 @@
 ---
 name: Bug report
 about: Report incorrect or unexpected behavior of my bot
-title: '[BUG]'
+title: "[BUG]"
 labels: bug
 assignees: Ayeven
+
 ---
 
 **Please describe the problem you are having in as much detail as possible:**
@@ -26,4 +27,3 @@ assignees: Ayeven
 - partials: none
 - gateway intents: none
 - other: none
-
