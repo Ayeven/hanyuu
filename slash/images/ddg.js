@@ -12,9 +12,6 @@ const filterChoices = [
 	{
 		name: 'moderate', value: -1,
 	},
-	{
-		name: 'off', value: -2,
-	},
 ];
 
 module.exports = {
@@ -47,19 +44,14 @@ module.exports = {
    */
 	async run(interaction) {
 		try {
-			await interaction.defer();
+			await interaction.defer({ ephemeral: true });
 			const userId = `${interaction.user.id}`;
 
 			const next = new MessageButton({
 				style: 'SECONDARY',
 				customId: `${this.name}_next`,
 				emoji: '⏭️',
-			});
-
-			const del = new MessageButton({
-				style: 'SECONDARY',
-				customId: `${this.name}_del`,
-				emoji: '🗑️',
+				label: 'NEXT',
 			});
 
 			if (interaction.options.getSubcommand() == 'images') {
@@ -79,7 +71,7 @@ module.exports = {
 				for (let i = 0; i < 5; i++) {
 					files.push(array[i].image);
 				}
-				return interaction.followUp({ content: `${files.join('\n')}`, components: [{ type: 'ACTION_ROW', components:[next, del] }] });
+				return interaction.followUp({ content: `${files.join('\n')}`, components: [{ type: 'ACTION_ROW', components:[next] }] });
 			}
 		}
 		catch (err) {console.error(err);}
@@ -96,55 +88,48 @@ module.exports = {
 				style: 'SECONDARY',
 				customId: `${this.name}_next`,
 				emoji: '⏭️',
+				label: 'NEXT',
 			});
 
 			const prev = new MessageButton({
 				style: 'SECONDARY',
 				customId: `${this.name}_prev`,
 				emoji: '⏮️',
-			});
-
-			const del = new MessageButton({
-				style: 'SECONDARY',
-				customId: `${this.name}_del`,
-				emoji: '🗑️',
+				label: 'PREV',
 			});
 
 			const array = enmap.get(userId);
 			const files = [];
-			if (interaction.customId == `${this.name}_next` && interaction.user.id === interaction.message.interaction.user.id) {
+			if (interaction.customId == `${this.name}_next`) {
 				en.math(userId, 'add', 5);
 				const m = en.get(userId);
 				if (m < 101) {
 					for (let i = m - 5; i < m; i++) {
 						files.push(array[i]?.image);
 					}
-					interaction.editReply({ content: `${files.join('\n')}`, components: [{ type: 'ACTION_ROW', components:[next, prev, del] }] });
+					interaction.editReply({ content: `${files.join('\n')}`, components: [{ type: 'ACTION_ROW', components:[next, prev] }] });
 				}
 
 				else {
-					interaction.editReply({ content: 'End of line', components: [{ type:'ACTION_ROW', components: [prev, del] }] });
+					interaction.editReply({ content: 'End of line', components: [{ type:'ACTION_ROW', components: [prev] }] });
 				}
 			}
 
-			else if (interaction.customId == `${this.name}_prev` && interaction.user.id === interaction.message.interaction.user.id) {
+			else if (interaction.customId == `${this.name}_prev`) {
 				en.math(userId, 'subtract', 5);
 				const m = en.get(userId);
 				if (m <= 4) {
-					interaction.editReply({ content: 'End of line', components: [{ type: 'ACTION_ROW', components:[next, del] }] });
+					interaction.editReply({ content: 'End of line', components: [{ type: 'ACTION_ROW', components:[next] }] });
 				}
 
 				else {
 					for (let i = m - 5; i < m; i++) {
 						files.push(array[i]?.image);
 					}
-					interaction.editReply({ content: `${files.join('\n')}`, components: [{ type:'ACTION_ROW', components: [next, prev, del] }] });
+					interaction.editReply({ content: `${files.join('\n')}`, components: [{ type:'ACTION_ROW', components: [next, prev] }] });
 				}
 			}
 
-			else if (interaction.customId == `${this.name}_del` && interaction.user.id === interaction.message.interaction.user.id) {
-				interaction.deleteReply();
-			}
 		}
 		catch (error) {
 			console.warn(error);

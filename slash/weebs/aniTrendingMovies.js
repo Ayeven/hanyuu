@@ -19,7 +19,7 @@ module.exports = {
    	*/
 	async run(interaction) {
 		try{
-			await interaction.defer();
+			await interaction.defer({ ephemeral:true });
 			const userId = interaction.user.id;
 			const next = new MessageButton({
 				style: 'SECONDARY',
@@ -28,12 +28,6 @@ module.exports = {
 				label: 'NEXT',
 			});
 
-			const del = new MessageButton({
-				style: 'SECONDARY',
-				customId: `${this.name}_del`,
-				emoji: '🗑️',
-				label: 'DELETE',
-			});
 			const trending = await new Anilist().getTrendingMovie();
 			if (trending == 'no data found or unexpected server error!') {
 				return interaction.editReply(trending);
@@ -61,7 +55,7 @@ module.exports = {
 					color: 'RANDOM',
 					description: descArray.join('\n'),
 				});
-				return interaction.editReply({ embeds:[embed], components:[{ type: 'ACTION_ROW', components: [selectMenu] }, { type:'ACTION_ROW', components:[next, del] }] });
+				return interaction.editReply({ embeds:[embed], components:[{ type: 'ACTION_ROW', components: [selectMenu] }, { type:'ACTION_ROW', components:[next] }] });
 			}
 		}
 		catch(error) {
@@ -74,20 +68,17 @@ module.exports = {
     */
 	async selectmenu(interaction) {
 		try{
-			await interaction.deferUpdate();
-			if(interaction.customId == `${this.name}` && interaction.user.id === interaction.message.interaction.user.id) {
-				const userId = interaction.user.id;
-				const trending = dbtrending.get(userId);
-				const details = trending.find(({ id }) => `${id}` == interaction.values[0]);
-				const embed = new MessageEmbed({
-					title: `${details.title?.english ?? details.title?.userPreferred}`,
-					url: `https://anilist.co/anime/${details.id}`,
-					image: { url: `${details.coverImage?.extraLarge ?? details.coverImage?.large}` },
-					color: 'RANDOM',
-					description: `${details.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
-				});
-				return interaction.editReply({ embeds:[embed] });
-			}
+			const userId = interaction.user.id;
+			const trending = dbtrending.get(userId);
+			const details = trending.find(({ id }) => `${id}` == interaction.values[0]);
+			const embed = new MessageEmbed({
+				title: `${details.title?.english ?? details.title?.userPreferred}`,
+				url: `https://anilist.co/anime/${details.id}`,
+				image: { url: `${details.coverImage?.extraLarge ?? details.coverImage?.large}` },
+				color: 'RANDOM',
+				description: `${details.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
+			});
+			return interaction.update({ embeds:[embed] });
 		}
 		catch(error) {
 			console.warn(error);
@@ -99,7 +90,6 @@ module.exports = {
     */
 	async button(interaction) {
 		try{
-			await interaction.deferUpdate();
 			const userId = interaction.user.id;
 			const next = new MessageButton({
 				style: 'SECONDARY',
@@ -115,20 +105,13 @@ module.exports = {
 				label: 'PREV',
 			});
 
-			const del = new MessageButton({
-				style: 'SECONDARY',
-				customId: `${this.name}_del`,
-				emoji: '🗑️',
-				label: 'DELETE',
-			});
-
 			const selectMenu = new MessageSelectMenu({
 				customId:`${this.name}`,
 				placeholder: 'Select an anime to view details',
 			});
 
 			const trending = dbtrending.get(userId);
-			if(interaction.customId == `${this.name}_next` && interaction.user.id === interaction.message.interaction.user.id) {
+			if(interaction.customId == `${this.name}_next`) {
 				count.math(userId, 'add', 10);
 				const buttonAction = count.get(userId);
 				const descArray = [];
@@ -147,20 +130,20 @@ module.exports = {
 						color: 'RANDOM',
 						description: descArray.join('\n'),
 					});
-					interaction.editReply({ content:'\u200b', embeds: [embed], components: [{ type: 'ACTION_ROW', components: [selectMenu] }, { type: 'ACTION_ROW', components: [next, prev, del] }] });
+					interaction.update({ content:'\u200b', embeds: [embed], components: [{ type: 'ACTION_ROW', components: [selectMenu] }, { type: 'ACTION_ROW', components: [next, prev] }] });
 				}
 
 				else {
-					interaction.editReply({ content: 'End of line', embeds:[], components: [{ type:'ACTION_ROW', components: [prev, del] }] });
+					interaction.update({ content: 'End of line', embeds:[], components: [{ type:'ACTION_ROW', components: [prev] }] });
 				}
 			}
 
-			else if (interaction.customId == `${this.name}_prev` && interaction.user.id === interaction.message.interaction.user.id) {
+			else if (interaction.customId == `${this.name}_prev`) {
 				count.math(userId, 'sub', 10);
 				const buttonAction = count.get(userId);
 				const descArray = [];
 				if (buttonAction < 10) {
-					interaction.editReply({ content: 'End of line', embeds: [], components: [{ type:'ACTION_ROW', components: [next, del] }] });
+					interaction.update({ content: 'End of line', embeds: [], components: [{ type:'ACTION_ROW', components: [next] }] });
 				}
 				else {
 					for (let i = buttonAction - 10; i < buttonAction; i++) {
@@ -177,12 +160,8 @@ module.exports = {
 						color: 'RANDOM',
 						description: descArray.join('\n'),
 					});
-					interaction.editReply({ content:'\u200b', embeds: [embed], components: [{ type: 'ACTION_ROW', components: [selectMenu] }, { type: 'ACTION_ROW', components: [next, prev, del] }] });
+					interaction.update({ content:'\u200b', embeds: [embed], components: [{ type: 'ACTION_ROW', components: [selectMenu] }, { type: 'ACTION_ROW', components: [next, prev] }] });
 				}
-			}
-
-			else if (interaction.customId == `${this.name}_del` && interaction.user.id === interaction.message.interaction.user.id) {
-				interaction.deleteReply();
 			}
 		}
 		catch(error) {
