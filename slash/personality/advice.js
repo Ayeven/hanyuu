@@ -21,7 +21,7 @@ module.exports = {
 	async run(interaction) {
 		try {
 			await interaction.defer();
-			if (interaction.options.getSubCommand() == 'random') {
+			if (interaction.options.getSubcommand() == 'random') {
 				const response = await new Advice().advice();
 				if(response == 'No data found or server is down!') {
 					return interaction.followUp(response);

@@ -182,95 +182,97 @@ module.exports = {
 			await interaction.defer();
 			let image = '';
 			const opt = interaction?.options;
-			let text;
-			if (interaction.options.getSubCommand() == 'cry') {
+			let text = '';
+			switch(interaction.options.getSubcommand()) {
+			case 'cry':
+				text = opt.getString('text');
 				image = await shiro.cry();
+				opt ? interaction.editReply({ content: text, files: [image] })
+					: interaction.editReply({ content:image });
+				break;
+			case 'blush':
 				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [image] })
-					: void interaction.editReply({ content:image });
-			}
-			else if (interaction.options.getSubCommand() == 'blush') {
 				image = await shiro.blush();
+				opt ? interaction.editReply({ content: text, files: [image] })
+					: interaction.editReply({ content:image });
+				break;
+			case 'hug':
 				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [image] })
-					: void interaction.editReply({ content:image });
-			}
-			else if (interaction.options.getSubCommand() == 'hug') {
 				image = await shiro.hug();
+				opt ? interaction.editReply({ content: text, files: [image] })
+					: interaction.editReply({ content:image });
+				break;
+			case 'kiss':
 				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [image] })
-					: void interaction.editReply({ content:image });
-			}
-			else if (interaction.options.getSubCommand() == 'kiss') {
 				image = await shiro.kiss();
+				opt ? interaction.editReply({ content: text, files: [image] })
+					: interaction.editReply({ content:image });
+				break;
+			case 'lick':
 				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [image] })
-					: void interaction.editReply({ content:image });
-			}
-			else if (interaction.options.getSubCommand() == 'lick') {
 				image = await shiro.lick();
+				opt ? interaction.editReply({ content: text, files: [image] })
+					: interaction.editReply({ content:image });
+				break;
+			case 'nom':
 				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [image] })
-					: void interaction.editReply({ content:image });
-			}
-			else if (interaction.options.getSubCommand() == 'nom') {
 				image = await shiro.nom();
+				opt ? interaction.editReply({ content: text, files: [image] })
+					: interaction.editReply({ content:image });
+				break;
+			case 'pat':
 				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [image] })
-					: void interaction.editReply({ content:image });
-			}
-			else if (interaction.options.getSubCommand() == 'pat') {
 				image = await shiro.pat();
+				opt ? interaction.editReply({ content: text, files: [image] })
+					: interaction.editReply({ content:image });
+				break;
+			case 'poke':
 				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [image] })
-					: void interaction.editReply({ content:image });
-			}
-			else if (interaction.options.getSubCommand() == 'poke') {
 				image = await shiro.poke();
+				opt ? interaction.editReply({ content: text, files: [image] })
+					: interaction.editReply({ content:image });
+				break;
+			case 'pout':
 				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [image] })
-					: void interaction.editReply({ content:image });
-			}
-			else if (interaction.options.getSubCommand() == 'pout') {
 				image = await shiro.pout();
+				opt ? interaction.editReply({ content: text, files: [image] })
+					: interaction.editReply({ content:image });
+				break;
+			case 'punch':
 				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [image] })
-					: void interaction.editReply({ content:image });
-			}
-			else if (interaction.options.getSubCommand() == 'punch') {
 				image = await shiro.punch();
+				opt ? interaction.editReply({ content: text, files: [image] })
+					: interaction.editReply({ content:image });
+				break;
+			case 'slap':
 				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [image] })
-					: void interaction.editReply({ content:image });
-			}
-			else if (interaction.options.getSubCommand() == 'slap') {
 				image = await shiro.slap();
+				opt ? interaction.editReply({ content: text, files: [image] })
+					: interaction.editReply({ content:image });
+				break;
+			case 'sleep':
 				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [image] })
-					: void interaction.editReply({ content:image });
-			}
-			else if (interaction.options.getSubCommand() == 'sleep') {
 				image = await shiro.sleep();
+				opt ? interaction.editReply({ content: text, files: [image] })
+					: interaction.editReply({ content:image });
+				break;
+			case 'smug':
 				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [image] })
-					: void interaction.editReply({ content:image });
-			}
-			else if (interaction.options.getSubCommand() == 'smug') {
 				image = await shiro.smug();
+				opt ? interaction.editReply({ content: text, files: [image] })
+					: interaction.editReply({ content:image });
+				break;
+			case 'tickle':
 				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [image] })
-					: void interaction.editReply({ content:image });
-			}
-			else if (interaction.options.getSubCommand() == 'tickle') {
 				image = await shiro.tickle();
-				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [image] })
-					: void interaction.editReply({ content:image });
+				opt ? interaction.editReply({ content: text, files: [image] })
+					: interaction.editReply({ content:image });
+				break;
 			}
 		}
-		catch (err) {
-			console.error(err);
-			void interaction.editReply('Something went wrong with this command');
+		catch(error) {
+			console.warn(error);
+			interaction.editReply('Something went wrong with this command');
 		}
 	},
 };

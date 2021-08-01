@@ -225,144 +225,90 @@ module.exports = {
    * @param {import('discord.js').CommandInteraction} interaction
    */
 	async run(interaction) {
-		try {
+		try{
 			await interaction.defer();
-			const opt = interaction?.options;
-			let text = '';
-			let fetch;
+			let image = '';
+			const option = interaction?.options;
+			const text = option.getString('text');
+			switch (option.getSubcommand()) {
+			case 'waifu':
+				image = await waifu.waifu();
+				text ? interaction.editReply({ content: text, files:[image] }) : interaction.editReply({ content: image });
+				break;
+			case 'neko':
+				image = await waifu.neko();
+				text ? interaction.editReply({ content: text, files:[image] }) : interaction.editReply({ content: image });
+				break;
+			case 'shinobu':
+				image = await waifu.shinobu();
+				text ? interaction.editReply({ content: text, files:[image] }) : interaction.editReply({ content: image });
+				break;
+			case 'megumin':
+				image = await waifu.megumin();
+				text ? interaction.editReply({ content: text, files:[image] }) : interaction.editReply({ content: image });
+				break;
+			case 'bully':
+				image = await waifu.bully();
+				text ? interaction.editReply({ content: text, files:[image] }) : interaction.editReply({ content: image });
+				break;
+			case 'cuddle':
+				image = await waifu.cuddle();
+				text ? interaction.editReply({ content: text, files:[image] }) : interaction.editReply({ content: image });
+				break;
+			case 'awoo':
+				image = await waifu.awoo();
+				text ? interaction.editReply({ content: text, files:[image] }) : interaction.editReply({ content: image });
+				break;
+			case 'bonk':
+				image = await waifu.bonk();
+				text ? interaction.editReply({ content: text, files:[image] }) : interaction.editReply({ content: image });
+				break;
+			case 'yeet':
+				image = await waifu.yeet();
+				text ? interaction.editReply({ content: text, files:[image] }) : interaction.editReply({ content: image });
+				break;
+			case 'smile':
+				image = await waifu.smile();
+				text ? interaction.editReply({ content: text, files:[image] }) : interaction.editReply({ content: image });
+				break;
+			case 'wave':
+				image = await waifu.wave();
+				text ? interaction.editReply({ content: text, files:[image] }) : interaction.editReply({ content: image });
+				break;
+			case 'highfive':
+				image = await waifu.highfive();
+				text ? interaction.editReply({ content: text, files:[image] }) : interaction.editReply({ content: image });
+				break;
+			case 'handhold':
+				image = await waifu.handhold();
+				text ? interaction.editReply({ content: text, files:[image] }) : interaction.editReply({ content: image });
+				break;
+			case 'glomp':
+				image = await waifu.glomp();
+				text ? interaction.editReply({ content: text, files:[image] }) : interaction.editReply({ content: image });
+				break;
+			case 'happy':
+				image = await waifu.happy();
+				text ? interaction.editReply({ content: text, files:[image] }) : interaction.editReply({ content: image });
+				break;
+			case 'wink':
+				image = await waifu.wink();
+				text ? interaction.editReply({ content: text, files:[image] }) : interaction.editReply({ content: image });
+				break;
+			case 'dance':
+				image = await waifu.dance();
+				text ? interaction.editReply({ content: text, files:[image] }) : interaction.editReply({ content: image });
+				break;
+			case 'cringe':
+				image = await waifu.cringe();
+				text ? interaction.editReply({ content: text, files:[image] }) : interaction.editReply({ content: image });
+				break;
 
-			if (interaction.options.getSubCommand() == 'waifu') {
-				fetch = await waifu.waifu();
-				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [fetch] })
-					: void interaction.editReply({ content:fetch });
-			}
-
-			else if (interaction.options.getSubCommand() == 'neko') {
-				fetch = await waifu.neko();
-				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [fetch] })
-					: void interaction.editReply({ content:fetch });
-
-			}
-
-			else if (interaction.options.getSubCommand() == 'shinobu') {
-				fetch = await waifu.shinobu();
-				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [fetch] })
-					: void interaction.editReply({ content:fetch });
-			}
-
-			else if (interaction.options.getSubCommand() == 'megumin') {
-				fetch = await waifu.megumin();
-				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [fetch] })
-					: void interaction.editReply({ content:fetch });
-			}
-
-			else if (interaction.options.getSubCommand() == 'bully') {
-				fetch = await waifu.bully();
-				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [fetch] })
-					: void interaction.editReply({ content:fetch });
-			}
-
-			else if (interaction.options.getSubCommand() == 'cuddle') {
-				fetch = await waifu.cuddle();
-				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [fetch] })
-					: void interaction.editReply({ content:fetch });
-			}
-
-			else if (interaction.options.getSubCommand() == 'awoo') {
-				fetch = await waifu.awoo();
-				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [fetch] })
-					: void interaction.editReply({ content:fetch });
-			}
-
-			else if (interaction.options.getSubCommand() == 'bonk') {
-				fetch = await waifu.bonk();
-				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [fetch] })
-					: void interaction.editReply({ content:fetch });
-			}
-
-			else if (interaction.options.getSubCommand() == 'yeet') {
-				fetch = await waifu.yeet();
-				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [fetch] })
-					: void interaction.editReply({ content:fetch });
-			}
-
-			else if (interaction.options.getSubCommand() == 'smile') {
-				fetch = await waifu.smile();
-				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [fetch] })
-					: void interaction.editReply({ content:fetch });
-			}
-
-			else if (interaction.options.getSubCommand() == 'wave') {
-				fetch = await waifu.wave();
-				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [fetch] })
-					: void interaction.editReply({ content:fetch });
-
-			}
-
-			else if (interaction.options.getSubCommand() == 'highfive') {
-				fetch = await waifu.highfive();
-				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [fetch] })
-					: void interaction.editReply({ content:fetch });
-			}
-
-			else if (interaction.options.getSubCommand() == 'handhold') {
-				fetch = await waifu.handhold();
-				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [fetch] })
-					: void interaction.editReply({ content:fetch });
-			}
-
-			else if (interaction.options.getSubCommand() == 'glomp') {
-				fetch = await waifu.glomp();
-				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [fetch] })
-					: void interaction.editReply({ content:fetch });
-			}
-
-			else if (interaction.options.getSubCommand() == 'happy') {
-				fetch = await waifu.happy();
-				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [fetch] })
-					: void interaction.editReply({ content:fetch });
-
-			}
-
-			else if (interaction.options.getSubCommand() == 'wink') {
-				fetch = await waifu.wink();
-				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [fetch] })
-					: void interaction.editReply({ content:fetch });
-
-			}
-
-			else if (interaction.options.getSubCommand() == 'dance') {
-				fetch = await waifu.dance();
-				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [fetch] })
-					: void interaction.editReply({ content:fetch });
-			}
-			else if (interaction.options.getSubCommand() == 'cringe') {
-				fetch = await waifu.cringe();
-				text = opt.getString('text');
-				opt ? void interaction.editReply({ content: text, files: [fetch] })
-					: void interaction.editReply({ content:fetch });
 			}
 		}
-		catch (err) {
-			console.error(err);
-			void interaction.editReply('Something went wrong with this command');
+		catch(error) {
+			console.warn(error);
+			interaction.editReply('Something wrong executing the command');
 		}
 	},
 };

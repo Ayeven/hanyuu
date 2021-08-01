@@ -51,6 +51,10 @@ module.exports = {
 							name:'set',
 							value:'set',
 						},
+						{
+							name:'clear',
+							value:'clear',
+						},
 					],
 				},
 				{
@@ -70,7 +74,7 @@ module.exports = {
 			// @ts-expect-error
 			const { SlashCommands } = interaction.client;
 			const [guildCommands, globalCommands] = SlashCommands.partition(have => have.guildId);
-			if(interaction.options.getSubCommand() == 'global') {
+			if(interaction.options.getSubcommand() == 'global') {
 				const commandname = interaction.options.getString('commandname');
 				switch(interaction.options.getString('options')) {
 				case 'set':
@@ -83,10 +87,12 @@ module.exports = {
 						await interaction.editReply({ content: `Slash command \`${commandname}\` have been created` }))
 						: (await interaction.editReply({ content:'The command name does not exist! Put in the correct name of the command in the `commandname` option' }));
 					break;
+				case 'clear':
+					await interaction.client.application.commands.set([]);
 				}
 			}
 
-			else if (interaction.options.getSubCommand() == 'guild') {
+			else if (interaction.options.getSubcommand() == 'guild') {
 				const commandname = interaction.options.getString('commandname');
 				switch(interaction.options.getString('options')) {
 				case 'set':

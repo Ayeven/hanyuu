@@ -71,7 +71,7 @@ module.exports = {
 	async run(interaction) {
 		try {
 			await interaction.defer();
-			if (interaction.options.getSubCommand() == 'giveaway') {
+			if (interaction.options.getSubcommand() == 'giveaway') {
 				const platform = interaction.options.getString('platform');
 				const t = interaction.options.getString('type');
 				const s = interaction.options.getString('sort');
