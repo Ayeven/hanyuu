@@ -6,19 +6,24 @@ module.exports = {
 	/**
    * @param {import('discord.js').CommandInteraction} interaction
    */
-	async run(interaction) {
+	async slashcommand(interaction) {
 		try {
 			await interaction.defer({ ephemeral:true });
-			const slashcommands = await interaction.client.application.commands.fetch();
-			const descArray = [];
-			slashcommands.each((command) => {
-				descArray.push(`**/${command.name}** - ${command.description}`);
+			const global = await interaction.client.application.commands.fetch();
+			const guild = await interaction.guild.commands.fetch();
+			const guildArray = [];
+			const globalArray = [];
+			guild.each((command) => {
+				guildArray.push(`**/${command.name}** - ${command.description}`);
+			});
+			global.each((command) => {
+				globalArray.push(`**/${command?.name}** - ${command?.description}`);
 			});
 			const embed = new MessageEmbed(
 				{
 					title: 'Commands for Hanyuu',
 					color: 'RANDOM',
-					description: descArray.join('\n'),
+					description: `**Global commands:**\n${globalArray.join('\n')}\n\n**Guild commands:**\n${guildArray.join('\n')}`,
 					fields: [
 						{
 							name: '\u200b',

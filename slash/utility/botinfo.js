@@ -5,7 +5,7 @@ module.exports = {
 	/**
    * @param {import('discord.js').CommandInteraction} interaction Represent `CommandInteraction botinfo`
    */
-	async run(interaction) {
+	async slashcommand(interaction) {
 
 		try {
 			await interaction.defer({ ephemeral: true });
@@ -41,7 +41,7 @@ module.exports = {
 				},
 				timestamp: new Date(),
 			};
-			interaction.followUp({ embeds:[embed] });
+			interaction.editReply({ embeds:[embed] });
 		}
 		catch (err) {
 			interaction.followUp('Oh No!! Something went wrong');

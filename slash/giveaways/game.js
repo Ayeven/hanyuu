@@ -68,7 +68,7 @@ module.exports = {
 	/**
    * @param {import('discord.js').CommandInteraction} interaction Represent CommandInteraction
    */
-	async run(interaction) {
+	async slashcommand(interaction) {
 		try {
 			await interaction.defer({ ephemeral:true });
 			if (interaction.options.getSubcommand() == 'giveaway') {
