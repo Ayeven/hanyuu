@@ -43,7 +43,7 @@ module.exports = {
 				});
 
 				for (let i = 0; i < 10; i++) {
-					descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${trendingArray[i].startDate.year} | ${trendingArray[i].title.userPreferred}](https://anilist.co/anime/${trendingArray[i].id})`);
+					descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${trendingArray[i].startDate.year} | ${trendingArray[i].title.userPreferred}](https://anilist.co/manga/${trendingArray[i].id})`);
 					selectMenu.addOptions([
 						{
 							label: `${(i + 1).toString().padStart(2, '0')}) Year : ${trendingArray[i].startDate.year}`,

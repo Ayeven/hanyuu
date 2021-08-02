@@ -27,21 +27,29 @@ module.exports = {
 	async run(interaction) {
 		try{
 			await interaction.defer({ ephemeral:true });
-			let button;
-			let invite = '';
+			let linkspeak;
+			let linkslash;
+			let speak = '';
+			let slashonly = '';
 			const duration = moment.duration(interaction.client.uptime).format(' D [days], H [hrs], m [mins], s [secs]');
 			switch(interaction.options.getSubcommand()) {
 			case 'ping' :
 				interaction.editReply(`❤ Pong!Ping is ${interaction.client.ws.ping}`);
 				break;
 			case 'invite' :
-				invite = interaction.client.generateInvite({ scopes:['applications.commands'] });
-				button = new MessageButton({
+				speak = interaction.client.generateInvite({ scopes:['applications.commands', 'bot'], permissions:['CONNECT', 'SPEAK'] });
+				slashonly = interaction.client.generateInvite({ scopes: ['applications.commands', 'bot'] });
+				linkspeak = new MessageButton({
 					style: 'LINK',
-					url: invite,
-					label: 'Invite Link',
+					url: speak,
+					label: '/ command with voice',
 				});
-				interaction.editReply({ content: 'Here is my invite link with slash command enabled', components:[{ type: 'ACTION_ROW', components:[button] }] });
+				linkslash = new MessageButton({
+					style: 'LINK',
+					url: slashonly,
+					label: '/ command only',
+				});
+				interaction.editReply({ content: 'Here is my invite link with slash command enabled', components:[{ type: 'ACTION_ROW', components:[linkspeak, linkslash] }] });
 				break;
 			case 'stats':
 				interaction.editReply({ content:

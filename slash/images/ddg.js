@@ -81,7 +81,6 @@ module.exports = {
     */
 	async button(interaction) {
 		try {
-			await interaction.deferUpdate();
 			const userId = `${interaction.user.id}`;
 
 			const next = new MessageButton({
@@ -107,11 +106,11 @@ module.exports = {
 					for (let i = m - 5; i < m; i++) {
 						files.push(array[i]?.image);
 					}
-					interaction.editReply({ content: `${files.join('\n')}`, components: [{ type: 'ACTION_ROW', components:[next, prev] }] });
+					interaction.update({ content: `${files.join('\n')}`, components: [{ type: 'ACTION_ROW', components:[next, prev] }] });
 				}
 
 				else {
-					interaction.editReply({ content: 'End of line', components: [{ type:'ACTION_ROW', components: [prev] }] });
+					interaction.update({ content: 'End of line', components: [{ type:'ACTION_ROW', components: [prev] }] });
 				}
 			}
 
@@ -119,20 +118,21 @@ module.exports = {
 				en.math(userId, 'subtract', 5);
 				const m = en.get(userId);
 				if (m <= 4) {
-					interaction.editReply({ content: 'End of line', components: [{ type: 'ACTION_ROW', components:[next] }] });
+					interaction.update({ content: 'End of line', components: [{ type: 'ACTION_ROW', components:[next] }] });
 				}
 
 				else {
 					for (let i = m - 5; i < m; i++) {
 						files.push(array[i]?.image);
 					}
-					interaction.editReply({ content: `${files.join('\n')}`, components: [{ type:'ACTION_ROW', components: [next, prev] }] });
+					interaction.update({ content: `${files.join('\n')}`, components: [{ type:'ACTION_ROW', components: [next, prev] }] });
 				}
 			}
 
 		}
 		catch (error) {
 			console.warn(error);
+			interaction.update('Something went wrong executing the command');
 		}
 	},
 };
