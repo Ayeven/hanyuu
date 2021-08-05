@@ -46,7 +46,7 @@ module.exports = {
 					selectMenu.addOptions([
 						{
 							label: `${(i + 1).toString().padStart(2, '0')}) Year : ${arrayUpcoming[i].startDate?.year ?? 'TBA'}`,
-							description: `${arrayUpcoming[i].title?.english ?? arrayUpcoming[i].title.userPreferred}`.slice(0, 48),
+							description: `${arrayUpcoming[i].title.userPreferred}`.slice(0, 48),
 							value: `${arrayUpcoming[i].id}`,
 						},
 					]);
@@ -77,6 +77,41 @@ module.exports = {
 				image: { url: `${details.coverImage?.extraLarge ?? details.coverImage?.large}` },
 				color: 'RANDOM',
 				description: `${details.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
+				fields:[
+					{
+						name:'Type',
+						value:`${details.format}`,
+						inline: true,
+					},
+					{
+						name:'Season',
+						value:`${details.season ??= 'TBA'}`,
+						inline: true,
+					},
+					{
+						name:'Main Studio',
+						value:`${details.studios.edges[0]?.node.name ?? 'NA'}`,
+						inline: true,
+					},
+					{
+						name:'Status',
+						value: `${details.status}
+						Start Date: ${details.startDate.year ??= 'TBA'}`,
+						inline: true,
+					},
+					{
+						name:'Title',
+						value:`**English:** ${details.title.english ??= 'N/A'}
+						**Romaji:** ${details.title.userPreferred}
+						**Native:** ${details.title.native}`,
+						inline: false,
+					},
+					{
+						name: 'Genres',
+						value: `${details.genres.join(', ')}`,
+						inline: false,
+					},
+				],
 			});
 			return interaction.update({ embeds:[embed] });
 		}
@@ -120,11 +155,11 @@ module.exports = {
 						selectMenu.addOptions([
 							{
 								label: `${(i + 1).toString().padStart(2, '0')}) Year : ${upcoming[i].startDate?.year ?? 'TBA'}`,
-								description: `${upcoming[i].title?.english ?? upcoming[i].title?.userPreferred}`.slice(0, 48),
+								description: `${upcoming[i].title?.userPreferred}`.slice(0, 48),
 								value: `${upcoming[i].id}`,
 							},
 						]);
-						descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${upcoming[i].startDate?.year ?? 'TBA'} ${upcoming[i].title?.english ?? upcoming[i].title?.userPreferred}](https://anilist.co/anime/${upcoming[i].id})`);
+						descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${upcoming[i].startDate?.year ?? 'TBA'} | ${upcoming[i].title?.english ?? upcoming[i].title?.userPreferred}](https://anilist.co/anime/${upcoming[i].id})`);
 					}
 					const embed = new MessageEmbed({
 						color: 'RANDOM',
@@ -150,7 +185,7 @@ module.exports = {
 						selectMenu.addOptions([
 							{
 								label: `${(i + 1).toString().padStart(2, '0')} Year : ${upcoming[i].startDate?.year ?? 'TBA'}`,
-								description: `${upcoming[i].title?.english ?? upcoming[i].title?.userPreferred}`.slice(0, 48),
+								description: `${upcoming[i].title?.userPreferred}`.slice(0, 48),
 								value: `${upcoming[i].id}`,
 							},
 						]);

@@ -45,7 +45,7 @@ module.exports = {
 					selectMenu.addOptions([
 						{
 							label: `${(i + 1).toString().padStart(2, '0')}) Year : ${arrayPopular[i].startDate.year}`,
-							description: `${arrayPopular[i].title?.english ?? arrayPopular[i]?.title.userPreferred}`.slice(0, 48),
+							description: `${arrayPopular[i]?.title.userPreferred}`.slice(0, 48),
 							value: `${arrayPopular[i].id}`,
 						},
 					]);
@@ -77,6 +77,47 @@ module.exports = {
 				image: { url: `${details.coverImage?.extraLarge ?? details.coverImage?.large}` },
 				color: 'RANDOM',
 				description: `${details.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
+				fields:[
+					{
+						name:'Type',
+						value:`${details.format}`,
+						inline: true,
+					},
+					{
+						name:'Season',
+						value:`${details.season ??= 'N/A'} ${details.startDate.year}`,
+						inline: true,
+					},
+					{
+						name:'Main Studio',
+						value:`${details.studios.edges[0].node.name}`,
+						inline: true,
+					},
+					{
+						name:'Status',
+						value: `${details.status}
+						Start Date: ${details.startDate.year ??= 'NA'}-${details.startDate.month ??= 'NA'}-${details.startDate.day ??= 'NA'}
+						End Date: ${details.endDate.year ??= 'NA'}-${details.endDate.month ??= 'NA'}-${details.endDate.day ??= 'NA'}`,
+						inline: true,
+					},
+					{
+						name:'Average Score',
+						value:`${details.averageScore}% by ${details.popularity.toLocaleString()} user`,
+						inline: true,
+					},
+					{
+						name:'Title',
+						value:`**English:** ${details.title.english ??= 'N/A'}
+						**Romaji:** ${details.title.userPreferred}
+						**Native:** ${details.title.native}`,
+						inline: false,
+					},
+					{
+						name: 'Genres',
+						value: `${details.genres.join(', ')}`,
+						inline: false,
+					},
+				],
 			});
 			return interaction.update({ embeds:[embed] });
 		}
@@ -120,7 +161,7 @@ module.exports = {
 						selectMenu.addOptions([
 							{
 								label: `${(i + 1).toString().padStart(2, '0')} Year : ${trending[i].startDate.year}`,
-								description: `${trending[i].title?.english ?? trending[i].title?.userPreferred}`.slice(0, 48),
+								description: `${trending[i].title?.userPreferred}`.slice(0, 48),
 								value: `${trending[i].id}`,
 							},
 						]);
@@ -150,7 +191,7 @@ module.exports = {
 						selectMenu.addOptions([
 							{
 								label: `${(i + 1).toString().padStart(2, '0')} Year : ${trending[i].startDate.year}`,
-								description: `${trending[i].title?.english ?? trending[i].title?.userPreferred}`.slice(0, 48),
+								description: `${trending[i].title?.userPreferred}`.slice(0, 48),
 								value: `${trending[i].id}`,
 							},
 						]);

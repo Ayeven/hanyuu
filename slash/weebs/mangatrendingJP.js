@@ -25,7 +25,7 @@ module.exports = {
 				style: 'SECONDARY',
 				customId: `${this.name}_next`,
 				emoji: '⏭️',
-				label: 'NEXT',
+				label: 'NEXT 10',
 			});
 
 			const getTrendingManga = await new Anilist().getTrendingManga();
@@ -47,7 +47,7 @@ module.exports = {
 					selectMenu.addOptions([
 						{
 							label: `${(i + 1).toString().padStart(2, '0')}) Year : ${trendingArray[i].startDate.year}`,
-							description: `${ trendingArray[i].title?.english ?? trendingArray[i].title.userPreferred }`.slice(0, 48),
+							description: `${trendingArray[i].title.userPreferred }`.slice(0, 48),
 							value: `${trendingArray[i].id}`,
 						},
 					]);
@@ -76,9 +76,30 @@ module.exports = {
 				title: `${ details.title?.english ?? details.title.userPreferred}`,
 				url: `https://anilist.co/manga/${details.id}`,
 				image: { url: `${details.coverImage?.extraLarge ?? details.coverImage?.large}` },
+				fields:[
+					{
+						name: 'Type:',
+						value:`${details.type}`,
+						inline: true,
+					},
+					{
+						name: `Status: ${details.status}`,
+						value:`Chapters: ${details?.chapter ?? 'NA'}\n Volume: ${details?.volumes ?? 'NA'}`,
+						inline: true,
+					},
+					{
+						name: `Average Score: ${details.averageScore}%`,
+						value:`Popularity: ${details.popularity.toLocaleString()} users`,
+						inline: true,
+					},
+					{
+						name: 'Genres:',
+						value:`${details.genres.join(', ')}`,
+						inline: false,
+					},
+				],
 				color: 'RANDOM',
 				description: `${details.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
-				thumbnail: { url: `${details.coverImage?.large}` },
 			});
 			return interaction.update({ embeds:[embed] });
 		}
@@ -92,20 +113,19 @@ module.exports = {
      */
 	async button(interaction) {
 		try {
-			await interaction.deferUpdate();
 			const userId = interaction.user.id;
 			const next = new MessageButton({
 				style: 'SECONDARY',
 				customId: `${this.name}_next`,
 				emoji: '⏭️',
-				label: 'NEXT',
+				label: 'NEXT 10',
 			});
 
 			const prev = new MessageButton({
 				style: 'SECONDARY',
 				customId: `${this.name}_prev`,
 				emoji: '⏮️',
-				label: 'PREV',
+				label: 'PREV 10',
 			});
 
 			const selectMenu = new MessageSelectMenu({
@@ -123,7 +143,7 @@ module.exports = {
 						selectMenu.addOptions([
 							{
 								label: `${(i + 1).toString().padStart(2, '0')}) Year: ${getTrendingManga[i].startDate.year}`,
-								description: `${ getTrendingManga[i].title?.english ?? getTrendingManga[i].title?.userPreferred}`.slice(0, 48),
+								description: `${getTrendingManga[i].title?.userPreferred}`.slice(0, 48),
 								value: `${getTrendingManga[i].id}`,
 							},
 						]);
@@ -141,7 +161,7 @@ module.exports = {
 				}
 			}
 
-			else if (interaction.customId == `${this.name}_prev` && interaction.user.id === interaction.message.interaction.user.id) {
+			else if (interaction.customId == `${this.name}_prev`) {
 				count.math(userId, 'sub', 10);
 				const buttonAction = count.get(userId);
 				const descArray = [];
@@ -153,7 +173,7 @@ module.exports = {
 						selectMenu.addOptions([
 							{
 								label: `${(i + 1).toString().padStart(2, '0')}) Year : ${getTrendingManga[i].startDate.year}`,
-								description: `${getTrendingManga[i].title?.english ?? getTrendingManga[i].title?.userPreferred}`.slice(0, 48),
+								description: `${getTrendingManga[i].title?.userPreferred}`.slice(0, 48),
 								value: `${getTrendingManga[i].id}`,
 							},
 						]);

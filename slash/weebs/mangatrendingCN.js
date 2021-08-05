@@ -78,7 +78,28 @@ module.exports = {
 				image: { url: `${details.coverImage?.extraLarge ?? details.coverImage?.large}` },
 				color: 'RANDOM',
 				description: `${details.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
-				thumbnail: { url: `${details.coverImage?.large}` },
+				fields:[
+					{
+						name: 'Type:',
+						value:`${details.type}`,
+						inline: true,
+					},
+					{
+						name: `Status: ${details.status}`,
+						value:`Chapters: ${details?.chapter ?? 'NA'}\n Volume: ${details?.volumes ?? 'NA'}`,
+						inline: true,
+					},
+					{
+						name: `Average Score: ${details.averageScore}%`,
+						value:`Popularity: ${details.popularity.toLocaleString()} users`,
+						inline: true,
+					},
+					{
+						name: 'Genres:',
+						value:`${details.genres.join(', ')}`,
+						inline: false,
+					},
+				],
 			});
 			return interaction.update({ embeds:[embed] });
 		}

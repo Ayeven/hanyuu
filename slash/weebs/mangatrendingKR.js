@@ -19,13 +19,13 @@ module.exports = {
    */
 	async slashcommand(interaction) {
 		try{
-			await interaction.defer();
+			await interaction.defer({ ephemeral: true });
 			const userId = interaction.user.id;
 			const next = new MessageButton({
 				style: 'SECONDARY',
 				customId: `${this.name}_next`,
 				emoji: '⏭️',
-				label: 'NEXT',
+				label: 'NEXT 10',
 			});
 
 			const getTrendingManhwa = await new Anilist().getTrendingManhwa();
@@ -76,9 +76,30 @@ module.exports = {
 				title: `${ details.title?.english ?? details.title?.userPreferred}`,
 				url: `https://anilist.co/manga/${details.id}`,
 				image: { url: `${details.coverImage?.extraLarge ?? details.coverImage?.large}` },
+				fields:[
+					{
+						name: 'Type:',
+						value:`${details.type}`,
+						inline: true,
+					},
+					{
+						name: `Status: ${details.status}`,
+						value:`Chapters: ${details?.chapter ?? 'NA'}\n Volume: ${details?.volumes ?? 'NA'}`,
+						inline: true,
+					},
+					{
+						name: `Average Score: ${details.averageScore}%`,
+						value:`Popularity: ${details.popularity.toLocaleString()} users`,
+						inline: true,
+					},
+					{
+						name: 'Genres:',
+						value:`${details.genres.join(', ')}`,
+						inline: false,
+					},
+				],
 				color: 'RANDOM',
 				description: `${details.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
-				thumbnail: { url: `${details.coverImage?.large}` },
 			});
 			return interaction.update({ embeds:[embed] });
 		}
@@ -97,14 +118,14 @@ module.exports = {
 				style: 'SECONDARY',
 				customId: `${this.name}_next`,
 				emoji: '⏭️',
-				label: 'NEXT',
+				label: 'NEXT 10',
 			});
 
 			const prev = new MessageButton({
 				style: 'SECONDARY',
 				customId: `${this.name}_prev`,
 				emoji: '⏮️',
-				label: 'PREV',
+				label: 'PREV 10',
 			});
 
 			const selectMenu = new MessageSelectMenu({

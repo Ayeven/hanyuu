@@ -45,7 +45,7 @@ module.exports = {
 					selectMenu.addOptions([
 						{
 							label: `${(i + 1).toString().padStart(2, '0')}) Year : ${arrayPopular[i].startDate.year}`,
-							description: `${arrayPopular[i].title?.english ?? arrayPopular[i]?.title.userPreferred}`.slice(0, 48),
+							description: `${arrayPopular[i]?.title.userPreferred}`.slice(0, 48),
 							value: `${arrayPopular[i].id}`,
 						},
 					]);
@@ -73,9 +73,53 @@ module.exports = {
 			const embed = new MessageEmbed({
 				title: `${details.title?.english ?? details.title?.userPreferred}`,
 				url: `https://anilist.co/anime/${details.id}`,
-				image: { url: `${details.coverImage?.extraLarge ?? details.coverImage?.large}` },
+				image: { url: details.coverImage?.extraLarge ?? details.coverImage.large },
 				color: 'RANDOM',
 				description: `${details.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
+				fields:[
+					{
+						name:'Type ',
+						value:`${details.format}`,
+						inline: true,
+					},
+					{
+						name:'Season ',
+						value:`${details?.season ?? 'N/A'} ${details.startDate.year ??= 'N/A'}`,
+						inline: true,
+					},
+					{
+						name:'Main Studio ',
+						value:`${details.studios.edges[0].node.name}`,
+						inline: true,
+					},
+					{
+						name:'Episodes',
+						value:`Total: ${details.episodes}\nDuration: ${details.duration}min`,
+						inline: true,
+					},
+					{
+						name:'Average Score ',
+						value:`${details.averageScore}% by ${details.popularity.toLocaleString()} users`,
+						inline: true,
+					},
+					{
+						name:'Status ',
+						value:`${details.status}
+						Start Date: ${details.startDate.year ??= 'NA'}-${details.startDate.month ??= 'NA'}-${details.startDate.day ??= 'NA'}
+						End Date: ${details.endDate.year ??= 'NA'}-${details.endDate.month ??= 'NA'}-${details.endDate.day ??= 'NA'}`,
+						inline: true,
+					},
+					{
+						name:'Titles: ',
+						value:`**English:** ${details.title?.english ?? 'N/A'}\n**Romaji:** ${details.title.userPreferred}\n**Native:** ${details.title.native}`,
+						inline: true,
+					},
+					{
+						name:'Genres: ',
+						value:`${details.genres.join(', ')}`,
+						inline: false,
+					},
+				],
 			});
 			return interaction.update({ embeds:[embed] });
 		}

@@ -41,7 +41,7 @@ module.exports = {
 					selectMenu.addOptions([
 						{
 							label: `${(i + 1).toString().padStart(2, '0')}) Year : ${arrayTrend[i].startDate.year}`,
-							description: `${arrayTrend[i].title?.english ?? arrayTrend[i].title.userPreferred}`.slice(0, 48),
+							description: `${arrayTrend[i].title.userPreferred}`.slice(0, 48),
 							value: `${arrayTrend[i].id}`,
 						},
 					]);
@@ -65,6 +65,9 @@ module.exports = {
 	async selectmenu(interaction) {
 		try {
 			const userId = interaction.user.id;
+			/**
+			 * @type {animedata}
+			 */
 			const getTrend = aniTrending.get(userId);
 			const detail = getTrend.find(({ id })=> `${id}` == interaction.values[0]);
 			const embed = new MessageEmbed({
@@ -73,6 +76,47 @@ module.exports = {
 				image: { url: `${detail.coverImage?.extraLarge ?? detail.coverImage?.large}` },
 				color: 'RANDOM',
 				description: `${detail.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
+				fields:[
+					{
+						name:'Type',
+						value: `${detail.format}`,
+						inline: true,
+					},
+					{
+						name:'Season',
+						value: `${detail.season ??= 'N/A'}`,
+						inline: true,
+					},
+					{
+						name:'Main Studio',
+						value: `${detail.studios.edges[0].node.name}`,
+						inline: true,
+					},
+					{
+						name:'Episodes',
+						value: `Total: ${detail.episodes ??= 'N/A'}`,
+						inline: true,
+					},
+					{
+						name:'Status',
+						value: `${detail.status}
+						Start Date: ${detail.startDate.year ??= 'NA'}-${detail.startDate.month ??= 'NA'}-${detail.startDate.day ??= 'NA'}
+						End Date: ${detail.endDate.year ??= 'NA'}-${detail.endDate.month ??= 'NA'}-${detail.endDate.day ??= 'NA'}`,
+						inline: true,
+					},
+					{
+						name:'Title',
+						value: `**English:** ${detail.title.english ??= 'N/A'}
+						**Romaji:** ${detail.title.userPreferred}
+						**Native:** ${detail.title.native}`,
+						inline: false,
+					},
+					{
+						name:'Genres',
+						value: `${detail.genres.join(', ') }`,
+						inline: false,
+					},
+				],
 			});
 			return interaction.update({ embeds:[embed] });
 		}
@@ -116,7 +160,7 @@ module.exports = {
 						selectMenu.addOptions([
 							{
 								label: `${(i + 1).toString().padStart(2, '0')} Year : ${getTrend[i].startDate.year}`,
-								description: `${getTrend[i].title?.english ?? getTrend[i].title.userPreferred}`.slice(0, 48),
+								description: `${getTrend[i].title.userPreferred}`.slice(0, 48),
 								value: `${getTrend[i].id}`,
 							},
 						]);
@@ -146,7 +190,7 @@ module.exports = {
 						selectMenu.addOptions([
 							{
 								label: `${(i + 1).toString().padStart(2, '0')} Year : ${getTrend[i].startDate.year}`,
-								description: `${getTrend[i].title?.english ?? getTrend[i].title.userPreferred}`.slice(0, 48),
+								description: `${getTrend[i].title.userPreferred}`.slice(0, 48),
 								value: `${getTrend[i].id}`,
 							},
 						]);

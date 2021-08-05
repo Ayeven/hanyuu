@@ -1,10 +1,10 @@
 const { result, vqd } = require('../../dependancies/ddg');
-const Enmap = require('enmap');
-const enmap = new Enmap({ name: 'images', dataDir: './data/images', fetchAll: false, autoFetch: true });
+const ddg = require('../../dependancies/database');
+const en = ddg.ddgcount;
+const enmap = ddg.ddgImage;
 const util = require('util');
 const delay = util.promisify(setTimeout);
 const { MessageButton } = require('discord.js');
-const en = new Enmap({ name: 'count', dataDir: './data/images', fetchAll: false, autoFetch: true });
 const filterChoices = [
 	{
 		name: 'strict', value: 1,
@@ -51,7 +51,7 @@ module.exports = {
 				style: 'SECONDARY',
 				customId: `${this.name}_next`,
 				emoji: '⏭️',
-				label: 'NEXT',
+				label: 'NEXT 5',
 			});
 
 			if (interaction.options.getSubcommand() == 'images') {
@@ -61,9 +61,6 @@ module.exports = {
 				const getToken = await vqd(enquiry, safe);
 				const getImage = await result(enquiry, getToken[1]);
 				en.set(userId, 5);
-				/**
-                * @type {Enmap<userId, getImage>}
-                */
 				enmap.set(userId, getImage);
 				await delay(100);
 				const array = enmap.get(userId);
@@ -87,14 +84,14 @@ module.exports = {
 				style: 'SECONDARY',
 				customId: `${this.name}_next`,
 				emoji: '⏭️',
-				label: 'NEXT',
+				label: 'NEXT 5',
 			});
 
 			const prev = new MessageButton({
 				style: 'SECONDARY',
 				customId: `${this.name}_prev`,
 				emoji: '⏮️',
-				label: 'PREV',
+				label: 'PREV 5',
 			});
 
 			const array = enmap.get(userId);

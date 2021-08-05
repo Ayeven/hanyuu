@@ -45,7 +45,7 @@ module.exports = {
 					selectMenu.addOptions([
 						{
 							label: `${(i + 1).toString().padStart(2, '0')}) Year : ${arrayPopular[i].startDate.year}`,
-							description: `${arrayPopular[i].title?.english ?? arrayPopular[i]?.title.userPreferred}`.slice(0, 48),
+							description: `${arrayPopular[i]?.title.userPreferred}`.slice(0, 48),
 							value: `${arrayPopular[i].id}`,
 						},
 					]);
@@ -74,9 +74,40 @@ module.exports = {
 			const embed = new MessageEmbed({
 				title: `${details.title?.english ?? details.title?.userPreferred}`,
 				url: `https://anilist.co/anime/${details.id}`,
-				image: { url: `${details.coverImage?.extraLarge ?? details.coverImage?.large}` },
+				thumbnail: { url: `${details.coverImage?.extraLarge ?? details.coverImage?.large}` },
 				color: 'RANDOM',
 				description: `${details.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
+				fields:[
+					{
+						name:'Type',
+						value:`${details.format}`,
+						inline: true,
+					},
+					{
+						name:'Average Score',
+						value:`${details.averageScore}% by ${details.popularity.toLocaleString()} users`,
+						inline: true,
+					},
+					{
+						name:'Status',
+						value:`${details.status}
+						Start Date: ${details.startDate.year ??= 'N/A'}-${details.startDate.month ??= 'N/A'}-${details.startDate.day ??= 'N/A'}
+						End Date: ${details.endDate.year ??= 'N/A'}-${details.endDate.month ??= 'N/A'}-${details.startDate.day ??= 'N/A'}`,
+						inline: true,
+					},
+					{
+						name:'Titles:',
+						value:`**English:** ${details.title.english ??= 'N/A'}
+						**Romaji:** ${details.title.userPreferred}
+						**Native:** ${details.title.native}`,
+						inline: true,
+					},
+					{
+						name:'Genres:',
+						value:`${details.genres.join(', ')}`,
+						inline: false,
+					},
+				],
 			});
 			return interaction.update({ embeds:[embed] });
 		}
@@ -120,7 +151,7 @@ module.exports = {
 						selectMenu.addOptions([
 							{
 								label: `${(i + 1).toString().padStart(2, '0')} Year : ${popular[i].startDate.year}`,
-								description: `${popular[i].title?.english ?? popular[i].title?.userPreferred}`.slice(0, 48),
+								description: `${popular[i].title?.userPreferred}`.slice(0, 48),
 								value: `${popular[i].id}`,
 							},
 						]);
@@ -150,7 +181,7 @@ module.exports = {
 						selectMenu.addOptions([
 							{
 								label: `${(i + 1).toString().padStart(2, '0')} Year : ${popular[i].startDate.year}`,
-								description: `${popular[i].title?.english ?? popular[i].title?.userPreferred}`.slice(0, 48),
+								description: `${popular[i].title?.userPreferred}`.slice(0, 48),
 								value: `${popular[i].id}`,
 							},
 						]);
