@@ -25,7 +25,7 @@ module.exports = {
 				style: 'SECONDARY',
 				customId: `${this.name}_next`,
 				emoji: '⏭️',
-				label: 'NEXT',
+				label: 'NEXT 10',
 			});
 
 			const trending = await new Anilist().getTrendingMovie();
@@ -136,14 +136,14 @@ module.exports = {
 				style: 'SECONDARY',
 				customId: `${this.name}_next`,
 				emoji: '⏭️',
-				label: 'NEXT',
+				label: 'NEXT 10',
 			});
 
 			const prev = new MessageButton({
 				style: 'SECONDARY',
 				customId: `${this.name}_prev`,
 				emoji: '⏮️',
-				label: 'PREV',
+				label: 'PREV 10',
 			});
 
 			const selectMenu = new MessageSelectMenu({
