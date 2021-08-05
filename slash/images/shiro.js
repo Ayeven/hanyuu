@@ -177,7 +177,7 @@ module.exports = {
 	/**
    * @param {import('discord.js').CommandInteraction} interaction
    */
-	async run(interaction) {
+	async slashcommand(interaction) {
 		try {
 			await interaction.defer();
 			let image = '';

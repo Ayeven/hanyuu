@@ -17,9 +17,9 @@ module.exports = {
 	/**
    	* @param {import('discord.js').CommandInteraction} interaction
    	*/
-	async run(interaction) {
+	async slashcommand(interaction) {
 		try{
-			await interaction.defer();
+			await interaction.defer({ ephemeral:true });
 			const userId = interaction.user.id;
 			const next = new MessageButton({
 				style: 'SECONDARY',
@@ -28,12 +28,6 @@ module.exports = {
 				label: 'NEXT',
 			});
 
-			const del = new MessageButton({
-				style: 'SECONDARY',
-				customId: `${this.name}_del`,
-				emoji: '🗑️',
-				label: 'DELETE',
-			});
 			const trending = await new Anilist().getTrendingMovie();
 			if (trending == 'no data found or unexpected server error!') {
 				return interaction.editReply(trending);
@@ -51,7 +45,7 @@ module.exports = {
 					selectMenu.addOptions([
 						{
 							label: `${(i + 1).toString().padStart(2, '0')}) Year : ${arrayPopular[i].startDate.year}`,
-							description: `${arrayPopular[i].title?.english ?? arrayPopular[i]?.title.userPreferred}`.slice(0, 48),
+							description: `${arrayPopular[i]?.title.userPreferred}`.slice(0, 48),
 							value: `${arrayPopular[i].id}`,
 						},
 					]);
@@ -61,7 +55,7 @@ module.exports = {
 					color: 'RANDOM',
 					description: descArray.join('\n'),
 				});
-				return interaction.editReply({ embeds:[embed], components:[{ type: 'ACTION_ROW', components: [selectMenu] }, { type:'ACTION_ROW', components:[next, del] }] });
+				return interaction.editReply({ embeds:[embed], components:[{ type: 'ACTION_ROW', components: [selectMenu] }, { type:'ACTION_ROW', components:[next] }] });
 			}
 		}
 		catch(error) {
@@ -74,20 +68,58 @@ module.exports = {
     */
 	async selectmenu(interaction) {
 		try{
-			await interaction.deferUpdate();
-			if(interaction.customId == `${this.name}` && interaction.user.id === interaction.message.interaction.user.id) {
-				const userId = interaction.user.id;
-				const trending = dbtrending.get(userId);
-				const details = trending.find(({ id }) => `${id}` == interaction.values[0]);
-				const embed = new MessageEmbed({
-					title: `${details.title?.english ?? details.title?.userPreferred}`,
-					url: `https://anilist.co/anime/${details.id}`,
-					image: { url: `${details.coverImage?.extraLarge ?? details.coverImage?.large}` },
-					color: 'RANDOM',
-					description: `${details.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
-				});
-				return interaction.editReply({ embeds:[embed] });
-			}
+			const userId = interaction.user.id;
+			const trending = dbtrending.get(userId);
+			const details = trending.find(({ id }) => `${id}` == interaction.values[0]);
+			const embed = new MessageEmbed({
+				title: `${details.title?.english ?? details.title?.userPreferred}`,
+				url: `https://anilist.co/anime/${details.id}`,
+				image: { url: `${details.coverImage?.extraLarge ?? details.coverImage?.large}` },
+				color: 'RANDOM',
+				description: `${details.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
+				fields:[
+					{
+						name:'Type',
+						value:`${details.format}`,
+						inline: true,
+					},
+					{
+						name:'Season',
+						value:`${details.season ??= 'N/A'} ${details.startDate.year}`,
+						inline: true,
+					},
+					{
+						name:'Main Studio',
+						value:`${details.studios.edges[0].node.name}`,
+						inline: true,
+					},
+					{
+						name:'Status',
+						value: `${details.status}
+						Start Date: ${details.startDate.year ??= 'NA'}-${details.startDate.month ??= 'NA'}-${details.startDate.day ??= 'NA'}
+						End Date: ${details.endDate.year ??= 'NA'}-${details.endDate.month ??= 'NA'}-${details.endDate.day ??= 'NA'}`,
+						inline: true,
+					},
+					{
+						name:'Average Score',
+						value:`${details.averageScore}% by ${details.popularity.toLocaleString()} user`,
+						inline: true,
+					},
+					{
+						name:'Title',
+						value:`**English:** ${details.title.english ??= 'N/A'}
+						**Romaji:** ${details.title.userPreferred}
+						**Native:** ${details.title.native}`,
+						inline: false,
+					},
+					{
+						name: 'Genres',
+						value: `${details.genres.join(', ')}`,
+						inline: false,
+					},
+				],
+			});
+			return interaction.update({ embeds:[embed] });
 		}
 		catch(error) {
 			console.warn(error);
@@ -99,7 +131,6 @@ module.exports = {
     */
 	async button(interaction) {
 		try{
-			await interaction.deferUpdate();
 			const userId = interaction.user.id;
 			const next = new MessageButton({
 				style: 'SECONDARY',
@@ -115,20 +146,13 @@ module.exports = {
 				label: 'PREV',
 			});
 
-			const del = new MessageButton({
-				style: 'SECONDARY',
-				customId: `${this.name}_del`,
-				emoji: '🗑️',
-				label: 'DELETE',
-			});
-
 			const selectMenu = new MessageSelectMenu({
 				customId:`${this.name}`,
 				placeholder: 'Select an anime to view details',
 			});
 
 			const trending = dbtrending.get(userId);
-			if(interaction.customId == `${this.name}_next` && interaction.user.id === interaction.message.interaction.user.id) {
+			if(interaction.customId == `${this.name}_next`) {
 				count.math(userId, 'add', 10);
 				const buttonAction = count.get(userId);
 				const descArray = [];
@@ -137,7 +161,7 @@ module.exports = {
 						selectMenu.addOptions([
 							{
 								label: `${(i + 1).toString().padStart(2, '0')} Year : ${trending[i].startDate.year}`,
-								description: `${trending[i].title?.english ?? trending[i].title?.userPreferred}`.slice(0, 48),
+								description: `${trending[i].title?.userPreferred}`.slice(0, 48),
 								value: `${trending[i].id}`,
 							},
 						]);
@@ -147,27 +171,27 @@ module.exports = {
 						color: 'RANDOM',
 						description: descArray.join('\n'),
 					});
-					interaction.editReply({ content:'\u200b', embeds: [embed], components: [{ type: 'ACTION_ROW', components: [selectMenu] }, { type: 'ACTION_ROW', components: [next, prev, del] }] });
+					interaction.update({ content:'\u200b', embeds: [embed], components: [{ type: 'ACTION_ROW', components: [selectMenu] }, { type: 'ACTION_ROW', components: [next, prev] }] });
 				}
 
 				else {
-					interaction.editReply({ content: 'End of line', embeds:[], components: [{ type:'ACTION_ROW', components: [prev, del] }] });
+					interaction.update({ content: 'End of line', embeds:[], components: [{ type:'ACTION_ROW', components: [prev] }] });
 				}
 			}
 
-			else if (interaction.customId == `${this.name}_prev` && interaction.user.id === interaction.message.interaction.user.id) {
+			else if (interaction.customId == `${this.name}_prev`) {
 				count.math(userId, 'sub', 10);
 				const buttonAction = count.get(userId);
 				const descArray = [];
 				if (buttonAction < 10) {
-					interaction.editReply({ content: 'End of line', embeds: [], components: [{ type:'ACTION_ROW', components: [next, del] }] });
+					interaction.update({ content: 'End of line', embeds: [], components: [{ type:'ACTION_ROW', components: [next] }] });
 				}
 				else {
 					for (let i = buttonAction - 10; i < buttonAction; i++) {
 						selectMenu.addOptions([
 							{
 								label: `${(i + 1).toString().padStart(2, '0')} Year : ${trending[i].startDate.year}`,
-								description: `${trending[i].title?.english ?? trending[i].title?.userPreferred}`.slice(0, 48),
+								description: `${trending[i].title?.userPreferred}`.slice(0, 48),
 								value: `${trending[i].id}`,
 							},
 						]);
@@ -177,12 +201,8 @@ module.exports = {
 						color: 'RANDOM',
 						description: descArray.join('\n'),
 					});
-					interaction.editReply({ content:'\u200b', embeds: [embed], components: [{ type: 'ACTION_ROW', components: [selectMenu] }, { type: 'ACTION_ROW', components: [next, prev, del] }] });
+					interaction.update({ content:'\u200b', embeds: [embed], components: [{ type: 'ACTION_ROW', components: [selectMenu] }, { type: 'ACTION_ROW', components: [next, prev] }] });
 				}
-			}
-
-			else if (interaction.customId == `${this.name}_del` && interaction.user.id === interaction.message.interaction.user.id) {
-				interaction.deleteReply();
 			}
 		}
 		catch(error) {

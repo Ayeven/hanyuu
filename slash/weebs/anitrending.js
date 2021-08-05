@@ -9,9 +9,9 @@ module.exports = {
 	/**
    	* @param {import('discord.js').CommandInteraction} interaction
    	*/
-	async run(interaction) {
+	async slashcommand(interaction) {
 		try{
-			await interaction.defer();
+			await interaction.defer({ ephemeral: true });
 			const userId = interaction.user.id;
 
 			const next = new MessageButton({
@@ -19,13 +19,6 @@ module.exports = {
 				customId: `${this.name}_next`,
 				emoji: '⏭️',
 				label: 'NEXT',
-			});
-
-			const del = new MessageButton({
-				style: 'SECONDARY',
-				customId: `${this.name}_del`,
-				emoji: '🗑️',
-				label: 'DELETE',
 			});
 
 			const trend = await new Anilist().getTrendingAnime();
@@ -52,13 +45,13 @@ module.exports = {
 							value: `${arrayTrend[i].id}`,
 						},
 					]);
-					descArray.push(`[${i + 1}) ${arrayTrend[i].startDate.year} ${arrayTrend[i].title.userPreferred}](https://anilist.co/anime/${arrayTrend[i].id})`);
+					descArray.push(`[${i + 1}) ${arrayTrend[i].startDate.year} | ${arrayTrend[i].title?.english ?? arrayTrend[i].title.userPreferred}](https://anilist.co/anime/${arrayTrend[i].id})`);
 				}
 				const embed = new MessageEmbed({
 					color: 'RANDOM',
 					description: descArray.join('\n'),
 				});
-				return interaction.editReply({ embeds: [embed], components: [{ type: 'ACTION_ROW', components: [selectMenu] }, { type:'ACTION_ROW', components: [next, del] }] });
+				return interaction.editReply({ embeds: [embed], components: [{ type: 'ACTION_ROW', components: [selectMenu] }, { type:'ACTION_ROW', components: [next] }] });
 			}
 
 		}
@@ -71,8 +64,10 @@ module.exports = {
      */
 	async selectmenu(interaction) {
 		try {
-			await interaction.deferUpdate();
 			const userId = interaction.user.id;
+			/**
+			 * @type {animedata}
+			 */
 			const getTrend = aniTrending.get(userId);
 			const detail = getTrend.find(({ id })=> `${id}` == interaction.values[0]);
 			const embed = new MessageEmbed({
@@ -81,11 +76,53 @@ module.exports = {
 				image: { url: `${detail.coverImage?.extraLarge ?? detail.coverImage?.large}` },
 				color: 'RANDOM',
 				description: `${detail.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
+				fields:[
+					{
+						name:'Type',
+						value: `${detail.format}`,
+						inline: true,
+					},
+					{
+						name:'Season',
+						value: `${detail.season ??= 'N/A'}`,
+						inline: true,
+					},
+					{
+						name:'Main Studio',
+						value: `${detail.studios.edges[0].node.name}`,
+						inline: true,
+					},
+					{
+						name:'Episodes',
+						value: `Total: ${detail.episodes ??= 'N/A'}`,
+						inline: true,
+					},
+					{
+						name:'Status',
+						value: `${detail.status}
+						Start Date: ${detail.startDate.year ??= 'NA'}-${detail.startDate.month ??= 'NA'}-${detail.startDate.day ??= 'NA'}
+						End Date: ${detail.endDate.year ??= 'NA'}-${detail.endDate.month ??= 'NA'}-${detail.endDate.day ??= 'NA'}`,
+						inline: true,
+					},
+					{
+						name:'Title',
+						value: `**English:** ${detail.title.english ??= 'N/A'}
+						**Romaji:** ${detail.title.userPreferred}
+						**Native:** ${detail.title.native}`,
+						inline: false,
+					},
+					{
+						name:'Genres',
+						value: `${detail.genres.join(', ') }`,
+						inline: false,
+					},
+				],
 			});
-			return interaction.editReply({ embeds:[embed] });
+			return interaction.update({ embeds:[embed] });
 		}
 		catch(error) {
 			console.warn(error);
+			interaction.update('Something went wrong with the execution');
 		}
 	},
 	/**
@@ -93,8 +130,6 @@ module.exports = {
     */
 	async button(interaction) {
 		try {
-			await interaction.deferUpdate();
-
 			const userId = interaction.user.id;
 			const next = new MessageButton({
 				style: 'SECONDARY',
@@ -110,20 +145,13 @@ module.exports = {
 				label: 'PREV',
 			});
 
-			const del = new MessageButton({
-				style: 'SECONDARY',
-				customId: `${this.name}_del`,
-				emoji: '🗑️',
-				label: 'DELETE',
-			});
-
 			const selectMenu = new MessageSelectMenu({
 				customId:`${this.name}`,
 				placeholder: 'Select an anime to view details',
 			});
 
 			const getTrend = aniTrending.get(userId);
-			if (interaction.customId == `${this.name}_next` && interaction.user.id === interaction.message.interaction.user.id) {
+			if (interaction.customId == `${this.name}_next`) {
 				aniTendingCount.math(userId, 'add', 10);
 				const buttonAction = aniTendingCount.get(userId);
 				const descArray = [];
@@ -136,26 +164,26 @@ module.exports = {
 								value: `${getTrend[i].id}`,
 							},
 						]);
-						descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${getTrend[i].startDate.year} ${getTrend[i].title.userPreferred}](https://anilist.co/anime/${getTrend[i].id})`);
+						descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${getTrend[i].startDate.year} | ${getTrend[i].title?.english ?? getTrend[i].title.userPreferred}](https://anilist.co/anime/${getTrend[i].id})`);
 					}
 					const embed = new MessageEmbed({
 						color: 'RANDOM',
 						description: descArray.join('\n'),
 					});
-					interaction.editReply({ content:'\u200b', embeds: [embed], components: [{ type: 'ACTION_ROW', components: [selectMenu] }, { type: 'ACTION_ROW', components: [next, prev, del] }] });
+					interaction.update({ content:'\u200b', embeds: [embed], components: [{ type: 'ACTION_ROW', components: [selectMenu] }, { type: 'ACTION_ROW', components: [next, prev] }] });
 				}
 
 				else {
-					interaction.editReply({ content: 'End of line', embeds:[], components: [{ type:'ACTION_ROW', components: [prev, del] }] });
+					interaction.update({ content: 'End of line', embeds:[], components: [{ type:'ACTION_ROW', components: [prev] }] });
 				}
 			}
 
-			else if (interaction.customId == `${this.name}_prev` && interaction.user.id === interaction.message.interaction.user.id) {
+			else if (interaction.customId == `${this.name}_prev`) {
 				aniTendingCount.math(userId, 'sub', 10);
 				const buttonAction = aniTendingCount.get(userId);
 				const descArray = [];
 				if (buttonAction < 10) {
-					interaction.editReply({ content: 'End of line', embeds: [], components: [{ type:'ACTION_ROW', components: [next, del] }] });
+					interaction.update({ content: 'End of line', embeds: [], components: [{ type:'ACTION_ROW', components: [next] }] });
 				}
 				else {
 					for (let i = buttonAction - 10; i < buttonAction; i++) {
@@ -166,22 +194,19 @@ module.exports = {
 								value: `${getTrend[i].id}`,
 							},
 						]);
-						descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${getTrend[i].startDate.year} ${getTrend[i].title.userPreferred}](https://anilist.co/anime/${getTrend[i].id})`);
+						descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${getTrend[i].startDate.year} | ${getTrend[i].title?.english ?? getTrend[i].title.userPreferred}](https://anilist.co/anime/${getTrend[i].id})`);
 					}
 					const embed = new MessageEmbed({
 						color: 'RANDOM',
 						description: descArray.join('\n'),
 					});
-					interaction.editReply({ content:'\u200b', embeds: [embed], components: [{ type: 'ACTION_ROW', components: [selectMenu] }, { type: 'ACTION_ROW', components: [next, prev, del] }] });
+					interaction.update({ content:'\u200b', embeds: [embed], components: [{ type: 'ACTION_ROW', components: [selectMenu] }, { type: 'ACTION_ROW', components: [next, prev] }] });
 				}
-			}
-
-			else if (interaction.customId == `${this.name}_del` && interaction.user.id === interaction.message.interaction.user.id) {
-				interaction.deleteReply();
 			}
 		}
 		catch(error) {
 			console.warn(error);
+			interaction.update('Something went wrong with the execution');
 		}
 	},
 };

@@ -1,4 +1,3 @@
-const { prefix } = require('../.setting/config.json');
 module.exports = {
 	name: 'guildDelete',
 	/**
@@ -7,7 +6,7 @@ module.exports = {
 	 * @param {import("discord.js").Client} client
 	 */
 	run(guild, client) {
-		client.user.setActivity(`${prefix}help`, { type: 'COMPETING' });
+		client.user.setActivity('/help', { type: 'COMPETING' });
 		if (!guild.available) return;
 
 		console.log(`[GUILD DELETE] ${guild.name} (${guild.id}) removed the bot`);

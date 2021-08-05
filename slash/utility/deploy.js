@@ -1,3 +1,4 @@
+const dbserver = require('../../dependancies/database').servers;
 module.exports = {
 	name: 'deploy',
 	description: 'Deploy Global/Guild Commands',
@@ -62,13 +63,18 @@ module.exports = {
 					name: 'commandname',
 					description: 'The Slash Command name',
 				},
+				{
+					type: 'STRING',
+					name: 'guildid',
+					description: 'the guild id',
+				},
 			],
 		},
 	],
 	/**
    * @param {import('discord.js').CommandInteraction} interaction
    */
-	async run(interaction) {
+	async slashcommand(interaction) {
 		try {
 			await interaction.defer({ ephemeral: true });
 			// @ts-expect-error
@@ -76,6 +82,9 @@ module.exports = {
 			const [guildCommands, globalCommands] = SlashCommands.partition(have => have.guildId);
 			if(interaction.options.getSubcommand() == 'global') {
 				const commandname = interaction.options.getString('commandname');
+				const target = interaction.options.getString('guildid');
+				const checkGuild = await interaction.client.guilds.fetch(target);
+				dbserver.set(target, { ownerId: checkGuild.ownerId, guildId: checkGuild.id });
 				switch(interaction.options.getString('options')) {
 				case 'set':
 					await interaction.client.application.commands.set(globalCommands);
@@ -83,7 +92,7 @@ module.exports = {
 					break;
 				case 'create':
 					SlashCommands.get(commandname) ?
-						(await interaction.client.application.commands.create(SlashCommands.get(commandname)),
+						(await interaction.client.application.commands.create(SlashCommands.get(commandname), target),
 						await interaction.editReply({ content: `Slash command \`${commandname}\` have been created` }))
 						: (await interaction.editReply({ content:'The command name does not exist! Put in the correct name of the command in the `commandname` option' }));
 					break;

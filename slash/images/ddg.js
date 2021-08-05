@@ -1,19 +1,16 @@
 const { result, vqd } = require('../../dependancies/ddg');
-const Enmap = require('enmap');
-const enmap = new Enmap({ name: 'images', dataDir: './data/images', fetchAll: false, autoFetch: true });
+const ddg = require('../../dependancies/database');
+const en = ddg.ddgcount;
+const enmap = ddg.ddgImage;
 const util = require('util');
 const delay = util.promisify(setTimeout);
 const { MessageButton } = require('discord.js');
-const en = new Enmap({ name: 'count', dataDir: './data/images', fetchAll: false, autoFetch: true });
 const filterChoices = [
 	{
 		name: 'strict', value: 1,
 	},
 	{
 		name: 'moderate', value: -1,
-	},
-	{
-		name: 'off', value: -2,
 	},
 ];
 
@@ -45,21 +42,16 @@ module.exports = {
 	/**
    * @param {import('discord.js').CommandInteraction} interaction
    */
-	async run(interaction) {
+	async slashcommand(interaction) {
 		try {
-			await interaction.defer();
+			await interaction.defer({ ephemeral: true });
 			const userId = `${interaction.user.id}`;
 
 			const next = new MessageButton({
 				style: 'SECONDARY',
 				customId: `${this.name}_next`,
 				emoji: '⏭️',
-			});
-
-			const del = new MessageButton({
-				style: 'SECONDARY',
-				customId: `${this.name}_del`,
-				emoji: '🗑️',
+				label: 'NEXT 5',
 			});
 
 			if (interaction.options.getSubcommand() == 'images') {
@@ -69,9 +61,6 @@ module.exports = {
 				const getToken = await vqd(enquiry, safe);
 				const getImage = await result(enquiry, getToken[1]);
 				en.set(userId, 5);
-				/**
-                * @type {Enmap<userId, getImage>}
-                */
 				enmap.set(userId, getImage);
 				await delay(100);
 				const array = enmap.get(userId);
@@ -79,7 +68,7 @@ module.exports = {
 				for (let i = 0; i < 5; i++) {
 					files.push(array[i].image);
 				}
-				return interaction.followUp({ content: `${files.join('\n')}`, components: [{ type: 'ACTION_ROW', components:[next, del] }] });
+				return interaction.followUp({ content: `${files.join('\n')}`, components: [{ type: 'ACTION_ROW', components:[next] }] });
 			}
 		}
 		catch (err) {console.error(err);}
@@ -89,65 +78,58 @@ module.exports = {
     */
 	async button(interaction) {
 		try {
-			await interaction.deferUpdate();
 			const userId = `${interaction.user.id}`;
 
 			const next = new MessageButton({
 				style: 'SECONDARY',
 				customId: `${this.name}_next`,
 				emoji: '⏭️',
+				label: 'NEXT 5',
 			});
 
 			const prev = new MessageButton({
 				style: 'SECONDARY',
 				customId: `${this.name}_prev`,
 				emoji: '⏮️',
-			});
-
-			const del = new MessageButton({
-				style: 'SECONDARY',
-				customId: `${this.name}_del`,
-				emoji: '🗑️',
+				label: 'PREV 5',
 			});
 
 			const array = enmap.get(userId);
 			const files = [];
-			if (interaction.customId == `${this.name}_next` && interaction.user.id === interaction.message.interaction.user.id) {
+			if (interaction.customId == `${this.name}_next`) {
 				en.math(userId, 'add', 5);
 				const m = en.get(userId);
 				if (m < 101) {
 					for (let i = m - 5; i < m; i++) {
 						files.push(array[i]?.image);
 					}
-					interaction.editReply({ content: `${files.join('\n')}`, components: [{ type: 'ACTION_ROW', components:[next, prev, del] }] });
+					interaction.update({ content: `${files.join('\n')}`, components: [{ type: 'ACTION_ROW', components:[next, prev] }] });
 				}
 
 				else {
-					interaction.editReply({ content: 'End of line', components: [{ type:'ACTION_ROW', components: [prev, del] }] });
+					interaction.update({ content: 'End of line', components: [{ type:'ACTION_ROW', components: [prev] }] });
 				}
 			}
 
-			else if (interaction.customId == `${this.name}_prev` && interaction.user.id === interaction.message.interaction.user.id) {
+			else if (interaction.customId == `${this.name}_prev`) {
 				en.math(userId, 'subtract', 5);
 				const m = en.get(userId);
 				if (m <= 4) {
-					interaction.editReply({ content: 'End of line', components: [{ type: 'ACTION_ROW', components:[next, del] }] });
+					interaction.update({ content: 'End of line', components: [{ type: 'ACTION_ROW', components:[next] }] });
 				}
 
 				else {
 					for (let i = m - 5; i < m; i++) {
 						files.push(array[i]?.image);
 					}
-					interaction.editReply({ content: `${files.join('\n')}`, components: [{ type:'ACTION_ROW', components: [next, prev, del] }] });
+					interaction.update({ content: `${files.join('\n')}`, components: [{ type:'ACTION_ROW', components: [next, prev] }] });
 				}
 			}
 
-			else if (interaction.customId == `${this.name}_del` && interaction.user.id === interaction.message.interaction.user.id) {
-				interaction.deleteReply();
-			}
 		}
 		catch (error) {
 			console.warn(error);
+			interaction.update('Something went wrong executing the command');
 		}
 	},
 };

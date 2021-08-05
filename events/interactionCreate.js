@@ -59,7 +59,7 @@ module.exports = {
 			setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
 
 			try {
-				SlashCommand.run(interaction, playlist);
+				SlashCommand.slashcommand(interaction, playlist);
 			}
 			catch (err) {
 				console.error(`${time} [CommandInteraction] ${err}`);

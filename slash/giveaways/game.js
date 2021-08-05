@@ -1,5 +1,5 @@
 const { Giveaway, Type, Platform, Sort } = require('../../dependancies/giveaway.js');
-const { MessageEmbed, MessageSelectMenu, MessageButton } = require('discord.js');
+const { MessageEmbed, MessageSelectMenu } = require('discord.js');
 const Enmap = require('enmap');
 const platforms = [
 	{ name:Platform.android, value:Platform.android },
@@ -68,9 +68,9 @@ module.exports = {
 	/**
    * @param {import('discord.js').CommandInteraction} interaction Represent CommandInteraction
    */
-	async run(interaction) {
+	async slashcommand(interaction) {
 		try {
-			await interaction.defer();
+			await interaction.defer({ ephemeral:true });
 			if (interaction.options.getSubcommand() == 'giveaway') {
 				const platform = interaction.options.getString('platform');
 				const t = interaction.options.getString('type');
@@ -79,7 +79,7 @@ module.exports = {
 				const giveaway = await Giveaway.giveaway(userId, { platform, type : t, sort: s });
 				const selectMenu = new MessageSelectMenu({
 					customId:`${this.name}`,
-					placeholder: 'Pick a giveaway to view it details',
+					placeholder: 'Select a giveaway to view it details',
 				});
 
 				if (
@@ -87,7 +87,7 @@ module.exports = {
                     || giveaway == 'Object not found: Giveaway or endpoint not found.'
                     || giveaway == 'Something wrong on gamepower.com end (unexpected server errors)'
 					|| giveaway == 'Bad input or something unexpected happened'
-				) { interaction.followUp(giveaway); }
+				) { interaction.editReply(giveaway); }
 
 				else {
 					const descArray = [];
@@ -96,7 +96,7 @@ module.exports = {
 						descArray.push(` [${(n + 1).toString().padStart(2, '0')}) ${resultCollection[n].title}](${resultCollection[n].open_giveaway})`);
 						selectMenu.addOptions([
 							{
-								label: `ID: ${resultCollection[n].id}`,
+								label: `${(n + 1).toString().padStart(2, '0')}) Deal ID : ${resultCollection[n].id}`,
 								description: `${resultCollection[n].title}`.slice(0, 48),
 								value: `${resultCollection[n].id}`,
 							},
@@ -107,12 +107,12 @@ module.exports = {
 						color:'RANDOM',
 						description: descArray.join('\n'),
 					});
-					await interaction.followUp({ embeds:[embed], components: [{ type:'ACTION_ROW', components: [selectMenu] }] });
+					await interaction.editReply({ embeds:[embed], components: [{ type:'ACTION_ROW', components: [selectMenu] }] });
 				}
 			}
 		}
 		catch (err) {
-			interaction.followUp({ content:'Oh No!! Something went wrong' });
+			interaction.editReply({ content:'Oh No!! Something went wrong' });
 			console.error(err);
 		}
 	},
@@ -122,7 +122,6 @@ module.exports = {
  	*/
 	async selectmenu(interaction) {
 		try {
-			await interaction.defer();
 			const giveawayId = interaction.values[0];
 			const userId = `${interaction.user.id}`;
 			/**
@@ -131,17 +130,11 @@ module.exports = {
 			const collection = new Enmap({ name: 'giveaway', dataDir: './data/giveaway', fetchAll: false, autoFetch: true });
 			const arrays = collection.get(userId);
 			const userRequst = arrays.find(({ id }) => id == giveawayId);
-			const button = new MessageButton({
-				style : 'LINK',
-				label : `Go to Deals : ${giveawayId}`,
-				url : `${userRequst.open_giveaway}`,
-			});
 
 			const embed = new MessageEmbed({
 				color : 'RANDOM',
-				thumbnail : { url : userRequst.thumbnail },
-				image: { url: userRequst.thumbnail },
-				title : `Details for ${userRequst.id}: ${userRequst.title}`,
+				thumbnail: { url: userRequst.thumbnail },
+				title : `${userRequst.title}`,
 				description : `**Descriptions :** \n${userRequst.description}\n\n**Instructions:**\n ${userRequst.instruction}`,
 				fields : [
 					{
@@ -171,10 +164,10 @@ module.exports = {
 					},
 				],
 			});
-			void interaction.followUp({ embeds:[embed], components: [{ type:'ACTION_ROW', components: [button] }] });
+			interaction.update({ embeds:[embed] });
 		}
 		catch (error) {
-			interaction.followUp({ content:'Oh No!! Something went wrong' });
+			interaction.editReply({ content:'Oh No!! Something went wrong' });
 			console.warn(error);
 		}
 	},

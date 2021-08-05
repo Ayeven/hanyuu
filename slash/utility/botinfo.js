@@ -5,12 +5,12 @@ module.exports = {
 	/**
    * @param {import('discord.js').CommandInteraction} interaction Represent `CommandInteraction botinfo`
    */
-	async run(interaction) {
+	async slashcommand(interaction) {
 
 		try {
-			await interaction.defer();
+			await interaction.defer({ ephemeral: true });
 			const _me = interaction.client.user;
-			const _meMe = interaction.guild.me;
+			const _meMe = interaction.guild?.me;
 			const embed = {
 				color:0xC6E2FF,
 				title:_me.tag,
@@ -22,7 +22,7 @@ module.exports = {
 					},
 					{
 						name:'Nickname in this guild',
-						value:_meMe?.displayName,
+						value:_meMe?.displayName ?? _me?.username,
 						inline:true,
 					},
 					{
@@ -31,8 +31,8 @@ module.exports = {
 						inline:true,
 					},
 					{
-						name:`One of my role here is ${_meMe.roles.cache.random()?.name ?? _meMe.roles.botRole} `,
-						value: `**With permission(s):** ${_meMe.roles.cache.first()?.permissions.toArray().join(', ') ?? 'of no permission(s)'}`,
+						name:`One of my role here is ${_meMe?.roles.cache.random()?.name ?? _meMe?.roles.botRole ?? 'I only exist for `/` command'} `,
+						value: `**With permission(s):** ${_meMe?.roles.cache.first()?.permissions.toArray().join(', ') ?? 'of no permission(s)'}`,
 						inline:true,
 					},
 				],
@@ -41,7 +41,7 @@ module.exports = {
 				},
 				timestamp: new Date(),
 			};
-			interaction.followUp({ embeds:[embed] });
+			interaction.editReply({ embeds:[embed] });
 		}
 		catch (err) {
 			interaction.followUp('Oh No!! Something went wrong');

@@ -67,9 +67,9 @@ module.exports = {
 	/**
    * @param {import('discord.js').CommandInteraction} interaction - Represents a Command Interaction
    */
-	async run(interaction) {
+	async slashcommand(interaction) {
 		try {
-			await interaction.defer();
+			await interaction.defer({ ephemeral: true });
 			const category = interaction.options.getInteger('category') ?? null;
 			const difficulty = interaction.options.getString('difficulty') ?? null;
 			const type = interaction.options.getString('type') ?? null;
@@ -127,7 +127,7 @@ module.exports = {
 					description: `**Question:**\n\n${question.result.question}`,
 				});
 				trivia.set(`${userId}`, question.result.correct);
-				return interaction.followUp({ embeds: [embed], components: [{ type:'ACTION_ROW', components: [selectAnswer] }] });
+				return interaction.editReply({ embeds: [embed], components: [{ type:'ACTION_ROW', components: [selectAnswer] }] });
 			}
 
 		}
@@ -137,16 +137,15 @@ module.exports = {
      * @param {import('discord.js').SelectMenuInteraction} interaction - Represents a SelectMenu Interaction.
      */
 	async selectmenu(interaction) {
-		await interaction.deferUpdate();
 		const userId = interaction.user.id;
 		const correct = await trivia.get(`${userId}`);
 		if (interaction.values[0] == correct && interaction.message instanceof Message) {
 			trivia.delete(`${userId}`);
-			interaction.message.edit({ content:'You got correct answer, congratulation', components: [], embeds: [] });
+			interaction.update({ content:'You got correct answer, congratulation', components: [], embeds: [] });
 		}
 		else if(interaction.values[0] !== correct && interaction.message instanceof Message) {
 			trivia.delete(`${userId}`);
-			interaction.message.edit({ content:'You got the wrong answer! Better luck next time', components: [], embeds: [] });
+			interaction.update({ content:'You got the wrong answer! Better luck next time', components: [], embeds: [] });
 		}
 	},
 };
