@@ -2,7 +2,8 @@ const Youtube = require('youtube-sr').default;
 const { Playlist } = require('../../dependancies/playlist');
 const { joinVoiceChannel, entersState, VoiceConnectionStatus } = require('@discordjs/voice');
 const { Track } = require('../../dependancies/track');
-const { MessageSelectMenu, MessageEmbed, MessageButton, GuildMember } = require('discord.js');
+const { MessageSelectMenu, MessageEmbed, MessageButton, GuildMember, Constants } = require('discord.js');
+const type = Constants.ApplicationCommandOptionTypes;
 const moment = require('moment');
 require('moment-duration-format');
 const scdl = require('soundcloud-downloader').default;
@@ -13,12 +14,12 @@ module.exports = {
 	cooldown: 15,
 	options:[
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name: 'yt',
 			description: 'The song name you want to search for!',
 			options: [
 				{
-					type: 'STRING',
+					type: type.STRING,
 					name: 'song_name',
 					description: 'The song title you looking for',
 					required: true,
@@ -26,12 +27,12 @@ module.exports = {
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'sc',
 			description:'The song name you want to search for!',
 			options: [
 				{
-					type: 'STRING',
+					type: type.STRING,
 					name: 'song_name',
 					description: 'The song title you looking for',
 					required: true,

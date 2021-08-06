@@ -1,4 +1,5 @@
-const { MessageButton, version } = require('discord.js');
+const { MessageButton, version, Constants } = require('discord.js');
+const opt = Constants.ApplicationCommandOptionTypes;
 const moment = require('moment');
 require('moment-duration-format');
 module.exports = {
@@ -6,17 +7,17 @@ module.exports = {
 	description: 'Utility functions for the bot',
 	options:[
 		{
-			type:'SUB_COMMAND',
+			type:opt.SUB_COMMAND,
 			name: 'ping',
 			description: 'It give you pong!',
 		},
 		{
-			type:'SUB_COMMAND',
+			type:opt.SUB_COMMAND,
 			name: 'invite',
 			description: 'Show you how to invite the bot into your server!',
 		},
 		{
-			type:'SUB_COMMAND',
+			type:opt.SUB_COMMAND,
 			name: 'stats',
 			description: 'Show you the statistic of the bot',
 		},

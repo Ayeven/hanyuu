@@ -2,9 +2,9 @@ const { result, vqd } = require('../../dependancies/ddg');
 const ddg = require('../../dependancies/database');
 const en = ddg.ddgcount;
 const enmap = ddg.ddgImage;
-const util = require('util');
-const delay = util.promisify(setTimeout);
-const { MessageButton } = require('discord.js');
+const delay = require('util').promisify(setTimeout);
+const { MessageButton, Constants } = require('discord.js');
+const opt = Constants.ApplicationCommandOptionTypes;
 const filterChoices = [
 	{
 		name: 'strict', value: 1,
@@ -20,18 +20,18 @@ module.exports = {
 	cooldown: 5,
 	options: [
 		{
-			type:'SUB_COMMAND',
+			type: opt.SUB_COMMAND,
 			name:'images',
 			description: 'Search some images with Duck Duck Go service',
 			options: [
 				{
-					type:'STRING',
+					type: opt.STRING,
 					name: 'images',
 					description: 'The image query to look for',
 					required: true,
 				},
 				{
-					type:'INTEGER',
+					type: opt.INTEGER,
 					name: 'safesearch',
 					description: 'Safe search filter',
 					choices: filterChoices,

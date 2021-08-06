@@ -1,4 +1,5 @@
-const dbserver = require('../../dependancies/database').servers;
+const { Constants } = require('discord.js');
+const optiontype = Constants.ApplicationCommandOptionTypes;
 module.exports = {
 	name: 'deploy',
 	description: 'Deploy Global/Guild Commands',
@@ -6,12 +7,12 @@ module.exports = {
 	owner: true,
 	options:[
 		{
-			type: 'SUB_COMMAND',
+			type: optiontype.SUB_COMMAND,
 			name: 'guild',
 			description: 'Deploying guild command',
 			options:[
 				{
-					type:'STRING',
+					type:optiontype.STRING,
 					name:'options',
 					description:'Choose option for the slash command',
 					required: true,
@@ -27,19 +28,19 @@ module.exports = {
 					],
 				},
 				{
-					type: 'STRING',
+					type: optiontype.STRING,
 					name: 'commandname',
 					description: 'The Slash Command name',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: optiontype.SUB_COMMAND,
 			name: 'global',
 			description: 'Deploying guild command',
 			options:[
 				{
-					type:'STRING',
+					type:optiontype.STRING,
 					name:'options',
 					description:'Choose option for the slash command',
 					required: true,
@@ -59,12 +60,12 @@ module.exports = {
 					],
 				},
 				{
-					type: 'STRING',
+					type: optiontype.STRING,
 					name: 'commandname',
 					description: 'The Slash Command name',
 				},
 				{
-					type: 'STRING',
+					type: optiontype.STRING,
 					name: 'guildid',
 					description: 'the guild id',
 				},
@@ -83,8 +84,6 @@ module.exports = {
 			if(interaction.options.getSubcommand() == 'global') {
 				const commandname = interaction.options.getString('commandname');
 				const target = interaction.options.getString('guildid');
-				const checkGuild = await interaction.client.guilds.fetch(target);
-				dbserver.set(target, { ownerId: checkGuild.ownerId, guildId: checkGuild.id });
 				switch(interaction.options.getString('options')) {
 				case 'set':
 					await interaction.client.application.commands.set(globalCommands);

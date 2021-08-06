@@ -1,37 +1,37 @@
 const { Quotes } = require('../../dependancies/quotesApi');
-const { MessageEmbed } = require('discord.js');
-
+const { MessageEmbed, Constants } = require('discord.js');
+const type = Constants.ApplicationCommandOptionTypes;
 module.exports = {
 	name: 'quotes',
 	description: 'Give you some random animes/movies/show quotes',
 	options:[
 		{
-			type:'SUB_COMMAND',
+			type:type.SUB_COMMAND,
 			name:'anime',
 			description:'Give you random anime quotes',
 		},
 		{
-			type:'SUB_COMMAND',
+			type:type.SUB_COMMAND,
 			name:'movie',
 			description:'Give you random movies/shows quotes',
 		},
 		{
-			type:'SUB_COMMAND',
+			type:type.SUB_COMMAND,
 			name:'affirmation',
 			description:'Generate Stuart Smalley Affirmations',
 		},
 		{
-			type:'SUB_COMMAND',
+			type:type.SUB_COMMAND,
 			name:'expression',
 			description:'Give you the most inspiring expressions of mankind',
 		},
 		{
-			type:'SUB_COMMAND',
+			type:type.SUB_COMMAND,
 			name:'inspiration',
 			description:'Motivational and Inspirational quotes',
 		},
 		{
-			type:'SUB_COMMAND',
+			type:type.SUB_COMMAND,
 			name:'breakingbad',
 			description:'Some Breaking Bad quotes',
 		},

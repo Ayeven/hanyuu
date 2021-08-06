@@ -1,220 +1,222 @@
 const waifu = require('../../dependancies/image').Waifupic;
+const { Constants } = require('discord.js');
+const type = Constants.ApplicationCommandOptionTypes;
 module.exports = {
 	name: 'waifupic',
 	description: 'Get a random waifu fetch/gif from waifu.pics',
 	cooldown: 10,
 	options:[
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'waifu',
 			description: 'Get a random fetch/gif from waifu.pics of waifu ',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'neko',
 			description: 'Get a random fetch/gif from waifu.pics of neko',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'shinobu',
 			description: 'Get a random fetch/gif from waifu.pics of shinobu',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'megumin',
 			description: 'Get a random fetch/gif from waifu.pics of megumin',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'bully',
 			description: 'Get a random fetch/gif from waifu.pics of bullying',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'cuddle',
 			description: 'Get a random fetch/gif from waifu.pics of cuddle',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'awoo',
 			description: 'Get a random fetch/gif from waifu.pics of awoo',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'bonk',
 			description: 'Get a random fetch/gif from waifu.pics of bonk',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'yeet',
 			description: 'Get a random fetch/gif from waifu.pics of yeet-ing',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'smile',
 			description: 'Get a random fetch/gif from waifu.pics of smiling',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'wave',
 			description: 'Get a random fetch/gif from waifu.pics of waving',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'highfive',
 			description: 'Get a random fetch/gif from waifu.pics of highfive',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'handhold',
 			description: 'Get a random fetch/gif from waifu.pics of handhold',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'glomp',
 			description: 'Get a random fetch/gif from waifu.pics of glomp',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'happy',
 			description: 'Get a random fetch/gif from waifu.pics of happy',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'wink',
 			description: 'Get a random fetch/gif from waifu.pics of wink',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'dance',
 			description: 'Get a random fetch/gif from waifu.pics of dancing',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'cringe',
 			description: 'Get a random fetch/gif from waifu.pics of cringe',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},

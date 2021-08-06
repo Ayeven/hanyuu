@@ -1,13 +1,13 @@
 const { Anime } = require('../../dependancies/anime');
-const { MessageEmbed, MessageSelectMenu } = require('discord.js');
-
+const { MessageEmbed, MessageSelectMenu, Constants } = require('discord.js');
+const optiontype = Constants.ApplicationCommandOptionTypes;
 module.exports = {
 	name: 'jikansearch',
 	description: 'Search for some anime(s)',
 	cooldown: 10,
 	options:[
 		{
-			type: 'STRING',
+			type: optiontype.STRING,
 			name:'query',
 			description: 'The anime name you want to look into',
 			required: true,
