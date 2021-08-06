@@ -41,7 +41,7 @@ module.exports = {
     */
 	async slashcommand(interaction) {
 		try {
-			await interaction.defer();
+			await interaction.deferReply();
 			if (interaction.options.getSubcommand() == 'anime') {
 				const response = await new Quotes().anime();
 				if (response == 'Something bad happen when trying to fetch data from server!') {

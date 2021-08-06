@@ -76,7 +76,7 @@ module.exports = {
    */
 	async slashcommand(interaction) {
 		try {
-			await interaction.defer({ ephemeral: true });
+			await interaction.deferReply({ ephemeral: true });
 			// @ts-expect-error
 			const { SlashCommands } = interaction.client;
 			const [guildCommands, globalCommands] = SlashCommands.partition(have => have.guildId);

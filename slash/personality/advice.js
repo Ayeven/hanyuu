@@ -20,7 +20,7 @@ module.exports = {
     */
 	async slashcommand(interaction) {
 		try {
-			await interaction.defer();
+			await interaction.deferReply();
 			if (interaction.options.getSubcommand() == 'random') {
 				const response = await new Advice().advice();
 				if(response == 'No data found or server is down!') {

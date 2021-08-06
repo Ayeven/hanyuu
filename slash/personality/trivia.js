@@ -69,7 +69,7 @@ module.exports = {
    */
 	async slashcommand(interaction) {
 		try {
-			await interaction.defer({ ephemeral: true });
+			await interaction.deferReply({ ephemeral: true });
 			const category = interaction.options.getInteger('category') ?? null;
 			const difficulty = interaction.options.getString('difficulty') ?? null;
 			const type = interaction.options.getString('type') ?? null;

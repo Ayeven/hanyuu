@@ -18,7 +18,7 @@ module.exports = {
    */
 	async slashcommand(interaction) {
 		try {
-			await interaction.defer();
+			await interaction.deferReply();
 			const q = interaction.options.getString('query');
 			const fetch = await Anime.getAnimeSearch({ keyword:q });
 

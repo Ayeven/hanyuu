@@ -17,7 +17,7 @@ module.exports = {
    */
 	async slashcommand(interaction) {
 		try {
-			await interaction.defer();
+			await interaction.deferReply();
 			const q = interaction.options.getString('query');
 			const fetch = await Manga.getMangaSearch(q);
 			const descArray = [];

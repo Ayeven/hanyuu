@@ -6,7 +6,6 @@ const { MessageSelectMenu, MessageEmbed, MessageButton, GuildMember } = require(
 const moment = require('moment');
 require('moment-duration-format');
 const scdl = require('soundcloud-downloader').default;
-const opt = require('discord-api-types/v9').ApplicationCommandOptionType;
 module.exports = {
 	name: 'music',
 	description: 'Search Tracks',
@@ -14,12 +13,12 @@ module.exports = {
 	cooldown: 15,
 	options:[
 		{
-			type: opt.SubCommand,
+			type: 'SUB_COMMAND',
 			name: 'yt',
 			description: 'The song name you want to search for!',
 			options: [
 				{
-					type: opt.String,
+					type: 'STRING',
 					name: 'song_name',
 					description: 'The song title you looking for',
 					required: true,
@@ -27,12 +26,12 @@ module.exports = {
 			],
 		},
 		{
-			type: opt.SubCommand,
+			type: 'SUB_COMMAND',
 			name:'sc',
 			description:'The song name you want to search for!',
 			options: [
 				{
-					type: opt.String,
+					type: 'STRING',
 					name: 'song_name',
 					description: 'The song title you looking for',
 					required: true,
@@ -46,7 +45,7 @@ module.exports = {
 	async slashcommand(interaction) {
 
 		try {
-			await interaction.defer();
+			await interaction.deferReply();
 			if (interaction.options.getSubcommand() == 'yt') {
 				const query = interaction.options.getString('song_name');
 				const result = await Youtube.search(query, { limit: 10, type: 'video' });

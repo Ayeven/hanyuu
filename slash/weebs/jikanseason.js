@@ -83,7 +83,7 @@ module.exports = {
    */
 	async slashcommand(interaction) {
 		try {
-			await interaction.defer();
+			await interaction.deferReply();
 			const season = interaction.options.getString('season');
 			const year = interaction.options.getString('year');
 			const page = interaction.options.getInteger('page');

@@ -70,7 +70,7 @@ module.exports = {
    */
 	async slashcommand(interaction) {
 		try {
-			await interaction.defer({ ephemeral:true });
+			await interaction.deferReply({ ephemeral:true });
 			if (interaction.options.getSubcommand() == 'giveaway') {
 				const platform = interaction.options.getString('platform');
 				const t = interaction.options.getString('type');

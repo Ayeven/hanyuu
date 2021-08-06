@@ -310,7 +310,7 @@ module.exports = {
    */
 	async slashcommand(interaction) {
 		try{
-			await interaction.defer();
+			await interaction.deferReply();
 			const option = interaction?.options;
 			const text = option.getString('text');
 			let image;

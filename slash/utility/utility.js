@@ -26,7 +26,7 @@ module.exports = {
    */
 	async slashcommand(interaction) {
 		try{
-			await interaction.defer({ ephemeral:true });
+			await interaction.deferReply({ ephemeral:true });
 			let linkspeak;
 			let linkslash;
 			let speak = '';

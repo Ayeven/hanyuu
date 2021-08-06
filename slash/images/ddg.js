@@ -44,7 +44,7 @@ module.exports = {
    */
 	async slashcommand(interaction) {
 		try {
-			await interaction.defer({ ephemeral: true });
+			await interaction.deferReply({ ephemeral: true });
 			const userId = `${interaction.user.id}`;
 
 			const next = new MessageButton({
