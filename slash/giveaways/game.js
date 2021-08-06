@@ -1,5 +1,6 @@
 const { Giveaway, Type, Platform, Sort } = require('../../dependancies/giveaway.js');
-const { MessageEmbed, MessageSelectMenu } = require('discord.js');
+const { MessageEmbed, MessageSelectMenu, Constants } = require('discord.js');
+const opt = Constants.ApplicationCommandOptionTypes;
 const Enmap = require('enmap');
 const platforms = [
 	{ name:Platform.android, value:Platform.android },
@@ -37,26 +38,26 @@ module.exports = {
 	cooldown: 10,
 	options: [
 		{
-			type: 'SUB_COMMAND',
+			type: opt.SUB_COMMAND,
 			name:'giveaway',
 			description: 'Get up to 25 games giveaway by platform, type and sorted by',
 			options: [
 				{
-					type: 'STRING',
+					type: opt.STRING,
 					name: 'platform',
 					description: 'Game platform',
 					choices: platforms,
 					required: true,
 				},
 				{
-					type: 'STRING',
+					type: opt.STRING,
 					name: 'type',
 					description:'type of giveaway',
 					choices: type,
 					required: true,
 				},
 				{
-					type: 'STRING',
+					type: opt.STRING,
 					name: 'sort',
 					description: 'Sorted by?',
 					choices: sort,
@@ -70,7 +71,7 @@ module.exports = {
    */
 	async slashcommand(interaction) {
 		try {
-			await interaction.defer({ ephemeral:true });
+			await interaction.deferReply({ ephemeral:true });
 			if (interaction.options.getSubcommand() == 'giveaway') {
 				const platform = interaction.options.getString('platform');
 				const t = interaction.options.getString('type');

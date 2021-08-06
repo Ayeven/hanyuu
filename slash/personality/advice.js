@@ -1,16 +1,17 @@
 const { Advice } = require('../../dependancies/advice');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Constants } = require('discord.js');
+const type = Constants.ApplicationCommandOptionTypes;
 module.exports = {
 	name: 'advices',
 	description: 'Give you some random advice(s)/activities recommendation',
 	options:[
 		{
-			type:'SUB_COMMAND',
+			type:type.SUB_COMMAND,
 			name:'random',
 			description:'Give you random advices',
 		},
 		{
-			type:'SUB_COMMAND',
+			type:type.SUB_COMMAND,
 			name:'activity',
 			description:'Give you random activity to look into',
 		},
@@ -20,7 +21,7 @@ module.exports = {
     */
 	async slashcommand(interaction) {
 		try {
-			await interaction.defer();
+			await interaction.deferReply();
 			if (interaction.options.getSubcommand() == 'random') {
 				const response = await new Advice().advice();
 				if(response == 'No data found or server is down!') {

@@ -8,7 +8,7 @@ module.exports = {
    */
 	async slashcommand(interaction) {
 		try {
-			await interaction.defer({ ephemeral:true });
+			await interaction.deferReply({ ephemeral:true });
 			const global = await interaction.client.application.commands.fetch();
 			const guild = await interaction.guild.commands.fetch();
 			const guildArray = [];

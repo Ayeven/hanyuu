@@ -1,173 +1,174 @@
 const shiro = require('../../dependancies/image').Shiro;
-
+const { Constants } = require('discord.js');
+const type = Constants.ApplicationCommandOptionTypes;
 module.exports = {
 	name: 'shiro',
 	description: 'Get a random image/gif from shiro.gg',
 	cooldown: 10,
 	options:[
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'cry',
 			description: 'Get a random image/gif from shiro.gg of crying ',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'blush',
 			description: 'Get a random image/gif from shiro.gg of blush',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'hug',
 			description: 'Get a random image/gif from shiro.gg of hugging',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'kiss',
 			description: 'Get a random image/gif from shiro.gg of kissing',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'lick',
 			description: 'Get a random image/gif from shiro.gg of licking',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'nom',
 			description: 'Get a random image/gif from shiro.gg of eating',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'pat',
 			description: 'Get a random image/gif from shiro.gg of patting',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'poke',
 			description: 'Get a random image/gif from shiro.gg of poking',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'pout',
 			description: 'Get a random image/gif from shiro.gg of pouting',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'punch',
 			description: 'Get a random image/gif from shiro.gg of punching',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'slap',
 			description: 'Get a random image/gif from shiro.gg of slapping',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'sleep',
 			description: 'Get a random image/gif from shiro.gg of sleep',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'smug',
 			description: 'Get a random image/gif from shiro.gg of smug',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: type.SUB_COMMAND,
 			name:'tickle',
 			description: 'Get a random image/gif from shiro.gg of tickling',
 			options:[
 				{
-					type:'STRING',
+					type:type.STRING,
 					name:'text',
 					description:'Optional text you want to add to the gif/picture',
 				},
@@ -179,7 +180,7 @@ module.exports = {
    */
 	async slashcommand(interaction) {
 		try {
-			await interaction.defer();
+			await interaction.deferReply();
 			let image = '';
 			const opt = interaction?.options;
 			let text = '';

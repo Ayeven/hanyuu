@@ -1,5 +1,6 @@
 const { Anime } = require('../../dependancies/anime');
-const { MessageEmbed, MessageSelectMenu } = require('discord.js');
+const { MessageEmbed, MessageSelectMenu, Constants } = require('discord.js');
+const optiontype = Constants.ApplicationCommandOptionTypes;
 const c = [{ name:'spring', value:'spring' }, { name:'summer', value:'summer' }, { name:'fall', value:'fall' }, { name:'winter', value:'winter' }];
 const moment = require('moment');
 const y = [
@@ -58,21 +59,21 @@ module.exports = {
 	cooldown: 10,
 	options:[
 		{
-			type: 'STRING',
+			type: optiontype.STRING,
 			name:'season',
 			description: 'The season choices',
 			required: true,
 			choices:c,
 		},
 		{
-			type: 'STRING',
+			type: optiontype.STRING,
 			name:'year',
 			description: 'Which year of seasonal anime',
 			required: true,
 			choices: y,
 		},
 		{
-			type: 'INTEGER',
+			type: optiontype.INTEGER,
 			name:'page',
 			description: 'Pages of result',
 			choices: [{ name: '1', value: 1 }, { name: '2', value: 2 }, { name: '3', value: 3 }],
@@ -83,7 +84,7 @@ module.exports = {
    */
 	async slashcommand(interaction) {
 		try {
-			await interaction.defer();
+			await interaction.deferReply();
 			const season = interaction.options.getString('season');
 			const year = interaction.options.getString('year');
 			const page = interaction.options.getInteger('page');

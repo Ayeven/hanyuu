@@ -1,12 +1,13 @@
 const { Manga } = require('../../dependancies/manga');
-const { MessageEmbed, MessageSelectMenu } = require('discord.js');
+const { MessageEmbed, MessageSelectMenu, Constants } = require('discord.js');
+const optiontype = Constants.ApplicationCommandOptionTypes;
 module.exports = {
 	name: 'jikanmanga',
 	description: 'Search for some manga(s)',
 	cooldown: 25,
 	options:[
 		{
-			type: 'STRING',
+			type: optiontype.STRING,
 			name:'query',
 			description: 'The manga name you want to look into',
 			required: true,
@@ -17,7 +18,7 @@ module.exports = {
    */
 	async slashcommand(interaction) {
 		try {
-			await interaction.defer();
+			await interaction.deferReply();
 			const q = interaction.options.getString('query');
 			const fetch = await Manga.getMangaSearch(q);
 			const descArray = [];

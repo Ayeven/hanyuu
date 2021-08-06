@@ -19,13 +19,13 @@ module.exports = {
    	*/
 	async slashcommand(interaction) {
 		try{
-			await interaction.defer({ ephemeral: true });
+			await interaction.deferReply({ ephemeral: true });
 			const userId = interaction.user.id;
 			const next = new MessageButton({
 				style: 'SECONDARY',
 				customId: `${this.name}_next`,
 				emoji: '⏭️',
-				label: 'NEXT',
+				label: 'NEXT 10',
 			});
 
 			const popular = await new Anilist().getTrendingMovie();
@@ -126,14 +126,14 @@ module.exports = {
 				style: 'SECONDARY',
 				customId: `${this.name}_next`,
 				emoji: '⏭️',
-				label: 'NEXT',
+				label: 'NEXT 10',
 			});
 
 			const prev = new MessageButton({
 				style: 'SECONDARY',
 				customId: `${this.name}_prev`,
 				emoji: '⏮️',
-				label: 'PREV',
+				label: 'PREV 10',
 			});
 
 			const selectMenu = new MessageSelectMenu({

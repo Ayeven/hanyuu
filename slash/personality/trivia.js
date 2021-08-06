@@ -1,8 +1,8 @@
 const { Trivia, Type, Diff, Category } = require('../../dependancies/trivia');
-const { MessageEmbed, MessageSelectMenu, Message } = require('discord.js');
+const { MessageEmbed, MessageSelectMenu, Message, Constants } = require('discord.js');
 const { decode } = require('html-entities');
-const Enmap = require('enmap');
-const trivia = new Enmap({ name: 'trvia_1', dataDir: './data/trivia', fetchAll: false, autoFetch: true });
+const { trivia } = require('../../dependancies/database');
+const optiontype = Constants.ApplicationCommandOptionTypes;
 const catChoices = [
 	{ name: 'arts', value: Category.arts },
 	{ name: 'board_games', value: Category.board_games },
@@ -46,19 +46,19 @@ module.exports = {
 	cooldown : 10,
 	options: [
 		{
-			type: 'INTEGER',
+			type: optiontype.INTEGER,
 			name : 'category',
 			description : 'Select any of the Category',
 			choices : catChoices,
 		},
 		{
-			type: 'STRING',
+			type: optiontype.STRING,
 			name : 'type',
 			description : 'Select any of the type',
 			choices : typeChoices,
 		},
 		{
-			type: 'STRING',
+			type: optiontype.STRING,
 			name : 'difficulty',
 			description : 'Select any of the difficulty',
 			choices : diffChoices,
@@ -69,7 +69,7 @@ module.exports = {
    */
 	async slashcommand(interaction) {
 		try {
-			await interaction.defer({ ephemeral: true });
+			await interaction.deferReply({ ephemeral: true });
 			const category = interaction.options.getInteger('category') ?? null;
 			const difficulty = interaction.options.getString('difficulty') ?? null;
 			const type = interaction.options.getString('type') ?? null;

@@ -8,7 +8,7 @@ module.exports = {
 	async slashcommand(interaction) {
 
 		try {
-			await interaction.defer({ ephemeral: true });
+			await interaction.deferReply({ ephemeral: true });
 			const _me = interaction.client.user;
 			const _meMe = interaction.guild?.me;
 			const embed = {
