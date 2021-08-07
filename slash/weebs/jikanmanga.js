@@ -1,6 +1,7 @@
 const { Manga } = require('../../dependancies/manga');
 const { MessageEmbed, MessageSelectMenu, Constants } = require('discord.js');
 const optiontype = Constants.ApplicationCommandOptionTypes;
+const delay = require('util').promisify(setTimeout);
 module.exports = {
 	name: 'jikanmanga',
 	description: 'Search for some manga(s)',
@@ -18,7 +19,7 @@ module.exports = {
    */
 	async slashcommand(interaction) {
 		try {
-			await interaction.deferReply();
+			await interaction.deferReply({ ephemeral: true });
 			const q = interaction.options.getString('query');
 			const fetch = await Manga.getMangaSearch(q);
 			const descArray = [];
@@ -69,13 +70,14 @@ module.exports = {
 		try {
 			await interaction.deferUpdate();
 			const fetch = new Manga(interaction.values[0]);
+			delay(200);
 			const result = await fetch.details;
 			if (result == 'No data found') {
 				return interaction.editReply(result);
 			}
 			else {
 				const embed = new MessageEmbed({
-					title: `${result.title}`,
+					title: `${result?.title_english} | ${result.title} | ${result?.title_japanese}`,
 					color:'RANDOM',
 					description:`\n**Scores:** ${result.score}/10\n\n**Synopsis: **\n${result.synopsis}`,
 					fields:[
@@ -95,16 +97,6 @@ module.exports = {
 							inline:true,
 						},
 						{
-							name:'English Title:',
-							value:`${result?.title_english}`,
-							inline:true,
-						},
-						{
-							name:'Japanese Title:',
-							value:`${result?.title_japanese}`,
-							inline:true,
-						},
-						{
 							name:'Genres: ',
 							value:`${result?.genres}`,
 							inline:false,
@@ -113,7 +105,7 @@ module.exports = {
 					url:result?.url,
 					image: { url: result.images },
 				});
-				return interaction.editReply({ embeds:[embed], components : [] });
+				return interaction.editReply({ embeds:[embed] });
 			}
 		}
 		catch (error) {

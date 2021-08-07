@@ -11,7 +11,7 @@ const aniPopular = animePopular.aniPopular;
  */
 const count = animePopular.aniPopularCount;
 module.exports = {
-	name: 'anipopular',
+	name: 'animepopular',
 	description: 'Anilist popular anime(s) up to 50 result',
 	cooldown: 15,
 	/**

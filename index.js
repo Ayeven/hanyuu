@@ -3,9 +3,8 @@ const config = require('./.setting/config.json');
 const fastGlob = require('fast-glob');
 const client = new Discord.Client({
 	partials: ['CHANNEL', 'GUILD_MEMBER', 'MESSAGE', 'REACTION', 'USER'],
-	intents: ['GUILDS', 'GUILD_VOICE_STATES'],
+	intents: ['GUILDS'],
 });
-client.sweepMessages(6 * 60 * 1000);
 // @ts-expect-error
 client.commands = new Discord.Collection();
 // @ts-expect-error

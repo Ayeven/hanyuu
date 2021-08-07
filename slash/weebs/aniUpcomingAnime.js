@@ -11,7 +11,7 @@ const aniupAnimes = anidb.aniUpcomingAnime;
   */
 const count = anidb.aniUpcomingAnimeCount;
 module.exports = {
-	name: 'aniupcominganimes',
+	name: 'animeupcominganimes',
 	description: 'Anilist upcoming anime TV Show up to 50 result',
 	cooldown: 15,
 	/**

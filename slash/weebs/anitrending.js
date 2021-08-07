@@ -3,7 +3,7 @@ const { Anilist, animedata } = require('../../dependancies/anilist');
 const { MessageEmbed, MessageSelectMenu, MessageButton } = require('discord.js');
 const { aniTrending, aniTendingCount } = require('../../dependancies/database');
 module.exports = {
-	name: 'anitrending',
+	name: 'animetrending',
 	description: 'Anilist anime trending(s) up to 50 result',
 	cooldown: 15,
 	/**
