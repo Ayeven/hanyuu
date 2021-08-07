@@ -52,7 +52,7 @@ module.exports = {
 			setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
 
 			try {
-				slashCommand.slashcommand(interaction);
+				slashCommand.slashcommand(interaction, slashCommands);
 			}
 			catch (err) {
 				console.error(`${time} [CommandInteraction] ${err}`);
@@ -63,7 +63,7 @@ module.exports = {
 			const CustomId = interaction.customId;
 			const slashCommand = slashCommands.get(CustomId.split('_')[0]);
 			try {
-				slashCommand.button(interaction);
+				slashCommand.button(interaction, slashCommands);
 			}
 			catch (err) {
 				console.error(`${time} [Button] ${err}`);
@@ -73,7 +73,7 @@ module.exports = {
 			const CustomId = interaction.customId;
 			const slashCommand = slashCommands.get(CustomId.split('_')[0]);
 			try {
-				slashCommand.selectmenu(interaction);
+				slashCommand.selectmenu(interaction, slashCommands);
 			}
 			catch (err) {
 				console.error(`${time} [SelectMenu] ${err}`);

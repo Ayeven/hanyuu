@@ -75,12 +75,12 @@ module.exports = {
 	/**
    * @param {import('discord.js').CommandInteraction} interaction
    */
-	async slashcommand(interaction) {
+	async slashcommand(interaction, slashCommands) {
 		try {
 			await interaction.deferReply({ ephemeral: true });
-			// @ts-expect-error
-			const { SlashCommands } = interaction.client;
-			const [guildCommands, globalCommands] = SlashCommands.partition(have => have.guildId);
+
+
+			const [guildCommands, globalCommands] = slashCommands.partition(have => have.guildId);
 			if(interaction.options.getSubcommand() == 'global') {
 				const commandname = interaction.options.getString('commandname');
 				const target = interaction.options.getString('guildid');
@@ -90,8 +90,8 @@ module.exports = {
 					interaction.editReply({ content: 'Done registering Globals Commands' });
 					break;
 				case 'create':
-					SlashCommands.get(commandname) ?
-						(await interaction.client.application.commands.create(SlashCommands.get(commandname), target),
+					slashCommands.get(commandname) ?
+						(await interaction.client.application.commands.create(slashCommands.get(commandname), target),
 						await interaction.editReply({ content: `Slash command \`${commandname}\` have been created` }))
 						: (await interaction.editReply({ content:'The command name does not exist! Put in the correct name of the command in the `commandname` option' }));
 					break;
@@ -108,8 +108,8 @@ module.exports = {
 					interaction.editReply({ content: 'Done registering guilds commands' });
 					break;
 				case 'create':
-					SlashCommands.get(commandname) ?
-						(await interaction.guild.commands.create(SlashCommands.get(commandname)),
+					slashCommands.get(commandname) ?
+						(await interaction.guild.commands.create(slashCommands.get(commandname)),
 						await interaction.editReply({ content: `Slash Command \`${commandname}\` have been created` }))
 						: (await interaction.editReply({ content: 'The command name does not exist! Put in the correct name of the command in the `commandname` option' }));
 					break;
