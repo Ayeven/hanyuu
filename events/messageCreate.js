@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-const { Collection, Message, Client } = require('discord.js');
+const { Collection } = require('discord.js');
 const config = require('../.setting/config.json');
 const cd = new Collection();
 const moment = require('moment');
@@ -7,10 +6,12 @@ const moment = require('moment');
 module.exports = {
 	name: 'messageCreate',
 	/**
-     * @param {Message} message Represents message object on Discord
-     * @param {Client} client Bot Client
+     * @param {import('discord.js').Message} message Represents message object on Discord
+     * @param {import('discord.js').Client} client Bot Client
+	 * @param {Collection<string, object>} messageCommands
+	 * @param {Collection<string, object>} _slashCommands
      */
-	async run(message, client) {
+	async run(message, messageCommands, _slashCommands, client) {
 		const time = moment().format('YYYY MM DD HH:mm:ss');
 		if (message.author.bot) return;
 
@@ -24,10 +25,8 @@ module.exports = {
 		const args = message.content.slice(config.prefix.length).trim().split(/ +/);
 		const commandName = args.shift().toLowerCase();
 		const owner = config.owner;
-		// @ts-expect-error
-		const command = client.commands.get(commandName)
-		// @ts-expect-error
-		|| client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
+		const command = messageCommands.get(commandName)
+		|| messageCommands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
 
 		if (!command) return;
 

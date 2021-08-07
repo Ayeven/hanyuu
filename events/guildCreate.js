@@ -1,11 +1,12 @@
 module.exports = {
 	name: 'guildCreate',
 	/**
-	 *
 	 * @param {import("discord.js").Guild} guild
 	 * @param {import("discord.js").Client} client
+	 * @param {import('discord.js').Collection<string, object>} _messageCommands
+	 * @param {import('discord.js').Collection<string, object>} _slashCommands
 	 */
-	async run(guild, client) {
+	async run(guild, _messageCommands, _slashCommands, client) {
 		client.user.setActivity('/help', { type: 'COMPETING' });
 		const ownner = await guild.members.fetch(guild.ownerId);
 		console.log(
