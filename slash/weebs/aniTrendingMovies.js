@@ -11,7 +11,7 @@ const dbtrending = anidb.aniTrendingMovie;
 */
 const count = anidb.aniTrendingMovieCount;
 module.exports = {
-	name: 'anitrendingmovies',
+	name: 'animetrendingmovies',
 	description: 'Show Anilist\'s trending movies up to 50 result',
 	cooldown: 15,
 	/**

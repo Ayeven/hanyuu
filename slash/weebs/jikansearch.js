@@ -1,8 +1,9 @@
 const { Anime } = require('../../dependancies/anime');
 const { MessageEmbed, MessageSelectMenu, Constants } = require('discord.js');
 const optiontype = Constants.ApplicationCommandOptionTypes;
+const delay = require('util').promisify(setTimeout);
 module.exports = {
-	name: 'jikansearch',
+	name: 'jikananime',
 	description: 'Search for some anime(s)',
 	cooldown: 10,
 	options:[
@@ -18,7 +19,7 @@ module.exports = {
    */
 	async slashcommand(interaction) {
 		try {
-			await interaction.deferReply();
+			await interaction.deferReply({ ephemeral: true });
 			const q = interaction.options.getString('query');
 			const fetch = await Anime.getAnimeSearch({ keyword:q });
 
@@ -29,7 +30,7 @@ module.exports = {
 				placeholder:'Pick an anime to view details',
 			});
 			if (fetch == 'No data found' || fetch.size == 0) {
-				return interaction.followUp('No anime(s) with that name found');
+				return interaction.editReply('No anime(s) with that name found');
 			}
 			else {
 				let n = 0;
@@ -50,7 +51,7 @@ module.exports = {
 					description: descArray.join('\n'),
 				});
 				fetch.clear();
-				return interaction.followUp({ embeds:[embed], components: [{ type:'ACTION_ROW', components: [selectMenu] }] });
+				return interaction.editReply({ embeds:[embed], components: [{ type:'ACTION_ROW', components: [selectMenu] }] });
 			}
 
 		}
@@ -67,10 +68,11 @@ module.exports = {
 		try {
 			await interaction.deferUpdate();
 			const result = await Anime.getAnimeID(interaction.values[0]);
+			delay(200);
 			if (result == 'No data found' || !result) { return interaction.editReply('No anime(s) found');}
 			else {
 				const embed = new MessageEmbed({
-					title: `${result.title}`,
+					title: `${result?.title_english} | ${result.title} | ${result?.title_japanese}`,
 					color:'RANDOM',
 					description:`**Scores:**\n ${result.score}/10\n\n**Synopsis:**\n${result.synopsis}`.slice(0, 2040),
 					fields:[
@@ -96,11 +98,10 @@ module.exports = {
 						},
 					],
 					url:result?.url,
-					thumbnail: { url:result.images },
 					image: { url: result.images },
 				});
 
-				return interaction.editReply({ embeds:[embed], components : [] });
+				return interaction.editReply({ embeds:[embed] });
 			}
 		}
 		catch (error) {

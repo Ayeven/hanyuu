@@ -11,7 +11,7 @@ const dbpopular = anidb.aniPopularMovie;
 */
 const count = anidb.aniPopularMovieCount;
 module.exports = {
-	name: 'anipopularmovies',
+	name: 'animepopularmovies',
 	description:'Show Anilist\'s popular movies up to 50 result',
 	cooldown: 15,
 	/**
