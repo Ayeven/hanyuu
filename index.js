@@ -1,14 +1,14 @@
-const Discord = require('discord.js');
+const { Client, Collection } = require('discord.js');
 const config = require('./.setting/config.json');
 const fastGlob = require('fast-glob');
-const client = new Discord.Client({
+const client = new Client({
 	partials: ['CHANNEL', 'GUILD_MEMBER', 'MESSAGE', 'REACTION', 'USER'],
 	intents: ['GUILDS'],
 });
-// @ts-expect-error
-client.commands = new Discord.Collection();
-// @ts-expect-error
-client.SlashCommands = new Discord.Collection();
+
+const messageCommands = new Collection();
+
+const slashCommands = new Collection();
 
 // Checks commands, events and the slash folder
 const matches = fastGlob.sync('@(commands|events|slash)/**/**.js');
@@ -28,19 +28,19 @@ for (const match of matches) {
 	switch (dirName) {
 	case 'commands':
 		console.log(`Loading Command ${fileName}`);
-		// @ts-expect-error
-		client.commands.set(requiredFile.name, requiredFile);
+
+		messageCommands.set(requiredFile.name, requiredFile);
 		break;
 
 	case 'slash':
 		console.log(`Loading SlashCommand ${fileName}`);
-		// @ts-expect-error
-		client.SlashCommands.set(requiredFile.name, requiredFile);
+
+		slashCommands.set(requiredFile.name, requiredFile);
 		break;
 
 	case 'events':
 		console.log(`Loading Event ${fileName}`);
-		client.on(requiredFile.name, (...args) => requiredFile.run(...args, client));
+		client.on(requiredFile.name, (...args) => requiredFile.run(...args, messageCommands, slashCommands, client));
 		break;
 	}
 }

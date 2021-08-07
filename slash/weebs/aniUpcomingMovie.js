@@ -108,7 +108,7 @@ module.exports = {
 					},
 					{
 						name: 'Genres',
-						value: `${details.genres.join(', ')}`,
+						value: `${details.genres.join(', ') || 'NA'}`,
 						inline: false,
 					},
 				],
