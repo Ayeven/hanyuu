@@ -68,7 +68,11 @@ module.exports = {
 				for (let i = 0; i < 5; i++) {
 					files.push(array[i].image);
 				}
-				return interaction.followUp({ content: `${files.join('\n')}`, components: [{ type: 'ACTION_ROW', components:[next] }] });
+				await interaction.editReply({ content: `${files.join('\n')}`, components: [{ type: 'ACTION_ROW', components:[next] }] });
+				await delay(14 * 60 * 1000);
+				en.evict(userId);
+				enmap.evict(userId);
+				return interaction.editReply({ content: '15min have passed, re run the command again if you wish to continue', components:[] });
 			}
 		}
 		catch (err) {console.error(err);}
@@ -95,37 +99,41 @@ module.exports = {
 			});
 
 			const array = enmap.get(userId);
-			const files = [];
-			if (interaction.customId == `${this.name}_next`) {
-				en.math(userId, 'add', 5);
-				const m = en.get(userId);
-				if (m < 101) {
-					for (let i = m - 5; i < m; i++) {
-						files.push(array[i]?.image);
+			if (array) {
+				const files = [];
+				if (interaction.customId == `${this.name}_next`) {
+					en.math(userId, 'add', 5);
+					const m = en.get(userId);
+					if (m < 101) {
+						for (let i = m - 5; i < m; i++) {
+							files.push(array[i]?.image);
+						}
+						interaction.update({ content: `${files.join('\n')}`, components: [{ type: 'ACTION_ROW', components:[next, prev] }] });
 					}
-					interaction.update({ content: `${files.join('\n')}`, components: [{ type: 'ACTION_ROW', components:[next, prev] }] });
+
+					else {
+						interaction.update({ content: 'End of line', components: [{ type:'ACTION_ROW', components: [prev] }] });
+					}
 				}
 
-				else {
-					interaction.update({ content: 'End of line', components: [{ type:'ACTION_ROW', components: [prev] }] });
+				else if (interaction.customId == `${this.name}_prev`) {
+					en.math(userId, 'subtract', 5);
+					const m = en.get(userId);
+					if (m <= 4) {
+						interaction.update({ content: 'End of line', components: [{ type: 'ACTION_ROW', components:[next] }] });
+					}
+
+					else {
+						for (let i = m - 5; i < m; i++) {
+							files.push(array[i]?.image);
+						}
+						interaction.update({ content: `${files.join('\n')}`, components: [{ type:'ACTION_ROW', components: [next, prev] }] });
+					}
 				}
 			}
-
-			else if (interaction.customId == `${this.name}_prev`) {
-				en.math(userId, 'subtract', 5);
-				const m = en.get(userId);
-				if (m <= 4) {
-					interaction.update({ content: 'End of line', components: [{ type: 'ACTION_ROW', components:[next] }] });
-				}
-
-				else {
-					for (let i = m - 5; i < m; i++) {
-						files.push(array[i]?.image);
-					}
-					interaction.update({ content: `${files.join('\n')}`, components: [{ type:'ACTION_ROW', components: [next, prev] }] });
-				}
+			else {
+				return interaction.update({ content: `Look like you have another ${this.name} command going on, or the time has passed 15min`, components:[] });
 			}
-
 		}
 		catch (error) {
 			console.warn(error);

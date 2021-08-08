@@ -10,6 +10,7 @@ const dbpopular = anidb.aniPopularMovie;
 * @type {import('enmap')<string|number|`${bigint}`, number> }
 */
 const count = anidb.aniPopularMovieCount;
+const delay = require('util').promisify(setTimeout);
 module.exports = {
 	name: 'animepopularmovies',
 	description:'Show Anilist\'s popular movies up to 50 result',
@@ -55,7 +56,11 @@ module.exports = {
 					color: 'RANDOM',
 					description: descArray.join('\n'),
 				});
-				return interaction.editReply({ embeds:[embed], components:[{ type: 'ACTION_ROW', components: [selectMenu] }, { type:'ACTION_ROW', components:[next] }] });
+				await interaction.editReply({ embeds:[embed], components:[{ type: 'ACTION_ROW', components: [selectMenu] }, { type:'ACTION_ROW', components:[next] }] });
+				await delay(14 * 60 * 1000);
+				dbpopular.evict(userId);
+				count.evict(userId);
+				return interaction.editReply({ content: '15min have passed, re run the command again if you wish to continue', components:[] });
 			}
 		}
 		catch(error) {
@@ -70,46 +75,51 @@ module.exports = {
 		try{
 			const userId = interaction.user.id;
 			const popular = dbpopular.get(userId);
-			const details = popular.find(({ id }) => `${id}` == interaction.values[0]);
-			const embed = new MessageEmbed({
-				title: `${details.title?.english ?? details.title?.userPreferred}`,
-				url: `https://anilist.co/anime/${details.id}`,
-				thumbnail: { url: `${details.coverImage?.extraLarge ?? details.coverImage?.large}` },
-				color: 'RANDOM',
-				description: `${details.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
-				fields:[
-					{
-						name:'Type',
-						value:`${details.format}`,
-						inline: true,
-					},
-					{
-						name:'Average Score',
-						value:`${details.averageScore}% by ${details.popularity.toLocaleString()} users`,
-						inline: true,
-					},
-					{
-						name:'Status',
-						value:`${details.status}
+			if(popular) {
+				const details = popular.find(({ id }) => `${id}` == interaction.values[0]);
+				const embed = new MessageEmbed({
+					title: `${details.title?.english ?? details.title?.userPreferred}`,
+					url: `https://anilist.co/anime/${details.id}`,
+					image: { url: `${details.coverImage?.extraLarge ?? details.coverImage?.large}` },
+					color: 'RANDOM',
+					description: `${details.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
+					fields:[
+						{
+							name:'Type',
+							value:`${details.format}`,
+							inline: true,
+						},
+						{
+							name:'Average Score',
+							value:`${details.averageScore}% by ${details.popularity.toLocaleString()} users`,
+							inline: true,
+						},
+						{
+							name:'Status',
+							value:`${details.status}
 						Start Date: ${details.startDate.year ??= 'N/A'}-${details.startDate.month ??= 'N/A'}-${details.startDate.day ??= 'N/A'}
 						End Date: ${details.endDate.year ??= 'N/A'}-${details.endDate.month ??= 'N/A'}-${details.startDate.day ??= 'N/A'}`,
-						inline: true,
-					},
-					{
-						name:'Titles:',
-						value:`**English:** ${details.title.english ??= 'N/A'}
+							inline: true,
+						},
+						{
+							name:'Titles:',
+							value:`**English:** ${details.title.english ??= 'N/A'}
 						**Romaji:** ${details.title.userPreferred}
 						**Native:** ${details.title.native}`,
-						inline: true,
-					},
-					{
-						name:'Genres:',
-						value:`${details.genres.join(', ')}`,
-						inline: false,
-					},
-				],
-			});
-			return interaction.update({ embeds:[embed] });
+							inline: true,
+						},
+						{
+							name:'Genres:',
+							value:`${details.genres.join(', ')}`,
+							inline: false,
+						},
+					],
+				});
+				return interaction.update({ embeds:[embed] });
+			}
+			else {
+				return interaction.update({ content: `Look like you have another ${this.name} command going on, or the time has passed 15min`, components:[] });
+			}
 		}
 		catch(error) {
 			console.warn(error);
@@ -142,57 +152,62 @@ module.exports = {
 			});
 
 			const popular = dbpopular.get(userId);
-			if(interaction.customId == `${this.name}_next`) {
-				count.math(userId, 'add', 10);
-				const buttonAction = count.get(userId);
-				const descArray = [];
-				if (buttonAction < 51) {
-					for (let i = buttonAction - 10; i < buttonAction; i++) {
-						selectMenu.addOptions([
-							{
-								label: `${(i + 1).toString().padStart(2, '0')} Year : ${popular[i].startDate.year}`,
-								description: `${popular[i].title?.userPreferred}`.slice(0, 48),
-								value: `${popular[i].id}`,
-							},
-						]);
-						descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${popular[i].startDate.year} ${popular[i].title?.english ?? popular[i].title?.userPreferred}](https://anilist.co/anime/${popular[i].id})`);
+			if(popular) {
+				if(interaction.customId == `${this.name}_next`) {
+					count.math(userId, 'add', 10);
+					const buttonAction = count.get(userId);
+					const descArray = [];
+					if (buttonAction < 51) {
+						for (let i = buttonAction - 10; i < buttonAction; i++) {
+							selectMenu.addOptions([
+								{
+									label: `${(i + 1).toString().padStart(2, '0')} Year : ${popular[i].startDate.year}`,
+									description: `${popular[i].title?.userPreferred}`.slice(0, 48),
+									value: `${popular[i].id}`,
+								},
+							]);
+							descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${popular[i].startDate.year} ${popular[i].title?.english ?? popular[i].title?.userPreferred}](https://anilist.co/anime/${popular[i].id})`);
+						}
+						const embed = new MessageEmbed({
+							color: 'RANDOM',
+							description: descArray.join('\n'),
+						});
+						interaction.update({ content:'\u200b', embeds: [embed], components: [{ type: 'ACTION_ROW', components: [selectMenu] }, { type: 'ACTION_ROW', components: [next, prev] }] });
 					}
-					const embed = new MessageEmbed({
-						color: 'RANDOM',
-						description: descArray.join('\n'),
-					});
-					interaction.update({ content:'\u200b', embeds: [embed], components: [{ type: 'ACTION_ROW', components: [selectMenu] }, { type: 'ACTION_ROW', components: [next, prev] }] });
+
+					else {
+						interaction.update({ content: 'End of line', embeds:[], components: [{ type:'ACTION_ROW', components: [prev] }] });
+					}
 				}
 
-				else {
-					interaction.update({ content: 'End of line', embeds:[], components: [{ type:'ACTION_ROW', components: [prev] }] });
+				else if (interaction.customId == `${this.name}_prev`) {
+					count.math(userId, 'sub', 10);
+					const buttonAction = count.get(userId);
+					const descArray = [];
+					if (buttonAction < 10) {
+						interaction.update({ content: 'End of line', embeds: [], components: [{ type:'ACTION_ROW', components: [next] }] });
+					}
+					else {
+						for (let i = buttonAction - 10; i < buttonAction; i++) {
+							selectMenu.addOptions([
+								{
+									label: `${(i + 1).toString().padStart(2, '0')} Year : ${popular[i].startDate.year}`,
+									description: `${popular[i].title?.userPreferred}`.slice(0, 48),
+									value: `${popular[i].id}`,
+								},
+							]);
+							descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${popular[i].startDate.year} ${popular[i].title?.english ?? popular[i].title?.userPreferred}](https://anilist.co/anime/${popular[i].id})`);
+						}
+						const embed = new MessageEmbed({
+							color: 'RANDOM',
+							description: descArray.join('\n'),
+						});
+						interaction.update({ content:'\u200b', embeds: [embed], components: [{ type: 'ACTION_ROW', components: [selectMenu] }, { type: 'ACTION_ROW', components: [next, prev] }] });
+					}
 				}
 			}
-
-			else if (interaction.customId == `${this.name}_prev`) {
-				count.math(userId, 'sub', 10);
-				const buttonAction = count.get(userId);
-				const descArray = [];
-				if (buttonAction < 10) {
-					interaction.update({ content: 'End of line', embeds: [], components: [{ type:'ACTION_ROW', components: [next] }] });
-				}
-				else {
-					for (let i = buttonAction - 10; i < buttonAction; i++) {
-						selectMenu.addOptions([
-							{
-								label: `${(i + 1).toString().padStart(2, '0')} Year : ${popular[i].startDate.year}`,
-								description: `${popular[i].title?.userPreferred}`.slice(0, 48),
-								value: `${popular[i].id}`,
-							},
-						]);
-						descArray.push(`[${(i + 1).toString().padStart(2, '0')}) ${popular[i].startDate.year} ${popular[i].title?.english ?? popular[i].title?.userPreferred}](https://anilist.co/anime/${popular[i].id})`);
-					}
-					const embed = new MessageEmbed({
-						color: 'RANDOM',
-						description: descArray.join('\n'),
-					});
-					interaction.update({ content:'\u200b', embeds: [embed], components: [{ type: 'ACTION_ROW', components: [selectMenu] }, { type: 'ACTION_ROW', components: [next, prev] }] });
-				}
+			else {
+				return interaction.update({ content: `Look like you have another ${this.name} command going on, or the time has passed 15min`, components:[] });
 			}
 
 		}

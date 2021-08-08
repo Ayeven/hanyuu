@@ -140,10 +140,12 @@ module.exports = {
 		const userId = interaction.user.id;
 		const correct = await trivia.get(`${userId}`);
 		if (interaction.values[0] == correct && interaction.message instanceof Message) {
+			trivia.evict(userId);
 			trivia.delete(`${userId}`);
 			interaction.update({ content:'You got correct answer, congratulation', components: [], embeds: [] });
 		}
 		else if(interaction.values[0] !== correct && interaction.message instanceof Message) {
+			trivia.evict(userId);
 			trivia.delete(`${userId}`);
 			interaction.update({ content:'You got the wrong answer! Better luck next time', components: [], embeds: [] });
 		}

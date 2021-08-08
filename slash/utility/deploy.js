@@ -78,8 +78,6 @@ module.exports = {
 	async slashcommand(interaction, slashCommands) {
 		try {
 			await interaction.deferReply({ ephemeral: true });
-
-
 			const [guildCommands, globalCommands] = slashCommands.partition(have => have.guildId);
 			if(interaction.options.getSubcommand() == 'global') {
 				const commandname = interaction.options.getString('commandname');

@@ -1,7 +1,7 @@
 const { Giveaway, Type, Platform, Sort } = require('../../dependancies/giveaway.js');
 const { MessageEmbed, MessageSelectMenu, Constants } = require('discord.js');
 const opt = Constants.ApplicationCommandOptionTypes;
-const Enmap = require('enmap');
+const { gamegiveaway } = require('../../dependancies/database');
 const platforms = [
 	{ name:Platform.android, value:Platform.android },
 	{ name:Platform.battlenet, value:Platform.battlenet },
@@ -31,7 +31,7 @@ const sort = [
 	{ name:Sort.popularity, value:Sort.popularity },
 	{ name:Sort.value, value:Sort.value },
 ];
-
+const delay = require('util').promisify(setTimeout);
 module.exports = {
 	name: 'game',
 	description: 'Give you game giveaway(s)',
@@ -109,6 +109,9 @@ module.exports = {
 						description: descArray.join('\n'),
 					});
 					await interaction.editReply({ embeds:[embed], components: [{ type:'ACTION_ROW', components: [selectMenu] }] });
+					await delay(14 * 60 * 1000);
+					gamegiveaway.evict(userId);
+					return interaction.editReply({ content: '15min have passed, re run the command again if you wish to continue', components:[] });
 				}
 			}
 		}
@@ -125,47 +128,48 @@ module.exports = {
 		try {
 			const giveawayId = interaction.values[0];
 			const userId = `${interaction.user.id}`;
-			/**
-			 * @type {Enmap<userId,Array>}
-			 */
-			const collection = new Enmap({ name: 'giveaway', dataDir: './data/giveaway', fetchAll: false, autoFetch: true });
-			const arrays = collection.get(userId);
-			const userRequst = arrays.find(({ id }) => id == giveawayId);
 
-			const embed = new MessageEmbed({
-				color : 'RANDOM',
-				thumbnail: { url: userRequst.thumbnail },
-				title : `${userRequst.title}`,
-				description : `**Descriptions :** \n${userRequst.description}\n\n**Instructions:**\n ${userRequst.instruction}`,
-				fields : [
-					{
-						name :'Worth in USD : ',
-						value : userRequst.worth,
-						inline : true,
-					},
-					{
-						name :'Type : ',
-						value : userRequst.type,
-						inline : true,
-					},
-					{
-						name :'End Date : ',
-						value : userRequst.end_date,
-						inline : true,
-					},
-					{
-						name :'Platforms : ',
-						value : userRequst.platform,
-						inline : true,
-					},
-					{
-						name :'Giveaway Status : ',
-						value : userRequst.status,
-						inline : true,
-					},
-				],
-			});
-			interaction.update({ embeds:[embed] });
+			const arrays = gamegiveaway.get(userId);
+			if (arrays) {
+				const userRequst = arrays.find(({ id }) => id == giveawayId);
+				const embed = new MessageEmbed({
+					color : 'RANDOM',
+					thumbnail: { url: userRequst.thumbnail },
+					title : `${userRequst.title}`,
+					description : `**Descriptions :** \n${userRequst.description}\n\n**Instructions:**\n ${userRequst.instruction}`,
+					fields : [
+						{
+							name :'Worth in USD : ',
+							value : userRequst.worth,
+							inline : true,
+						},
+						{
+							name :'Type : ',
+							value : userRequst.type,
+							inline : true,
+						},
+						{
+							name :'End Date : ',
+							value : userRequst.end_date,
+							inline : true,
+						},
+						{
+							name :'Platforms : ',
+							value : userRequst.platform,
+							inline : true,
+						},
+						{
+							name :'Giveaway Status : ',
+							value : userRequst.status,
+							inline : true,
+						},
+					],
+				});
+				return interaction.update({ embeds:[embed] });
+			}
+			else {
+				return interaction.update({ content: `Look like you have another ${this.name} command going on, or the time has passed 15min`, components:[] });
+			}
 		}
 		catch (error) {
 			interaction.editReply({ content:'Oh No!! Something went wrong' });

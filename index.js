@@ -4,6 +4,7 @@ const fastGlob = require('fast-glob');
 const client = new Client({
 	partials: ['CHANNEL', 'GUILD_MEMBER', 'MESSAGE', 'REACTION', 'USER'],
 	intents: ['GUILDS'],
+	shards: 'auto',
 });
 
 const messageCommands = new Collection();
