@@ -3,11 +3,11 @@ const { Anilist, animedata } = require('../../dependancies/anilist');
 const { MessageEmbed, MessageSelectMenu, Constants } = require('discord.js');
 const optiontype = Constants.ApplicationCommandOptionTypes;
 const animedb = require('../../dependancies/database');
-/**
- * @type {import('enmap')<string|number|`${bigint}`, animedata> }
- */
-const animesearch = animedb.animesearch;
 const delay = require('util').promisify(setTimeout);
+/**
+* @type {import('enmap')<string|number|`${bigint}`, animedata> }
+*/
+const animesearch = animedb.animesearch;
 module.exports = {
 	name: 'animesearch',
 	description: 'Anilist search anime(s) up to 20 result',
@@ -58,7 +58,10 @@ module.exports = {
 					color: 'RANDOM',
 					description: descArray.join('\n'),
 				});
-				return interaction.editReply({ embeds:[embed], components:[{ type: 'ACTION_ROW', components: [selectMenu] }] });
+				await interaction.editReply({ embeds:[embed], components:[{ type: 'ACTION_ROW', components: [selectMenu] }] });
+				await delay(14 * 60 * 1000);
+				animesearch.evict(userId);
+				return interaction.editReply({ content: '15min have passed, re run the command again if you wish to continue', components:[] });
 			}
 		}
 		catch(error) {
@@ -72,58 +75,63 @@ module.exports = {
 		try {
 			const userId = interaction.user.id;
 			const getsearch = animesearch.get(userId);
-			const details = getsearch.find(({ id }) => `${id}` == interaction.values[0]);
-			const embed = new MessageEmbed({
-				title: `${details.title?.english ?? 'NA'} | ${details.title?.userPreferred} | ${details.title?.native}`,
-				url: `https://anilist.co/anime/${details.id}`,
-				image: { url: details.coverImage?.extraLarge ?? details.coverImage.large },
-				color: 'RANDOM',
-				description: `${details.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
-				fields:[
-					{
-						name:'Type ',
-						value:`${details?.format ?? 'NA'}`,
-						inline: true,
-					},
-					{
-						name:'Season ',
-						value:`${details?.season ?? 'NA'} ${details.startDate.year ??= 'NA'}`,
-						inline: true,
-					},
-					{
-						name:'Main Studio ',
-						value:`${details.studios.edges[0]?.node.name ?? 'NA'}`,
-						inline: true,
-					},
-					{
-						name:'Episodes',
-						value:`Total: ${details.episodes}\nDuration: ${details.duration}min`,
-						inline: true,
-					},
-					{
-						name:'Average Score ',
-						value:`${details.averageScore ??= 'NA'} % by ${details.popularity.toLocaleString()} users`,
-						inline: true,
-					},
-					{
-						name:'Status ',
-						value:`${details.status}
+			if (getsearch) {
+				const details = getsearch.find(({ id }) => `${id}` == interaction.values[0]);
+				const embed = new MessageEmbed({
+					title: `${details.title?.english ?? 'NA'} | ${details.title?.userPreferred} | ${details.title?.native}`,
+					url: `https://anilist.co/anime/${details.id}`,
+					image: { url: details.coverImage?.extraLarge ?? details.coverImage.large },
+					color: 'RANDOM',
+					description: `${details.description}`.replace(/<br>|<b>|<i>|<\/b>|<\/br>|<i>|<\/i>/gm, ' ').slice(0, 1600),
+					fields:[
+						{
+							name:'Type ',
+							value:`${details?.format ?? 'NA'}`,
+							inline: true,
+						},
+						{
+							name:'Season ',
+							value:`${details?.season ?? 'NA'} ${details.startDate.year ??= 'NA'}`,
+							inline: true,
+						},
+						{
+							name:'Main Studio ',
+							value:`${details.studios.edges[0]?.node.name ?? 'NA'}`,
+							inline: true,
+						},
+						{
+							name:'Episodes',
+							value:`Total: ${details.episodes}\nDuration: ${details.duration}min`,
+							inline: true,
+						},
+						{
+							name:'Average Score ',
+							value:`${details.averageScore ??= 'NA'} % by ${details.popularity.toLocaleString()} users`,
+							inline: true,
+						},
+						{
+							name:'Status ',
+							value:`${details.status}
 						Start Date: ${details.startDate.year ??= 'NA'}-${details.startDate.month ??= 'NA'}-${details.startDate.day ??= 'NA'}
 						End Date: ${details.endDate.year ??= 'NA'}-${details.endDate.month ??= 'NA'}-${details.endDate.day ??= 'NA'}`,
-						inline: true,
-					},
-					{
-						name:'Genres: ',
-						value:`${details.genres.join(', ') || 'NA'}`,
-						inline: false,
-					},
-				],
-			});
-			return interaction.update({ embeds:[embed] });
+							inline: true,
+						},
+						{
+							name:'Genres: ',
+							value:`${details.genres.join(', ') || 'NA'}`,
+							inline: false,
+						},
+					],
+				});
+				return interaction.update({ embeds:[embed] });
+			}
+			else {
+				return interaction.update({ content: 'Look like you have another search command going on or the search has passed 15min', components:[] });
+			}
 		}
 		catch (error) {
 			console.warn(error);
-			interaction.update('Something went wrong with the execution');
+			return interaction.update('Something went wrong with the execution');
 		}
 	},
 
