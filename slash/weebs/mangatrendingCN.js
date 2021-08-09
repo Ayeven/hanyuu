@@ -76,8 +76,8 @@ module.exports = {
 		try{
 			const userId = interaction.user.id;
 			const trendingArray = trending.get(userId);
-			if (trendingArray) {
-				const details = trendingArray.find(({ id }) => `${id}` == interaction.values[0]);
+			const details = trendingArray.find(({ id }) => `${id}` == interaction.values[0]);
+			if (details) {
 				const embed = new MessageEmbed({
 					title: `${details.title?.english ?? details.title?.userPreferred}`,
 					url: `https://anilist.co/manga/${details.id}`,

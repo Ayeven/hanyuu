@@ -75,8 +75,8 @@ module.exports = {
 		try{
 			const userId = interaction.user.id;
 			const popular = dbpopular.get(userId);
-			if(popular) {
-				const details = popular.find(({ id }) => `${id}` == interaction.values[0]);
+			const details = popular.find(({ id }) => `${id}` == interaction.values[0]);
+			if(details) {
 				const embed = new MessageEmbed({
 					title: `${details.title?.english ?? details.title?.userPreferred}`,
 					url: `https://anilist.co/anime/${details.id}`,

@@ -74,8 +74,8 @@ module.exports = {
 			 * @type {animedata}
 			 */
 			const getTrend = aniTrending.get(userId);
-			if (getTrend) {
-				const detail = getTrend.find(({ id })=> `${id}` == interaction.values[0]);
+			const detail = getTrend.find(({ id })=> `${id}` == interaction.values[0]);
+			if (detail) {
 				const embed = new MessageEmbed({
 					title: `${detail.title.userPreferred}`,
 					url: `https://anilist.co/anime/${detail.id}`,

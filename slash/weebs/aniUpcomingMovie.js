@@ -75,8 +75,8 @@ module.exports = {
 		try{
 			const userId = interaction.user.id;
 			const upcoming = aniupMovies.get(userId);
-			if (upcoming) {
-				const details = upcoming.find(({ id }) => `${id}` == interaction.values[0]);
+			const details = upcoming.find(({ id }) => `${id}` == interaction.values[0]);
+			if (details) {
 				const embed = new MessageEmbed({
 					title: `${details.title.userPreferred}`,
 					url: `https://anilist.co/anime/${details.id}`,
