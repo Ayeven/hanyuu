@@ -41,11 +41,11 @@ module.exports = {
     */
 	async slashcommand(interaction) {
 		try {
-			await interaction.deferReply();
+			await interaction.deferReply({ ephemeral: true });
 			if (interaction.options.getSubcommand() == 'anime') {
 				const response = await new Quotes().anime();
-				if (response == 'Something bad happen when trying to fetch data from server!') {
-					return interaction.followUp(response);
+				if (typeof response === 'string') {
+					return interaction.editReply(response);
 				}
 				else {
 					const embed = new MessageEmbed({
@@ -57,14 +57,14 @@ module.exports = {
 							},
 						],
 					});
-					return interaction.followUp({ embeds:[embed] });
+					return interaction.editReply({ embeds:[embed] });
 				}
 			}
 
 			else if(interaction.options.getSubcommand() == 'movie') {
 				const response = await new Quotes().movie();
-				if (response == 'Something bad happen when trying to fetch data from server!') {
-					return interaction.followUp(response);
+				if (typeof response === 'string') {
+					return interaction.editReply(response);
 				}
 				else {
 					const embed = new MessageEmbed({
@@ -76,59 +76,59 @@ module.exports = {
 							},
 						],
 					});
-					return interaction.followUp({ embeds:[embed] });
+					return interaction.editReply({ embeds:[embed] });
 				}
 			}
 
 			else if(interaction.options.getSubcommand() == 'affirmation') {
 				const response = await new Quotes().affirmation();
-				if (response == 'Something bad happen when trying to fetch data from server!') {
-					return interaction.followUp(response);
+				if (typeof response === 'string') {
+					return interaction.editReply(response);
 				}
 				else {
 					const embed = new MessageEmbed({
 						description: `Affirmation: "${response.affirmation}"`,
 					});
-					return interaction.followUp({ embeds:[embed] });
+					return interaction.editReply({ embeds:[embed] });
 				}
 			}
 
 			else if(interaction.options.getSubcommand() == 'expression') {
 				const response = await new Quotes().expression();
-				if (response == 'Something bad happen when trying to fetch data from server!') {
-					return interaction.followUp(response);
+				if (typeof response === 'string') {
+					return interaction.editReply(response);
 				}
 				else {
 					const embed = new MessageEmbed({
 						description: `**Author**:\n${response.author}\n\n"${response.text}"`,
 					});
-					return interaction.followUp({ embeds:[embed] });
+					return interaction.editReply({ embeds:[embed] });
 				}
 			}
 
 			else if(interaction.options.getSubcommand() == 'inspiration') {
 				const response = await new Quotes().inspiration();
-				if (response == 'Something bad happen when trying to fetch data from server!') {
-					return interaction.followUp(response);
+				if (typeof response === 'string') {
+					return interaction.editReply(response);
 				}
 				else {
 					const embed = new MessageEmbed({
 						description: `**Author**:\n${response.author}\n\n"${response.quote}"`,
 					});
-					return interaction.followUp({ embeds:[embed] });
+					return interaction.editReply({ embeds:[embed] });
 				}
 			}
 
 			else if(interaction.options.getSubcommand() == 'breakingbad') {
 				const response = await new Quotes().breakingbad();
-				if (response == 'Something bad happen when trying to fetch data from server!') {
-					return interaction.followUp(response);
+				if (typeof response === 'string') {
+					return interaction.editReply(response);
 				}
 				else {
 					const embed = new MessageEmbed({
 						description: `**Author**:\n${response[0].author}\n\n"${response[0].quote}"`,
 					});
-					return interaction.followUp({ embeds:[embed] });
+					return interaction.editReply({ embeds:[embed] });
 				}
 			}
 		}

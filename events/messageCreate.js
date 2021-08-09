@@ -9,9 +9,9 @@ module.exports = {
      * @param {import('discord.js').Message} message Represents message object on Discord
      * @param {import('discord.js').Client} client Bot Client
 	 * @param {Collection<string, object>} messageCommands
-	 * @param {Collection<string, object>} _slashCommands
+	 * @param {Collection<string, object>} slashCommands
      */
-	async run(message, messageCommands, _slashCommands, client) {
+	async run(message, messageCommands, slashCommands, client) {
 		const time = moment().format('YYYY MM DD HH:mm:ss');
 		if (message.author.bot) return;
 
@@ -87,7 +87,7 @@ module.exports = {
 		setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
 		try {
-			command.run(message, args);
+			command.run(message, args, messageCommands, slashCommands);
 			console.log(`${time}: ${message.author.id} used command: ${command.name}`);
 		}
 		catch (error) {

@@ -83,12 +83,7 @@ module.exports = {
 					placeholder: 'Select a giveaway to view it details',
 				});
 
-				if (
-					giveaway == 'No active giveaways available at the moment, please try again later.'
-                    || giveaway == 'Object not found: Giveaway or endpoint not found.'
-                    || giveaway == 'Something wrong on gamepower.com end (unexpected server errors)'
-					|| giveaway == 'Bad input or something unexpected happened'
-				) { interaction.editReply(giveaway); }
+				if (typeof giveaway === 'string') { interaction.editReply(giveaway); }
 
 				else {
 					const descArray = [];
