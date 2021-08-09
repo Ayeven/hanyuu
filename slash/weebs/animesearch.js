@@ -75,8 +75,8 @@ module.exports = {
 		try {
 			const userId = interaction.user.id;
 			const getsearch = animesearch.get(userId);
-			if (getsearch) {
-				const details = getsearch.find(({ id }) => `${id}` == interaction.values[0]);
+			const details = getsearch.find(({ id }) => `${id}` == interaction.values[0]);
+			if (details) {
 				const embed = new MessageEmbed({
 					title: `${details.title?.english ?? 'NA'} | ${details.title?.userPreferred} | ${details.title?.native}`,
 					url: `https://anilist.co/anime/${details.id}`,
