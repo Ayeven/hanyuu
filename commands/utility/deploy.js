@@ -5,11 +5,12 @@ module.exports = {
 	owner:true,
 	/**
    * @param {import('discord.js').Message} message
+   * @param {import('discord.js').Collection<string, object>} _messageCommands
+   * @param {import('discord.js').Collection<string, object>} slashCommands
    */
-	async run(message) {
-		// @ts-expect-error
-		const { SlashCommands } = message.client;
-		const guildCommand = await SlashCommands.get('deploy');
+	async run(message, _messageCommands, slashCommands) {
+
+		const guildCommand = await slashCommands.get('deploy');
 		await message.client.application.commands.create(guildCommand, guildCommand.guildId);
 		message.channel.send({ content:'Done' });
 

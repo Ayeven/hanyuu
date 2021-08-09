@@ -7,9 +7,8 @@ module.exports = {
 	 * @param {import('discord.js').Collection<string, object>} _slashCommands
 	 */
 	run(guild, _messageCommands, _slashCommands, client) {
-		client.user.setActivity('/help', { type: 'COMPETING' });
 		if (!guild.available) return;
-
+		client.user.setActivity(`/help in ${client.guilds.cache.size} server`, { type: 'COMPETING' });
 		console.log(`[GUILD DELETE] ${guild.name} (${guild.id}) removed the bot`);
 	},
 };

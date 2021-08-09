@@ -1,5 +1,5 @@
 const { Trivia, Type, Diff, Category } = require('../../dependancies/trivia');
-const { MessageEmbed, MessageSelectMenu, Message, Constants } = require('discord.js');
+const { MessageEmbed, MessageSelectMenu, Constants } = require('discord.js');
 const { decode } = require('html-entities');
 const { trivia } = require('../../dependancies/database');
 const optiontype = Constants.ApplicationCommandOptionTypes;
@@ -82,16 +82,10 @@ module.exports = {
 				maxValues: 1,
 			});
 
-			if (question == 'Invalid Parameter'
-			|| question == 'No Results'
-			|| question == 'Server error (unexpected error occured)'
-			|| question == 'Token Empty'
-			|| question == 'Token Not Found') { return interaction.followUp(question);}
+			if (typeof question === 'string') { return interaction.followUp(question);}
 
 			else {
-				/**
-				 *@type {Array<string>}
-				 */
+
 				const answers = question.result.incorrect;
 				answers.push(question.result.correct);
 				answers.sort(() => Math.random() - 0.5);
@@ -139,12 +133,12 @@ module.exports = {
 	async selectmenu(interaction) {
 		const userId = interaction.user.id;
 		const correct = await trivia.get(`${userId}`);
-		if (interaction.values[0] == correct && interaction.message instanceof Message) {
+		if (interaction.values[0] == correct) {
 			trivia.evict(userId);
 			trivia.delete(`${userId}`);
 			interaction.update({ content:'You got correct answer, congratulation', components: [], embeds: [] });
 		}
-		else if(interaction.values[0] !== correct && interaction.message instanceof Message) {
+		else if(interaction.values[0] !== correct) {
 			trivia.evict(userId);
 			trivia.delete(`${userId}`);
 			interaction.update({ content:'You got the wrong answer! Better luck next time', components: [], embeds: [] });

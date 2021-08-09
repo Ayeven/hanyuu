@@ -21,11 +21,11 @@ module.exports = {
     */
 	async slashcommand(interaction) {
 		try {
-			await interaction.deferReply();
+			await interaction.deferReply({ ephemeral: true });
 			if (interaction.options.getSubcommand() == 'random') {
 				const response = await new Advice().advice();
-				if(response == 'No data found or server is down!') {
-					return interaction.followUp(response);
+				if(typeof response === 'string') {
+					return interaction.editReply(response);
 				}
 				else {
 					const embed = new MessageEmbed({
@@ -33,14 +33,14 @@ module.exports = {
 						title: 'Random advices : ',
 						description: `${response?.slip.advice}`,
 					});
-					return interaction.followUp({ embeds:[embed] });
+					return interaction.editReply({ embeds:[embed] });
 				}
 			}
 
 			else {
 				const randomActivity = await new Advice().activity();
-				if (randomActivity == 'No data found or server is down!') {
-					return interaction.followUp(randomActivity);
+				if (typeof randomActivity === 'string') {
+					return interaction.editReply(randomActivity);
 				}
 				else {
 					const embed = new MessageEmbed({
@@ -48,7 +48,7 @@ module.exports = {
 						title:'Random activity to look for : ',
 						description: `Activity : ${randomActivity.activity}\nType : ${randomActivity.type}`,
 					});
-					return interaction.followUp({ embeds:[embed] });
+					return interaction.editReply({ embeds:[embed] });
 				}
 			}
 

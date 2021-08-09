@@ -319,203 +319,203 @@ module.exports = {
 			switch(option.getSubcommand()) {
 			case 'angry':
 				image = await new Satou().angry();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'bite':
 				image = await new Satou().bite();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'bored':
 				image = await new Satou().bored();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'bread':
 				image = await new Satou().bread();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'chocolate':
 				image = await new Satou().chocolate();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'cookie':
 				image = await new Satou().cookie();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'cuddle':
 				image = await new Satou().cuddle();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'dance':
 				image = await new Satou().dance();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'drunk':
 				image = await new Satou().drunk();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'happy':
 				image = await new Satou().happy();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'kill':
 				image = await new Satou().kill();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'kiss':
 				image = await new Satou().kiss();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'laugh':
 				image = await new Satou().laugh();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'lick':
 				image = await new Satou().lick();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'lonely':
 				image = await new Satou().lonely();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'pat':
 				image = await new Satou().pat();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'poke':
 				image = await new Satou().poke();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'pregnant':
 				image = await new Satou().pregnant();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'punch':
 				image = await new Satou().punch();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'run':
 				image = await new Satou().run();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'sleep':
 				image = await new Satou().sleep();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'spank':
 				image = await new Satou().spank();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'spit':
 				image = await new Satou().spit();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'steal':
 				image = await new Satou().steal();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			case 'tickle':
 				image = await new Satou().tickle();
-				(image == 'Something bad happen when trying to fetch data from server!') ?
+				(typeof image === 'string') ?
 					interaction.editReply(image)
 					: text ?
-						interaction.editReply({ content: text, files:[image] })
-						: interaction.editReply({ content: image });
+						interaction.editReply({ content: text, files:[image.url] })
+						: interaction.editReply({ content: image.url });
 				break;
 			}
 		}

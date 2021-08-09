@@ -6,15 +6,16 @@ module.exports = {
 	args: true,
 	owner:true,
 	/**
-   * @param {import('discord.js').Message} message Represent the `Command Message`
-   * @param {Array<string>} args Represent the `arguments`
+   * @param {import('discord.js').Message} message
+   * @param {Array<string>} args
+   * @param {import('discord.js').Collection<string, object>} messageCommands
    */
-	run(message, args) {
+	run(message, args, messageCommands) {
 		const commandName = args[0].toLowerCase();
-		// @ts-expect-error
-		const command = message.client.commands.get(commandName)
-		// @ts-expect-error
-			|| message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+
+		const command = messageCommands.get(commandName)
+
+			|| messageCommands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
 		if (!command) {
 			return message.channel.send(`There is no command with name or alias \`${commandName}\`, ${message.author}!`);
@@ -27,8 +28,8 @@ module.exports = {
 
 		try {
 			const newCommand = require(`../${folderName}/${command.name}.js`);
-			// @ts-expect-error
-			message.client.commands.set(newCommand.name, newCommand);
+
+			messageCommands.set(newCommand.name, newCommand);
 			return message.channel.send(`Command \`${command.name}\` was reloaded!`);
 		}
 		catch (error) {

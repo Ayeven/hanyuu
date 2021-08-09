@@ -4,6 +4,7 @@ module.exports = {
 	name: 'deploy',
 	description: 'Deploy Global/Guild Commands',
 	guildId: '819042413694812171',
+	guildOnly: true,
 	owner: true,
 	options:[
 		{
@@ -74,16 +75,19 @@ module.exports = {
 	],
 	/**
    * @param {import('discord.js').CommandInteraction} interaction
+   * @param {import('discord.js').Collection<string,
+   * {name:string, description:string, options:?[object], guildOnly:boolean, guildId:string, slashcommand:?Promise, selectmenu:?Promise, button:?Promise}>} slashCommands
    */
 	async slashcommand(interaction, slashCommands) {
 		try {
 			await interaction.deferReply({ ephemeral: true });
-			const [guildCommands, globalCommands] = slashCommands.partition(have => have.guildId);
+			const [guildCommands, globalCommands] = slashCommands.partition(have => have.guildOnly);
 			if(interaction.options.getSubcommand() == 'global') {
 				const commandname = interaction.options.getString('commandname');
 				const target = interaction.options.getString('guildid');
 				switch(interaction.options.getString('options')) {
 				case 'set':
+					// @ts-expect-error
 					await interaction.client.application.commands.set(globalCommands);
 					interaction.editReply({ content: 'Done registering Globals Commands' });
 					break;
@@ -102,6 +106,7 @@ module.exports = {
 				const commandname = interaction.options.getString('commandname');
 				switch(interaction.options.getString('options')) {
 				case 'set':
+					// @ts-expect-error
 					await interaction.guild.commands.set(guildCommands);
 					interaction.editReply({ content: 'Done registering guilds commands' });
 					break;
