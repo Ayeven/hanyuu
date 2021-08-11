@@ -43,7 +43,7 @@ const diffChoices = [
 module.exports = {
 	name: 'trivia',
 	description: 'Let have some trivia question',
-	cooldown : 10,
+	cooldown : 5,
 	options: [
 		{
 			type: optiontype.INTEGER,

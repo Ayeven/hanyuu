@@ -35,7 +35,7 @@ const delay = require('util').promisify(setTimeout);
 module.exports = {
 	name: 'game',
 	description: 'Give you game giveaway(s)',
-	cooldown: 10,
+	cooldown: 5,
 	options: [
 		{
 			type: opt.SUB_COMMAND,

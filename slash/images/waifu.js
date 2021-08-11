@@ -3,13 +3,13 @@ const { Constants } = require('discord.js');
 const type = Constants.ApplicationCommandOptionTypes;
 module.exports = {
 	name: 'waifupic',
-	description: 'Get a random waifu fetch/gif from waifu.pics',
+	description: 'Get a random waifu image/gif from waifu.pics',
 	cooldown: 10,
 	options:[
 		{
 			type: type.SUB_COMMAND,
 			name:'waifu',
-			description: 'Get a random fetch/gif from waifu.pics of waifu ',
+			description: 'Get a random image/gif from waifu.pics of waifu ',
 			options:[
 				{
 					type:type.STRING,
@@ -21,7 +21,7 @@ module.exports = {
 		{
 			type: type.SUB_COMMAND,
 			name:'neko',
-			description: 'Get a random fetch/gif from waifu.pics of neko',
+			description: 'Get a random image/gif from waifu.pics of neko',
 			options:[
 				{
 					type:type.STRING,
@@ -33,7 +33,7 @@ module.exports = {
 		{
 			type: type.SUB_COMMAND,
 			name:'shinobu',
-			description: 'Get a random fetch/gif from waifu.pics of shinobu',
+			description: 'Get a random image/gif from waifu.pics of shinobu',
 			options:[
 				{
 					type:type.STRING,
@@ -45,7 +45,7 @@ module.exports = {
 		{
 			type: type.SUB_COMMAND,
 			name:'megumin',
-			description: 'Get a random fetch/gif from waifu.pics of megumin',
+			description: 'Get a random image/gif from waifu.pics of megumin',
 			options:[
 				{
 					type:type.STRING,
@@ -57,7 +57,7 @@ module.exports = {
 		{
 			type: type.SUB_COMMAND,
 			name:'bully',
-			description: 'Get a random fetch/gif from waifu.pics of bullying',
+			description: 'Get a random image/gif from waifu.pics of bullying',
 			options:[
 				{
 					type:type.STRING,
@@ -69,7 +69,7 @@ module.exports = {
 		{
 			type: type.SUB_COMMAND,
 			name:'cuddle',
-			description: 'Get a random fetch/gif from waifu.pics of cuddle',
+			description: 'Get a random image/gif from waifu.pics of cuddle',
 			options:[
 				{
 					type:type.STRING,
@@ -81,7 +81,7 @@ module.exports = {
 		{
 			type: type.SUB_COMMAND,
 			name:'awoo',
-			description: 'Get a random fetch/gif from waifu.pics of awoo',
+			description: 'Get a random image/gif from waifu.pics of awoo',
 			options:[
 				{
 					type:type.STRING,
@@ -93,7 +93,7 @@ module.exports = {
 		{
 			type: type.SUB_COMMAND,
 			name:'bonk',
-			description: 'Get a random fetch/gif from waifu.pics of bonk',
+			description: 'Get a random image/gif from waifu.pics of bonk',
 			options:[
 				{
 					type:type.STRING,
@@ -105,7 +105,7 @@ module.exports = {
 		{
 			type: type.SUB_COMMAND,
 			name:'yeet',
-			description: 'Get a random fetch/gif from waifu.pics of yeet-ing',
+			description: 'Get a random image/gif from waifu.pics of yeet-ing',
 			options:[
 				{
 					type:type.STRING,
@@ -117,7 +117,7 @@ module.exports = {
 		{
 			type: type.SUB_COMMAND,
 			name:'smile',
-			description: 'Get a random fetch/gif from waifu.pics of smiling',
+			description: 'Get a random image/gif from waifu.pics of smiling',
 			options:[
 				{
 					type:type.STRING,
@@ -129,7 +129,7 @@ module.exports = {
 		{
 			type: type.SUB_COMMAND,
 			name:'wave',
-			description: 'Get a random fetch/gif from waifu.pics of waving',
+			description: 'Get a random image/gif from waifu.pics of waving',
 			options:[
 				{
 					type:type.STRING,
@@ -141,7 +141,7 @@ module.exports = {
 		{
 			type: type.SUB_COMMAND,
 			name:'highfive',
-			description: 'Get a random fetch/gif from waifu.pics of highfive',
+			description: 'Get a random image/gif from waifu.pics of highfive',
 			options:[
 				{
 					type:type.STRING,
@@ -153,7 +153,7 @@ module.exports = {
 		{
 			type: type.SUB_COMMAND,
 			name:'handhold',
-			description: 'Get a random fetch/gif from waifu.pics of handhold',
+			description: 'Get a random image/gif from waifu.pics of handhold',
 			options:[
 				{
 					type:type.STRING,
@@ -165,7 +165,7 @@ module.exports = {
 		{
 			type: type.SUB_COMMAND,
 			name:'glomp',
-			description: 'Get a random fetch/gif from waifu.pics of glomp',
+			description: 'Get a random image/gif from waifu.pics of glomp',
 			options:[
 				{
 					type:type.STRING,
@@ -177,7 +177,7 @@ module.exports = {
 		{
 			type: type.SUB_COMMAND,
 			name:'happy',
-			description: 'Get a random fetch/gif from waifu.pics of happy',
+			description: 'Get a random image/gif from waifu.pics of happy',
 			options:[
 				{
 					type:type.STRING,
@@ -189,7 +189,7 @@ module.exports = {
 		{
 			type: type.SUB_COMMAND,
 			name:'wink',
-			description: 'Get a random fetch/gif from waifu.pics of wink',
+			description: 'Get a random image/gif from waifu.pics of wink',
 			options:[
 				{
 					type:type.STRING,
@@ -201,7 +201,7 @@ module.exports = {
 		{
 			type: type.SUB_COMMAND,
 			name:'dance',
-			description: 'Get a random fetch/gif from waifu.pics of dancing',
+			description: 'Get a random image/gif from waifu.pics of dancing',
 			options:[
 				{
 					type:type.STRING,
@@ -213,7 +213,7 @@ module.exports = {
 		{
 			type: type.SUB_COMMAND,
 			name:'cringe',
-			description: 'Get a random fetch/gif from waifu.pics of cringe',
+			description: 'Get a random image/gif from waifu.pics of cringe',
 			options:[
 				{
 					type:type.STRING,
