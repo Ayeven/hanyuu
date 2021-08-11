@@ -11,7 +11,7 @@ const animesearch = animedb.animesearch;
 module.exports = {
 	name: 'animesearch',
 	description: 'Anilist search anime(s) up to 20 result',
-	cooldown: 15,
+	cooldown: 10,
 	options:[
 		{
 			type:optiontype.STRING,

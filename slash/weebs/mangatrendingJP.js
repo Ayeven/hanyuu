@@ -14,7 +14,7 @@ const delay = require('util').promisify(setTimeout);
 module.exports = {
 	name:'mangatrendingjp',
 	description:'Show some trending manga(s) [JP] from Anilist up to 50 result',
-	cooldown: 15,
+	cooldown: 10,
 	/**
    * @param {import('discord.js').CommandInteraction} interaction
    */

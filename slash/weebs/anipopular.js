@@ -14,7 +14,7 @@ const delay = require('util').promisify(setTimeout);
 module.exports = {
 	name: 'animepopular',
 	description: 'Anilist popular anime(s) up to 50 result',
-	cooldown: 15,
+	cooldown: 10,
 	/**
    	* @param {import('discord.js').CommandInteraction} interaction
    	*/

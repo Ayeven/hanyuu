@@ -11,7 +11,7 @@ const delay = require('util').promisify(setTimeout);
 module.exports = {
 	name: 'mangasearch',
 	description: 'Anilist search manga(s) up to 20 result',
-	cooldown: 15,
+	cooldown: 10,
 	options:[
 		{
 			type:optiontype.STRING,
