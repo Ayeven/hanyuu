@@ -1,5 +1,4 @@
 ---
-layout: home
 paginate: true
 alt_title: "Hanyuu's main page"
 image: https://i.imgur.com/neMCH85.jpg
