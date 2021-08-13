@@ -1,4 +1,4 @@
-# Home
+# Welcome
 image : https://i.imgur.com/neMCH85.jpg
   - Hanyuu is source for you to find game giveaways, trivia questions, anime images from satou, shiro, waifu.pics , duckduckgo image search, quotes from animes, breaking bad, movies or tv show!
   - Search for some animes from Anilist, show popular animes, trending animes, or search some manga(s), take a look at what manga trending from Japan/Korea/China.
