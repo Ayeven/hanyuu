@@ -1,17 +1,5 @@
----
-paginate: true
-alt_title: "Hanyuu's main page"
-image: https://i.imgur.com/neMCH85.jpg
-introduction: 
+# Home
+![image](https://i.imgur.com/neMCH85.jpg)
   - Hanyuu is source for you to find game giveaways, trivia questions, anime images from satou, shiro, waifu.pics , duckduckgo image search, quotes from animes, breaking bad, movies or tv show!
   - Search for some animes from Anilist, show popular animes, trending animes, or search some manga(s), take a look at what manga trending from Japan/Korea/China.
   - All in the new slash commands and interaction freshness of discord api. No more need for memorizing the custom prefixes, no more the need of memorizing the options you need for the bot to function
-
-actions:
-  - label: "Github page"
-    icon: github
-    url: "https://github.com/Ayeven/hanyuu"
-  - label: "Suggestions:"
-    icon: issues
-    url: "https://github.com/Ayeven/hanyuu/issues"
----
