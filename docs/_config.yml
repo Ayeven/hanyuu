@@ -8,3 +8,13 @@ author:
 github_username: "Ayeven"
 logo: /assets/icons/10000000000022934.bmp
 remote_theme: "Ayeven/jekyll-theme-basically-basic@1.4.5"
+
+# Front Matter Defaults
+defaults:
+  # _posts
+  - scope:
+      path: "_posts"
+      type: posts
+    values:
+      layout: post
+      read_time: false
