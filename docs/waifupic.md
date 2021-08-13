@@ -1,6 +1,7 @@
 ## Waifupic
 - Get some random images/gif from waifu.pics
 - Command cooldown - 5 seconds
+- Gif Demo: ![waifupic neko](https://i.imgur.com/DBWFY8n.gif)
 
 ## Subcommands available:
 
@@ -57,5 +58,3 @@
 
 ### cringe
 - Get a random image/gif from waifu.pics of cringe
-
-- Gif Demo ![waifupic neko](https://i.imgur.com/DBWFY8n.gif)

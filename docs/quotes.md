@@ -1,6 +1,7 @@
 # Quotes
 - Give you some random animes/movies/show quotes
 - Command cooldown - 5 seconds
+- Gif Demo: ![quotes anime](https://i.imgur.com/SD6qU4D.gif)
 
 ## Subcommands available:
 
@@ -22,4 +23,3 @@
 ## Breakingbad 
 - Some Breaking Bad quotes
 
-- Gif Demo ![quotes anime](https://i.imgur.com/SD6qU4D.gif)

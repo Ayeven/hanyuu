@@ -1,6 +1,7 @@
 # Satou
 - Short Description - Get some random images/gif from satou.xyz
 - Command cooldown - 5 seconds
+- Gif Demo: ![satou chocolate](https://i.imgur.com/SRAUV1G.gif)
 
 ## Subcommands available:
 
@@ -78,5 +79,3 @@
    
 ### Tickle 
 - Get some random images/gif of tickling from satou.xyz
-
-- Gif Demo: ![satou chocolate](https://i.imgur.com/SRAUV1G.gif)

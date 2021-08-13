@@ -1,6 +1,7 @@
 # Shiro
 - Get some random images/gif from shiro.gg
 - Cooldown for command - 5 seconds
+- Gif Demo: ![Shiro blush](https://i.imgur.com/E8e8c4q.gif)
 
 ## Subcommands available:
 
@@ -45,5 +46,3 @@
 
 ### Tickle 
 - Get a random image/gif from shiro.gg of tickling
-
-- Gif Demo: ![Shiro blush](https://i.imgur.com/E8e8c4q.gif)

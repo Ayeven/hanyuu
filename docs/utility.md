@@ -1,6 +1,7 @@
 # Utility 
 - Show the utility function of the bot
 - Command cooldown - 5 seconds
+- Gif Demo: ![util stats](https://i.imgur.com/AW1qQqS.gif)
 
 ## Subcommands available:
 
@@ -12,5 +13,3 @@
 
 ## Stats 
 - Show you the statistic of the bot
-
-- Gif Demo ![util stats](https://i.imgur.com/AW1qQqS.gif)

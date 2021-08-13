@@ -5,4 +5,4 @@
 ## Subcommands available:
 
 ## None
-- Gif Demo - Same as `animepopular`
+- Gif Demo - ![animeupcomingmovies](https://i.imgur.com/rnVRyI2.gif)
