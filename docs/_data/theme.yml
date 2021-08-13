@@ -41,7 +41,7 @@ t:
 
 # Google Fonts
 google_fonts:
-  - name: "Fira Sans"
+  - name: "Oswald"
     weights: "100,100i,300,300i"
 
 # Link to specific internal pages in the navigation.
