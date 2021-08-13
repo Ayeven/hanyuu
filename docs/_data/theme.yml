@@ -42,7 +42,7 @@ t:
 # Google Fonts
 google_fonts:
   - name: "Oswald"
-    weights: "24,24i,48,48i"
+    weights: "18,18i,24,24i"
 
 # Link to specific internal pages in the navigation.
 # Create a custom list to override the default setting of including links to all
