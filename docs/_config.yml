@@ -1,2 +1,8 @@
+lang: en-US
+title: "Hanyuu's Command"
+url: "https://ayeven.github.io/hanyuu/"
+author: 
+  name: "Ayeven#9725"
+  picture:
+github_username: "Ayeven"
 remote_theme: "mmistakes/jekyll-theme-basically-basic@1.4.5"
-skin: sea
