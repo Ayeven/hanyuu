@@ -12,7 +12,7 @@ t:
   site_search: "Site Search"
   results_found: "Result(s) found"
   search_placeholder_text: "Enter your search term..."
-  home: "Home"
+  home: "Welcome"
   newer: "Newer"
   older: "Older"
   email: "Email"
@@ -42,7 +42,7 @@ t:
 # Google Fonts
 google_fonts:
   - name: "Fira Sans"
-    weights: "400,400i,600,600i"
+    weights: "300,400i,500,600i"
 
 # Link to specific internal pages in the navigation.
 # Create a custom list to override the default setting of including links to all
