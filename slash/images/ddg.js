@@ -18,6 +18,7 @@ module.exports = {
 	name: 'duckduckgo',
 	description: 'Search something online with Duck Duck Go service',
 	cooldown: 5,
+	guildOnly: true,
 	options: [
 		{
 			type: opt.SUB_COMMAND,
