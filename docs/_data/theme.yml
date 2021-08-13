@@ -41,7 +41,7 @@ t:
 
 # Google Fonts
 google_fonts:
-  - name: "Oswald"
+  - name: "Karantina"
     weights: "18,18i,24,24i"
 
 # Link to specific internal pages in the navigation.
