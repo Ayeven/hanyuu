@@ -5,5 +5,5 @@
 ## Subcommands available:
 
 ## None
-    - Gif Demo :
+- Gif Demo :
 ![help](https://i.imgur.com/d6Klosw.gif)
