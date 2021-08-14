@@ -13,7 +13,7 @@ remote_theme: "Ayeven/jekyll-theme-basically-basic@1.4.5"
 defaults:
   # _posts
   - scope:
-      path: "_post"
+      path: "_posts"
       type: posts
     values:
       layout: post
