@@ -9,7 +9,6 @@ github_username: "Ayeven"
 logo: /assets/icons/10000000000022934.bmp
 
 plugins: # previsously gems
-  - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
   - jekyll-paginate
