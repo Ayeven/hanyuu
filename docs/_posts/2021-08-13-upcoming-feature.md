@@ -6,6 +6,7 @@ tags:
   - feat
   - enhancement
   - nsfw
+last_modified_at: 2021-08-13
 ---
 
 Since Discord still not enabling [age limitation for slash command](https://github.com/discord/discord-api-docs/discussions/3581) as of today (14/08/2021), this feature will be on halt:
