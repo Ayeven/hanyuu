@@ -18,7 +18,6 @@ module.exports = {
 	name: 'duckduckgo',
 	description: 'Search something online with Duck Duck Go service',
 	cooldown: 5,
-	guildOnly: true,
 	options: [
 		{
 			type: opt.SUB_COMMAND,
@@ -32,7 +31,7 @@ module.exports = {
 					required: true,
 				},
 				{
-					type: opt.INTEGER,
+					type: opt.NUMBER,
 					name: 'safesearch',
 					description: 'Safe search filter',
 					choices: filterChoices,
