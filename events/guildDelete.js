@@ -8,7 +8,7 @@ module.exports = {
 	 */
 	run(guild, _messageCommands, _slashCommands, client) {
 		if (!guild.available) return;
-		client.user.setActivity(`/help in ${client.guilds.cache.size} server`, { type: 'COMPETING' });
+		client.user.setActivity(`/help ${client.guilds.cache.size} server`, { type: 'COMPETING' });
 		console.log(`[GUILD DELETE] ${guild.name} (${guild.id}) removed the bot`);
 	},
 };

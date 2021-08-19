@@ -7,11 +7,12 @@ module.exports = {
    * @param {import('discord.js').Message} message
    * @param {import('discord.js').Collection<string, object>} _messageCommands
    * @param {import('discord.js').Collection<string, object>} slashCommands
+   * @param {...string} _args
    */
-	async run(message, _messageCommands, slashCommands) {
+	async run(message, _args, _messageCommands, slashCommands) {
 
 		const guildCommand = await slashCommands.get('deploy');
-		await message.client.application.commands.create(guildCommand, guildCommand.guildId);
+		await message.guild.commands.create(guildCommand);
 		message.channel.send({ content:'Done' });
 
 	},
