@@ -3,7 +3,6 @@ const optiontype = Constants.ApplicationCommandOptionTypes;
 module.exports = {
 	name: 'deploy',
 	description: 'Deploy Global/Guild Commands',
-	guildId: '819042413694812171',
 	guildOnly: true,
 	owner: true,
 	options:[

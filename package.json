@@ -1,7 +1,7 @@
 {
-    "name": "generic-bot",
-    "version": "0.3.0",
-    "description": "genericbot",
+    "name": "hanyuu",
+    "version": "0.4.0",
+    "description": "generic discord bot with weeb stuff and music",
     "main": "index.js",
     "scripts": {
         "start": "node index.js",
