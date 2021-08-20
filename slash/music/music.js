@@ -110,9 +110,9 @@ module.exports = {
 					},
 				);
 				await interaction.editReply({ embeds: [embed], components: [{ type:'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [pause, skip, queue, leave] }] });
-				await delay(14 * 60 * 1000);
+				await delay(58 * 1000);
 				tracklist.delete(interaction.guildId);
-				return interaction.editReply({ content:'15min have passed! Search selection have been reset!', embeds:[], components:[{ type: 'ACTION_ROW', components:[leave] }] });
+				return interaction.editReply({ content:'1min have passed, search selection have been reset! Please enter new search query', embeds:[], components:[{ type: 'ACTION_ROW', components:[leave] }] });
 			}
 
 		}
@@ -202,9 +202,9 @@ module.exports = {
 					// eslint-disable-next-line no-empty-function
 					async onStart() { },
 					async onFinish() {
+						await delay(10 * 1000);
 						if (list.audioPlayer.state.status === 'idle'
 						&& list.voiceConnection.state.status !== VoiceConnectionStatus.Destroyed) {
-							await delay(10 * 1000);
 							list.voiceConnection.destroy(true);
 							playlist.delete(interaction.guildId);
 						}
@@ -218,7 +218,6 @@ module.exports = {
 				// Enqueue the track and reply a success message to the user
 				// @ts-ignore
 				list.enqueue(track);
-				await delay(2 * 1000);
 				return interaction
 					.editReply({ content:`Queued: **${track.title}, wait for me to play it!**`,
 						components: [{ type: 'ACTION_ROW', components: [songSelectMenu] }, { type: 'ACTION_ROW', components: [pause, skip, queue, leave] }] });
@@ -279,6 +278,7 @@ module.exports = {
 			 * @type {import('youtube-sr').Video[]}
 			 */
 			const videos = tracklist.get(interaction.guildId);
+			if (!videos) { return interaction.editReply('Another search is invoked or the time has expired! Please make another search'); }
 			for (let i = 0; i < videos.length; i++) {
 				const duration = moment.duration(videos[i].duration, 'milliseconds').format('HH:mm:ss');
 				songSelectMenu.addOptions([{
