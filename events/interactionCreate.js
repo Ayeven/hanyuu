@@ -17,7 +17,7 @@ module.exports = {
 			const commandName = interaction.commandName;
 			const slashCommand = slashCommands.get(commandName);
 			if (!interaction.member) {
-				return interaction.reply('Nope! can\'t do that in DM');
+				return interaction.reply({ content: 'Nope! can\'t do that in DM', ephemeral: true });
 			}
 
 			if(slashCommand.owner && interaction.user.id !== owner) {

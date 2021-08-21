@@ -10,5 +10,5 @@
         "moduleResolution": "node",
         "resolveJsonModule": true
     },
-    "exclude": ["node_modules", "agent-base"]
+    "exclude": ["node_modules"]
 }

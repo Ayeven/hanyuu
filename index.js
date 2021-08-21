@@ -3,7 +3,7 @@ const config = require('./.setting/config.json');
 const fastGlob = require('fast-glob');
 const client = new Client({
 	partials: ['CHANNEL', 'GUILD_MEMBER', 'MESSAGE', 'REACTION', 'USER'],
-	intents: ['GUILDS', 'GUILD_VOICE_STATES'],
+	intents: ['GUILDS', 'GUILD_VOICE_STATES', 'GUILD_MESSAGES'],
 	shards: 'auto',
 });
 

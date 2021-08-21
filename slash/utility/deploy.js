@@ -98,6 +98,7 @@ module.exports = {
 					break;
 				case 'clear':
 					await interaction.client.application.commands.set([]);
+					interaction.editReply({ content:'Done clearing global commands' });
 				}
 			}
 
