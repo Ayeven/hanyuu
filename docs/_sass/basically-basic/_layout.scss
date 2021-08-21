@@ -4,7 +4,7 @@
 
 .canvas {
   position: relative;
-  width: 50%;
+  width: 100%;
   overflow: hidden;
 }
 
@@ -58,8 +58,8 @@ main {
 
 .inner {
   max-width: $large;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 30%;
+  margin-right: 30%;
 }
 
 /*
