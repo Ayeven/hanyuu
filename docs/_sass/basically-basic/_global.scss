@@ -81,7 +81,7 @@
 
 .taxonomy-index {
   display: grid;
-  grid-column-gap: 2em;
+  grid-column-gap: 10em;
   grid-template-columns: repeat(2, 1fr);
   margin: 0;
   padding: 0;
@@ -97,7 +97,7 @@
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    padding: 0.25em 0;
+    padding: 10%;
     -webkit-box-pack: justify;
     -ms-flex-pack: justify;
     justify-content: space-between;
