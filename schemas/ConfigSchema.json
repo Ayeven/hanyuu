@@ -9,6 +9,10 @@
         "description": "TCG API, can get from https://dev.pokemontcg.io/ Optional api key",
         "type": "string"
       },
+      "topgg" : {
+        "description": "top.gg token, can get details from https://docs.top.gg/resources/webhooks/",
+        "type": "string"
+      },
       "token": {
         "description": "The bot's token, to generate a token go to https://discord.com/developers/applications",
         "type": "string"
