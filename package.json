@@ -27,7 +27,7 @@
         "axios": "^0.21.1",
         "bufferutil": "^4.0.3",
         "discord.js": "^13.1.0",
-        "enmap": "^5.8.5",
+        "enmap": "^5.8.7",
         "fast-glob": "^3.2.7",
         "html-entities": "^2.3.2",
         "libsodium-wrappers": "^0.7.9",
