@@ -35,7 +35,7 @@
         "moment-duration-format": "^2.3.2",
         "topgg-autoposter": "^2.0.0",
         "utf-8-validate": "^5.0.5",
-        "youtube-dl-exec": "^1.2.4",
+        "youtube-dl-exec": "^1.2.6",
         "youtube-sr": "^4.1.7",
         "zlib-sync": "^0.1.7"
     }
