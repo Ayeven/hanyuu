@@ -24,8 +24,8 @@
     "dependencies": {
         "@discordjs/opus": "^0.6.0",
         "@discordjs/voice": "^0.6.0",
-        "axios": "^0.21.1",
-        "bufferutil": "^4.0.3",
+        "axios": "^0.22.0",
+        "bufferutil": "^4.0.4",
         "cheerio": "^1.0.0-rc.10",
         "discord.js": "^13.1.0",
         "enmap": "^5.8.5",
@@ -35,8 +35,8 @@
         "moment": "^2.29.1",
         "moment-duration-format": "^2.3.2",
         "topgg-autoposter": "^2.0.0",
-        "utf-8-validate": "^5.0.5",
-        "youtube-dl-exec": "^1.2.4",
+        "utf-8-validate": "^5.0.6",
+        "youtube-dl-exec": "^1.2.14",
         "youtube-sr": "^4.1.7",
         "zlib-sync": "^0.1.7"
     }
