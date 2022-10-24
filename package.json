@@ -25,7 +25,7 @@
         "@discordjs/opus": "^0.6.0",
         "@discordjs/voice": "^0.6.0",
         "axios": "^0.22.0",
-        "bufferutil": "^4.0.4",
+        "bufferutil": "^4.0.7",
         "cheerio": "^1.0.0-rc.10",
         "discord.js": "^13.2.0",
         "enmap": "^5.8.5",
