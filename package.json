@@ -34,7 +34,7 @@
         "libsodium-wrappers": "^0.7.9",
         "moment": "^2.29.1",
         "moment-duration-format": "^2.3.2",
-        "utf-8-validate": "^5.0.6",
+        "utf-8-validate": "^6.0.1",
         "youtube-dl-exec": "^1.2.14",
         "youtube-sr": "^4.1.8",
         "zlib-sync": "^0.1.7"
