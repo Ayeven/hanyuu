@@ -35,7 +35,7 @@
         "moment": "^2.29.1",
         "moment-duration-format": "^2.3.2",
         "utf-8-validate": "^5.0.6",
-        "youtube-dl-exec": "^1.2.14",
+        "youtube-dl-exec": "^2.4.2",
         "youtube-sr": "^4.1.8",
         "zlib-sync": "^0.1.7"
     }
